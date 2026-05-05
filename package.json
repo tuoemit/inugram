@@ -8,6 +8,7 @@
     "export": "tsx scripts/export.ts",
     "rebase": "tsx scripts/rebase.ts",
     "append-to-patch": "tsx scripts/append-to-patch.ts",
+    "find-patches": "tsx scripts/find-patches.ts",
     "prepare": "husky"
   },
   "dependencies": {
