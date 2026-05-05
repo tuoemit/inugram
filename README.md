@@ -110,7 +110,7 @@ as a rule of thumb: prefer the former, but if you get a lot of merge conflicts, 
 ## acknowledgements
 
 - the original [Telegram Android](https://github.com/DrKLO/Telegram) - the basis for this fork
-- a bunch of features were ported from [Nekogram](https://github.com/Nekogram/Nekogram) and [NagramX](https://github.com/risin42/NagramX)
+- a bunch of features were ported from [Nekogram](https://github.com/Nekogram/Nekogram), [NagramX](https://github.com/risin42/NagramX), [materialgram](https://github.com/kukuruzka165/materialgram)
 - `src/res/drawable/icplaceholder.jpg` is a blurred version of [this artwork by Chobles](https://www.pixiv.net/en/artworks/128756420)
 - Tabler icons by [Tabler Team](https://tabler.io/icons)
 - Solar icon pack by [480 Design](https://t.me/Design480)
