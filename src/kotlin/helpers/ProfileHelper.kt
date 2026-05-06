@@ -125,6 +125,13 @@ object ProfileHelper {
                     if (chatFull != null) items.add(chatFull)
                 }
                 WebAppHelper.openTlViewer(fragment, items)
+            }.let { opts ->
+                val regDate = if (userId != 0L) RegDateHelper.getRegDate(userId) else null
+                if (regDate != null) {
+                    opts.addGap()
+                        .addText(LocaleController.formatString(R.string.InuRegDate, regDate), 13)
+                }
+                opts
             }.show()
     }
 }

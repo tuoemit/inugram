@@ -4,6 +4,7 @@ export default antfu({
   ignores: [
     'worktree',
     'patches',
+    'src/res/assets',
   ],
   typescript: true,
   yaml: false,
