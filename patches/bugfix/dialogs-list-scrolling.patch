@@ -4,13 +4,22 @@ Date: Tue, 14 Apr 2026 03:29:17 +0300
 Subject: fix some glitches with the pull-to-reveal-archive mode in dialogs list
 
 ---
- .../java/org/telegram/ui/DialogsActivity.java  | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ .../java/org/telegram/ui/DialogsActivity.java | 20 +++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+@@ -1999,7 +1999,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+                 RecyclerView.ViewHolder holder = parentPage.listView.findViewHolderForAdapterPosition(pos);
+                 if (holder != null) {
+                     int top = holder.itemView.getTop();
+-                    if (parentPage.dialogsType == DIALOGS_TYPE_DEFAULT && hasHiddenArchive() && parentPage.archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN) {
++                    if (parentPage.dialogsType == DIALOGS_TYPE_DEFAULT && hasHiddenArchive() && parentPage.archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && parentPage.listView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
+                         pos = Math.max(1, pos);
+                     }
+                     ignoreLayout = true;
 @@ -8855,11 +8855,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              public void onAnimationEnd(Animator animation) {
                  super.onAnimationEnd(animation);
