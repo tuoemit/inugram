@@ -40,7 +40,7 @@ index 0000000..0000000 100644
          for (GlassTabView tab : tabs) {
              tab.setMainTabsCompact(compact);
          }
-@@ -618,6 +619,16 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -620,6 +621,16 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          }
      }
  

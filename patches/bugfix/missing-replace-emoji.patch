@@ -585,7 +585,7 @@ index 0000000..0000000 100644
  import org.telegram.messenger.FileLoader;
  import org.telegram.messenger.LiteMode;
  import org.telegram.messenger.LocaleController;
-@@ -479,9 +480,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -481,9 +482,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          final TextView textView = new TextView(getContext());
          textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
          textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));

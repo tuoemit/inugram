@@ -47,7 +47,7 @@ to recover:
   1. resolve conflicts in the worktree
   2. stg refresh           (folds the resolution into the conflicting patch)
   3. stg push -a           (push remaining patches back, you might need to resolve some more conflicts)
-  4. stg squash --name ${target} --message ${targetMessage} ${target} ${tempName}
+  4. stg squash --name ${target} --message "${targetMessage}" ${target} ${tempName}
 if you want to abort instead:
   stg undo --hard          (undoes the rebase, the top patch will be ${tempName})
   stg delete --top --spill (deletes the top patch and "spills" the changes back into the worktree)

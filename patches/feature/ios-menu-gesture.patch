@@ -73,7 +73,7 @@ index 0000000..0000000 100644
          for (GlassTabView tab : tabs) {
              tab.setMainTabsCompact(compact);
          }
-@@ -363,7 +360,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -369,7 +366,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          }
      }
  
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
          final ArrayList<Integer> accountNumbers = new ArrayList<>();
  
          accountNumbers.clear();
-@@ -432,11 +429,12 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -438,11 +435,12 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          final ShapeDrawable bg = Theme.createRoundRectDrawable(dp(28), getThemedColor(Theme.key_windowBackgroundWhite));
          bg.getPaint().setShadowLayer(dp(6), 0, dp(1), Theme.multAlpha(0xFF000000, 0.15f));
          o.setScrimViewBackground(bg);

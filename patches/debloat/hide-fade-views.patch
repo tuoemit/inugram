@@ -1,16 +1,16 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: alina sireneva <alina@tei.su>
 Date: Mon, 13 Apr 2026 03:28:49 +0300
-Subject: hdie fade views
+Subject: hide fade views
 
 ---
- .../main/java/org/telegram/ui/Components/ChatAttachAlert.java | 2 ++
- .../ui/Components/DialogsActivityTopBubblesFadeView.java      | 1 +
- .../src/main/java/org/telegram/ui/Components/ShareAlert.java  | 1 +
- .../telegram/ui/Components/chat/ChatActivityTopFadeView.java  | 1 +
- .../telegram/ui/Components/chat/ChatInputViewsContainer.java  | 1 +
- .../src/main/java/org/telegram/ui/MainTabsActivity.java       | 4 ++++
- 6 files changed, 10 insertions(+)
+ .../org/telegram/ui/Components/ChatAttachAlert.java  |  2 ++
+ .../DialogsActivityTopBubblesFadeView.java           |  1 +
+ .../java/org/telegram/ui/Components/ShareAlert.java  |  1 +
+ .../ui/Components/chat/ChatActivityTopFadeView.java  |  1 +
+ .../ui/Components/chat/ChatInputViewsContainer.java  |  1 +
+ .../main/java/org/telegram/ui/MainTabsActivity.java  | 12 +++++++++++-
+ 6 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatAttachAlert.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatAttachAlert.java
 index 0000000..0000000 100644
@@ -84,7 +84,22 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java b
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java
-@@ -806,6 +806,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -331,7 +331,13 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+ 
+         contentView.addView(fadeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 0, Gravity.BOTTOM));
+ 
+-        tabsViewWrapper = new FrameLayout(context);
++        tabsViewWrapper = new FrameLayout(context) {
++            @Override
++            public boolean onTouchEvent(android.view.MotionEvent event) {
++                if (desu.inugram.helpers.ChatHelper.shouldHideFadeView()) return false;
++                return super.onTouchEvent(event);
++            }
++        };
+         tabsViewWrapper.setOnClickListener(v -> {});
+         tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(tabsViewWidth, MainTabsHelper.getMainTabsHeightWithMargins(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
+         tabsViewWrapper.setClipToPadding(false);
+@@ -806,6 +812,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          if (viewPager == null || fadeView == null || MainTabsHelper.isHidden()) {
              return;
          }

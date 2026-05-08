@@ -59,7 +59,6 @@ bugfix/attach-panel-close.patch
 feature/max-chat-input-lines.patch
 feature/monet-theme.patch
 feature/ios-menu-gesture.patch
-bugfix/clickable-behind-bottom-bar.patch
 feature/old-mention-indicator.patch
 feature/dialogs-fab.patch
 feature/non-island-ui.patch

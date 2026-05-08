@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java b
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java
-@@ -379,16 +379,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -381,16 +381,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
                  accountNumbers.add(a);
              }
          }
