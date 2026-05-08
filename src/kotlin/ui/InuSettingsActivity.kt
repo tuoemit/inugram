@@ -67,6 +67,13 @@ class InuSettingsActivity : InuSettingsPageActivity() {
                 LocaleController.getString(R.string.InuBehavior)
             )
         )
+        items.add(
+            UItem.asButton(
+                BUTTON_TRANSLATOR,
+                R.drawable.msg_translate,
+                LocaleController.getString(R.string.InuTranslator)
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(
@@ -107,6 +114,7 @@ class InuSettingsActivity : InuSettingsPageActivity() {
             BUTTON_DIALOGS -> presentFragment(InuDialogsSettingsActivity())
             BUTTON_ANNOYANCES -> presentFragment(InuAnnoyancesSettingsActivity())
             BUTTON_BEHAVIOR -> presentFragment(InuBehaviorSettingsActivity())
+            BUTTON_TRANSLATOR -> presentFragment(InuTranslatorSettingsActivity())
             BUTTON_ABOUT -> presentFragment(InuAboutActivity())
             BUTTON_EXPORT -> launchExport()
             BUTTON_IMPORT -> launchImport()
@@ -219,6 +227,7 @@ class InuSettingsActivity : InuSettingsPageActivity() {
         private val BUTTON_DIALOGS = InuUtils.generateId()
         private val BUTTON_ANNOYANCES = InuUtils.generateId()
         private val BUTTON_BEHAVIOR = InuUtils.generateId()
+        private val BUTTON_TRANSLATOR = InuUtils.generateId()
         private val BUTTON_ABOUT = InuUtils.generateId()
         private val BUTTON_EXPORT = InuUtils.generateId()
         private val BUTTON_IMPORT = InuUtils.generateId()

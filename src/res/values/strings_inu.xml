@@ -129,6 +129,10 @@
     <string name="InuCallConfirmationTitle">Confirm calling</string>
     <string name="InuCallConfirmationText">Call **%1$s**?</string>
     <string name="InuDisableChatBubbles">Disable conversation bubbles</string>
+    <string name="InuInPlaceTranslation">In-place translation</string>
+    <string name="InuTranslator">Translator</string>
+    <string name="InuTranslationTarget">Target language</string>
+    <string name="InuTranslationTargetFollowApp">Follow app</string>
     <string name="InuHideReactionEntry">Hide reaction appear animation</string>
     <string name="InuHideReactionEntryInfo">…when a reaction is added to a message</string>
     <string name="InuMutualContact">Mutual contact</string>

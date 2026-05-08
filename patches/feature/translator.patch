@@ -1,0 +1,169 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: alina sireneva <alina@tei.su>
+Date: Fri, 8 May 2026 13:52:58 +0200
+Subject: translator-related features
+
+---
+ .../org/telegram/messenger/MessageObject.java |  1 +
+ .../messenger/TranslateController.java        |  7 +++---
+ .../telegram/ui/Cells/ChatMessageCell.java    |  5 ++--
+ .../java/org/telegram/ui/ChatActivity.java    | 25 +++++++++++++------
+ 4 files changed, 26 insertions(+), 12 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
+@@ -3645,6 +3645,7 @@ public class MessageObject {
+             generateCaption();
+             return replyUpdated || true;
+         } else if (
++            desu.inugram.helpers.TranslateHelper.isManualTranslated(this) && messageOwner != null && (translatedText != null || messageOwner.translatedPoll != null) ||
+             messageOwner != null &&
+             TranslateController.isTranslatable(this) &&
+             translateController.isTranslatingDialog(getDialogId()) &&
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/TranslateController.java b/TMessagesProj/src/main/java/org/telegram/messenger/TranslateController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/TranslateController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/TranslateController.java
+@@ -37,6 +37,7 @@ import org.telegram.ui.Components.TranslateAlert2;
+ import org.telegram.ui.LaunchActivity;
+ import org.telegram.ui.PremiumPreviewFragment;
+ import org.telegram.ui.RestrictedLanguagesSelectActivity;
++import desu.inugram.helpers.TranslateHelper;
+ 
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -969,7 +970,7 @@ public class TranslateController extends BaseController {
+         int reqId = -1;
+     }
+ 
+-    private void pushToTranslate(
++    public void pushToTranslate(
+         MessageObject message,
+         String language,
+         Utilities.Callback4<Boolean, Integer, TLRPC.TL_textWithEntities, String> callback
+@@ -1439,7 +1440,7 @@ public class TranslateController extends BaseController {
+                 (messageObject.messageOwner.voiceTranscriptionOpen && messageObject.messageOwner.voiceTranscriptionFinal ?
+                     loadingTranscriptionTranslations : loadingTranslations
+                 ).contains(messageObject.getId()) &&
+-                isTranslatingDialog(messageObject.getDialogId())
++                (isTranslatingDialog(messageObject.getDialogId()) || TranslateHelper.isManualTranslated(messageObject))
+             );
+         }
+     }
+@@ -1448,7 +1449,7 @@ public class TranslateController extends BaseController {
+         if (messageObject == null) {
+             return false;
+         }
+-        if (!isTranslatingDialog(messageObject.getDialogId())) {
++        if (!isTranslatingDialog(messageObject.getDialogId()) && !TranslateHelper.isManualTranslated(messageObject, group)) {
+             return false;
+         }
+         final boolean isTranscription = messageObject.messageOwner != null && messageObject.messageOwner.voiceTranscriptionOpen && messageObject.messageOwner.voiceTranscriptionFinal;
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
+@@ -16609,7 +16609,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+ 
+         final TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
+         final boolean translating = translateController.isTranslating(currentMessageObject);
+-        final boolean shouldTranslate = currentMessageObject != null && TranslateController.isTranslatable(currentMessageObject) && translateController.isTranslatingDialog(currentMessageObject.getDialogId());
++        final boolean shouldTranslate = currentMessageObject != null && (TranslateController.isTranslatable(currentMessageObject) && translateController.isTranslatingDialog(currentMessageObject.getDialogId()) || desu.inugram.helpers.TranslateHelper.isManualTranslated(currentMessageObject, currentMessagesGroup));
+         final boolean shouldSummarize = currentMessageObject != null && currentMessageObject.messageOwner.summarizedOpen;
+         final boolean isFinal = shouldTranslate == (currentMessageObject != null && currentMessageObject.translated) && shouldSummarize == (currentMessageObject != null && currentMessageObject.summarized);
+         if (origin == !isFinal) {
+@@ -18336,7 +18336,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+                 currentTimeString = TextUtils.concat(formatString(R.string.MessageScheduledRepeatSeconds, period), ", ", currentTimeString);
+             }
+         }
+-        timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length()));
++        currentTimeString = desu.inugram.helpers.TranslateHelper.translatedTimePrefix(currentMessageObject, currentTimeString);
++        timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString, 0, currentTimeString == null ? 0 : currentTimeString.length())) + desu.inugram.helpers.TranslateHelper.extraTimeWidth(currentMessageObject);
+         if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE || currentMessageObject.notime) {
+             timeWidth -= dp(8);
+         }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+@@ -11135,7 +11135,7 @@ public class ChatActivity extends BaseFragment implements
+         if (translateItem == null) {
+             return;
+         }
+-        translateItem.setVisibility(getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) && getMessagesController().getTranslateController().isDialogTranslatable(getDialogId()) ? View.VISIBLE : View.GONE);
++        translateItem.setVisibility(getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) /* && getMessagesController().getTranslateController().isDialogTranslatable(getDialogId()) */ ? View.VISIBLE : View.GONE);
+     }
+ 
+     private Animator infoTopViewAnimator;
+@@ -24256,16 +24256,18 @@ public class ChatActivity extends BaseFragment implements
+                 boolean update = false;
+                 if (cellMessageObject.getId() == messageObject.getId()) {
+                     cellMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
++                    cellMessageObject.messageOwner.translatedVoiceTranscription = messageObject.messageOwner.translatedVoiceTranscription;
++                    cellMessageObject.messageOwner.translatedPoll = messageObject.messageOwner.translatedPoll;
+                     cellMessageObject.messageOwner.translatedToLanguage = messageObject.messageOwner.translatedToLanguage;
++                    cellMessageObject.messageOwner.originalLanguage = messageObject.messageOwner.originalLanguage;
+                     cellMessageObject.messageOwner.summaryText = messageObject.messageOwner.summaryText;
+                     cellMessageObject.messageOwner.translatedSummaryText = messageObject.messageOwner.translatedSummaryText;
+                     cellMessageObject.messageOwner.translatedSummaryLanguage = messageObject.messageOwner.translatedSummaryLanguage;
+-                    if (cellMessageObject.updateTranslation(false)) {
+-                        update = true;
+-                        ArrayList<Integer> dependentMessages = replyMessageOwners.get(cellMessageObject.getId());
+-                        if (dependentMessages != null) {
+-                            updateMessagesReplyTranslation(dependentMessages, messageObject);
+-                        }
++                    cellMessageObject.updateTranslation(false);
++                    update = true;
++                    ArrayList<Integer> dependentMessages = replyMessageOwners.get(cellMessageObject.getId());
++                    if (dependentMessages != null) {
++                        updateMessagesReplyTranslation(dependentMessages, messageObject);
+                     }
+                 }
+                 MessageObject.GroupedMessages group = groupedMessagesMap.get(messageObject.getGroupId());
+@@ -24288,8 +24290,11 @@ public class ChatActivity extends BaseFragment implements
+                     }
+                 }
+                 if (update) {
++                    boolean manualTranslated = desu.inugram.helpers.TranslateHelper.isManualTranslated(cellMessageObject, group);
+                     if (scroll) {
+                         chatLayoutManager.scrollToPositionWithOffset(chatListView.getChildAdapterPosition(child), cell.getTop() - (int) chatListViewPaddingTop, false);
++                    } else if (manualTranslated && chatListView.getChildAdapterPosition(child) == 0 && forwardEndReached[0] && !chatListView.canScrollVertically(1)) {
++                        chatLayoutManager.scrollToPositionWithOffset(0, 0);
+                     } else {
+                         saveGeneralScroll();
+                     }
+@@ -31213,8 +31218,10 @@ public class ChatActivity extends BaseFragment implements
+ 
+                                 String toLangValue = fromLang != null && fromLang.equals(toLang) ? toLangDefault : toLang;
+                                 ArrayList<TLRPC.MessageEntity> entities = selectedObject != null && selectedObject.messageOwner != null ? selectedObject.messageOwner.entities : null;
++                                if (!desu.inugram.helpers.TranslateHelper.startTranslate(this, selectedObject, selectedObjectGroup, fromLang, toLangValue)) {
+                                 TranslateAlert2 alert = TranslateAlert2.showAlert(getParentActivity(), this, currentAccount, inputPeer, messageIdToTranslate[0], selectedObject.summarized, fromLang, toLangValue, finalMessageText, entities, noforwardsOrPaidMedia, onLinkPress, () -> dimBehindView(false));
+                                 alert.setDimBehind(false);
++                                }
+                                 closeMenu(false);
+                                 
+ //                                final TranslateAlert3 alert =
+@@ -31271,8 +31278,10 @@ public class ChatActivity extends BaseFragment implements
+                                 }
+                                 String toLangValue = fromLang[0] != null && fromLang[0].equals(toLang) ? toLangDefault : toLang;
+                                 ArrayList<TLRPC.MessageEntity> entities = selectedObject != null && selectedObject.messageOwner != null ? selectedObject.messageOwner.entities : null;
++                                if (!desu.inugram.helpers.TranslateHelper.startTranslate(this, selectedObject, selectedObjectGroup, fromLang[0], toLangValue)) {
+                                 TranslateAlert2 alert = TranslateAlert2.showAlert(getParentActivity(), this, currentAccount, inputPeer, messageIdToTranslate[0], selectedObject.summarized, fromLang[0], toLangValue, finalMessageText, entities, noforwardsOrPaidMedia, onLinkPress, () -> dimBehindView(false));
+                                 alert.setDimBehind(false);
++                                }
+                                 closeMenu(false);
+ 
+ //                                final TranslateAlert3 alert =
+@@ -31305,8 +31314,10 @@ public class ChatActivity extends BaseFragment implements
+                                     return;
+                                 }
+ 
++                                if (!desu.inugram.helpers.TranslateHelper.startTranslate(this, selectedObject, selectedObjectGroup, "und", toLang)) {
+                                 TranslateAlert2 alert = TranslateAlert2.showAlert(getParentActivity(), this, currentAccount, inputPeer, messageIdToTranslate[0], selectedObject.summarized, "und", toLang, finalMessageText, null, noforwardsOrPaidMedia, onLinkPress, () -> dimBehindView(false));
+                                 alert.setDimBehind(false);
++                                }
+                                 closeMenu(false);
+ 
+ //                                final TranslateAlert3 alert = new TranslateAlert3(getContext(), getResourceProvider())

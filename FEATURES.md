@@ -72,6 +72,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - show id in profile, show user json
 - long-tap inline callback button to copy text or callback data
 - "select between messages" (🐶 done right, with proper capping)
+- in-place message translation
 
 ## message input / formatting
 

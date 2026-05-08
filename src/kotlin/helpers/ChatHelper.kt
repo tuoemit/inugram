@@ -35,6 +35,7 @@ object ChatHelper {
     const val ACTION_SHOW_PINNED_PANEL = 506
     const val ACTION_PINNED_UNPIN_ALL = 507
     const val ACTION_SELECT_RANGE = 1500
+    const val OPTION_TRANSLATE_REVERT = 508
 
     private fun removeWallpaperKey(currentAccount: Int, dialogId: Long) = "remove_wallpaper:$currentAccount:$dialogId"
     private fun removeThemeKey(currentAccount: Int, dialogId: Long) = "remove_theme:$currentAccount:$dialogId"
@@ -105,7 +106,7 @@ object ChatHelper {
     }
 
     @JvmStatic
-    fun addMenuItems(
+    fun finalizeMessageMenu(
         items: ArrayList<CharSequence>,
         options: ArrayList<Int>,
         icons: ArrayList<Int>,
@@ -116,9 +117,11 @@ object ChatHelper {
         noforwards: Boolean
     ) {
         if (!noforwards && dialogId != UserConfig.getInstance(activity.currentAccount).clientUserId) {
-            items.add(LocaleController.getString(R.string.InuSaveToSavedMessages))
-            options.add(OPTION_SAVE)
-            icons.add(R.drawable.msg_saved)
+            val forwardIdx = options.indexOf(ChatActivity.OPTION_FORWARD)
+            val insertIdx = if (forwardIdx >= 0) forwardIdx + 1 else items.size
+            items.add(insertIdx, LocaleController.getString(R.string.InuSaveToSavedMessages))
+            options.add(insertIdx, OPTION_SAVE)
+            icons.add(insertIdx, R.drawable.msg_saved)
         }
 
         if (!noforwards && activity.currentChat != null && !ChatObject.isChannelAndNotMegaGroup(activity.currentChat)) {
@@ -128,10 +131,6 @@ object ChatHelper {
             options.add(insertIdx, OPTION_REPLY_IN)
             icons.add(insertIdx, R.drawable.menu_reply)
         }
-
-        items.add(LocaleController.getString(R.string.InuMessageDetails))
-        options.add(OPTION_DETAILS)
-        icons.add(R.drawable.msg_info)
 
         val chatInfo = activity.currentChatInfo
         if (chatInfo != null && chatInfo.can_view_stats && selectedObject.id > 0 && !selectedObject.isStory) {
@@ -144,6 +143,26 @@ object ChatHelper {
             items.add(LocaleController.getString(R.string.InuShowInChat))
             options.add(OPTION_SHOW_IN_CHAT)
             icons.add(R.drawable.msg_openin)
+        }
+
+        items.add(LocaleController.getString(R.string.InuMessageDetails))
+        options.add(OPTION_DETAILS)
+        icons.add(R.drawable.msg_info)
+
+        if (TranslateHelper.isManualTranslated(selectedObject, selectedObjectGroup)) {
+            val idx = options.indexOf(ChatActivity.OPTION_TRANSLATE)
+            if (idx >= 0) {
+                items.removeAt(idx)
+                options.removeAt(idx)
+                icons.removeAt(idx)
+            }
+            val insertIdx = if (idx >= 0) idx else {
+                val pinIdx = options.indexOf(ChatActivity.OPTION_PIN)
+                if (pinIdx >= 0) pinIdx + 1 else options.size
+            }
+            items.add(insertIdx, LocaleController.getString(R.string.ShowOriginalButton))
+            options.add(insertIdx, OPTION_TRANSLATE_REVERT)
+            icons.add(insertIdx, R.drawable.msg_translate)
         }
     }
 
@@ -215,6 +234,8 @@ object ChatHelper {
             OPTION_DETAILS -> {
                 activity.presentFragment(MessageDetailsActivity(selectedObject, selectedObjectGroup))
             }
+
+            OPTION_TRANSLATE_REVERT -> TranslateHelper.revert(activity, selectedObjectGroup?.captionMessage ?: selectedObject)
 
             OPTION_SHOW_IN_CHAT -> {
                 val args = Bundle()
@@ -474,5 +495,10 @@ object ChatHelper {
         if (chat != null && !ChatObject.isChannelAndNotMegaGroup(chat) && InuConfig.HIDE_BOT_SLASH_GROUPS.value) return true
         if (user != null && UserObject.isBot(user) && InuConfig.HIDE_BOT_SLASH_BOTS.value) return true
         return false
+    }
+
+    @JvmStatic
+    fun onFragmentDestroy(activity: ChatActivity) {
+        TranslateHelper.resetForDialog(activity.dialogId)
     }
 }

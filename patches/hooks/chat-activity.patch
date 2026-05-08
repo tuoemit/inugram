@@ -4,8 +4,8 @@ Date: Fri, 10 Apr 2026 05:29:50 +0300
 Subject: hooks into various places inside ChatActivity
 
 ---
- .../java/org/telegram/ui/ChatActivity.java    | 31 ++++++++++++++-----
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 32 ++++++++++++++-----
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
@@ -47,7 +47,15 @@ index 0000000..0000000 100644
      private SparseArray<MessageObject>[] selectedMessagesCanCopyIds = new SparseArray[]{new SparseArray<>(), new SparseArray<>()};
      private SparseArray<MessageObject>[] selectedMessagesCanStarIds = new SparseArray[]{new SparseArray<>(), new SparseArray<>()};
      private boolean hasUnfavedSelected;
-@@ -3696,6 +3696,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -3456,6 +3456,7 @@ public class ChatActivity extends BaseFragment implements
+             AndroidUtilities.removeFromParent(starReactionsOverlay);
+             starReactionsOverlay = null;
+         }
++        ChatHelper.onFragmentDestroy(this);
+     }
+ 
+     private static class ChatActivityTextSelectionHelper extends TextSelectionHelper.ChatListTextSelectionHelper {
+@@ -3696,6 +3697,7 @@ public class ChatActivity extends BaseFragment implements
          actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
              @Override
              public void onItemClick(final int id) {
@@ -55,7 +63,7 @@ index 0000000..0000000 100644
                  if (id == -1) {
                      if (isInPollAddOptionMode()) {
                          pollAddOptionModeClose();
-@@ -10111,7 +10112,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -10111,7 +10113,7 @@ public class ChatActivity extends BaseFragment implements
          topPanelLayout.setDebugName(bizBotButton, "bot biz");
      }
  
@@ -64,7 +72,7 @@ index 0000000..0000000 100644
          if (undoView != null || getContext() == null) {
              return;
          }
-@@ -10158,12 +10159,14 @@ public class ChatActivity extends BaseFragment implements
+@@ -10158,12 +10160,14 @@ public class ChatActivity extends BaseFragment implements
              actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, AndroidUtilities.dp(54), LocaleController.getString(R.string.Copy)));
              actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString(R.string.Delete)));
          }
@@ -79,7 +87,7 @@ index 0000000..0000000 100644
      }
  
      private void hideTagSelector() {
-@@ -18787,7 +18790,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -18787,7 +18791,7 @@ public class ChatActivity extends BaseFragment implements
          addToSelectedMessages(messageObject, outside, true);
      }
  
@@ -88,7 +96,7 @@ index 0000000..0000000 100644
          int prevCantForwardCount = cantForwardMessagesCount;
          if (messageObject != null) {
              if (threadMessageObjects != null && threadMessageObjects.contains(messageObject) && !isThreadChat()) {
-@@ -18970,6 +18973,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -18970,6 +18974,7 @@ public class ChatActivity extends BaseFragment implements
                  if (deleteItem != null) {
                      deleteItem.setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
                  }
@@ -96,7 +104,7 @@ index 0000000..0000000 100644
                  hasUnfavedSelected = false;
                  for (int a = 0; a < 2; a++) {
                      for (int b = 0; b < selectedMessagesCanStarIds[a].size(); b++) {
-@@ -19036,7 +19040,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -19036,7 +19041,11 @@ public class ChatActivity extends BaseFragment implements
                      actionsButtonsLayout.showReplyButton(newVisibility == View.VISIBLE, true);
                  }
  
@@ -109,7 +117,7 @@ index 0000000..0000000 100644
                      if (copyVisible != newCopyVisible || starVisible != newStarVisible) {
                          if (newEditVisibility == View.VISIBLE) {
                              editItem.setAlpha(1.0f);
-@@ -19195,7 +19203,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -19195,7 +19204,7 @@ public class ChatActivity extends BaseFragment implements
          updateVisibleRows();
      }
  
@@ -118,7 +126,7 @@ index 0000000..0000000 100644
          if (!isReport()) {
              if (!actionBar.isActionModeShowed()) {
                  return;
-@@ -33292,6 +33300,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -33292,6 +33301,10 @@ public class ChatActivity extends BaseFragment implements
                  }, getResourceProvider(), AlertsCreator.SUGGEST_DATE_PICKER_MODE_EDIT).show(), AmountUtils.Amount.of(suggestedPost != null ? suggestedPost.price : null), !ChatObject.canManageMonoForum(currentAccount, getDialogId()));
                  break;
              }
@@ -129,7 +137,7 @@ index 0000000..0000000 100644
          }
          selectedObject = null;
          selectedObjectGroup = null;
-@@ -38892,6 +38904,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -38892,6 +38905,7 @@ public class ChatActivity extends BaseFragment implements
                      !(button instanceof TLRPC.TL_keyboardButtonUserProfile) && !(button instanceof TLRPC.TL_keyboardButtonCopy)) {
                  return;
              }
@@ -137,7 +145,7 @@ index 0000000..0000000 100644
              if (button instanceof TLRPC.TL_keyboardButtonCopy) {
                  didLongPressCopyButton(((TLRPC.TL_keyboardButtonCopy) button).copy_text);
                  return;
-@@ -40250,6 +40263,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -40250,6 +40264,7 @@ public class ChatActivity extends BaseFragment implements
                      presentFragment(fragment);
                  }
              } else if (message.type == MessageObject.TYPE_FILE || message.type == MessageObject.TYPE_TEXT) {
@@ -145,11 +153,11 @@ index 0000000..0000000 100644
                  if (message.getDocumentName().toLowerCase().endsWith("attheme")) {
                      File locFile = null;
                      if (message.messageOwner.attachPath != null && message.messageOwner.attachPath.length() != 0) {
-@@ -44680,6 +44694,7 @@ public class ChatActivity extends BaseFragment implements
-                     options.add(OPTION_FORWARD);
-                     icons.add(R.drawable.msg_forward);
-                 }
-+                ChatHelper.addMenuItems(items, options, icons, this, selectedObject, selectedObjectGroup, dialog_id, noforwards);
-                 if (allowUnpin) {
-                     items.add(LocaleController.getString(R.string.UnpinMessage));
-                     options.add(OPTION_UNPIN);
+@@ -44821,6 +44836,7 @@ public class ChatActivity extends BaseFragment implements
+                 options.add(OPTION_DELETE);
+                 icons.add(deleteIconRes);
+             }
++            ChatHelper.finalizeMessageMenu(items, options, icons, this, selectedObject, selectedObjectGroup, dialog_id, noforwards);
+         }
+     }
+ 
