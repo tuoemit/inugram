@@ -17,7 +17,7 @@ index 0000000..0000000 100644
                          } else {
 -                            if (pagedownButtonShowedByScroll && isPageDownButtonVisible) {
 +                            if (desu.inugram.InuConfig.CHAT_ALWAYS_SHOW_DOWN.getValue()) {
-+                                if (!isPageDownButtonVisible) {
++                                if (firstVisibleItem != 0 && !isPageDownButtonVisible) {
 +                                    canShowPagedownButton = true;
 +                                    updatePagedownButtonVisibility(true);
 +                                    pagedownButtonShowedByScroll = true;

@@ -116,7 +116,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 disable scroll-snap in profile
 - 🐶 recyclerlistview instant-tap
 - ios-style menu gesture (release-to-commit) in bottom menu tabs
-- translate menu respects DNT uniformly (drops stock ru/uk forwards/public override)
 
 ## annoyances
 
