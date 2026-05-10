@@ -6,9 +6,11 @@ Subject: translator-related features
 ---
  .../org/telegram/messenger/MessageObject.java |  3 +-
  .../messenger/TranslateController.java        |  7 +--
+ .../java/org/telegram/ui/ArticleViewer.java   | 20 ++++++---
  .../telegram/ui/Cells/ChatMessageCell.java    | 34 +++++++++++---
  .../java/org/telegram/ui/ChatActivity.java    | 44 ++++++++++++-------
- 4 files changed, 64 insertions(+), 24 deletions(-)
+ .../org/telegram/ui/web/WebActionBar.java     |  3 ++
+ 6 files changed, 82 insertions(+), 29 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
 index 0000000..0000000 100644
@@ -70,6 +72,86 @@ index 0000000..0000000 100644
              return false;
          }
          final boolean isTranscription = messageObject.messageOwner != null && messageObject.messageOwner.voiceTranscriptionOpen && messageObject.messageOwner.voiceTranscriptionFinal;
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ArticleViewer.java b/TMessagesProj/src/main/java/org/telegram/ui/ArticleViewer.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ArticleViewer.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ArticleViewer.java
+@@ -264,7 +264,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+     private boolean collapsed;
+     private boolean attachedToWindow;
+ 
+-    private int currentAccount;
++    public int currentAccount;
+ 
+     private int lastBlockNum = 1;
+ 
+@@ -283,7 +283,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+     private WindowManager.LayoutParams windowLayoutParams;
+     private WindowView windowView;
+     private FrameLayout containerView;
+-    private WebActionBar actionBar;
++    public WebActionBar actionBar;
+     private AddressBarList addressBarList;
+ //    private FrameLayout headerView;
+ //    private SimpleTextView titleTextView;
+@@ -2502,6 +2502,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+         if (richText == null) {
+             return null;
+         }
++        if (richText == parentRichText) {
++            CharSequence inu_cached = desu.inugram.helpers.InstantViewTranslateHelper.lookupRich(this, richText);
++            if (inu_cached != null) return inu_cached;
++        }
+         if (richText instanceof TLRPC.TL_textFixed) {
+             return getText(page, parentView, parentRichText, ((TLRPC.TL_textFixed) richText).text, parentBlock, maxWidth);
+         } else if (richText instanceof TLRPC.TL_textItalic) {
+@@ -2976,7 +2980,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+ 
+         CharSequence text;
+         if (plainText != null) {
+-            text = plainText;
++            text = desu.inugram.helpers.InstantViewTranslateHelper.translate(this, plainText);
+         } else {
+             text = getText(parentAdapter, parentView, richText, richText, parentBlock, width);
+         }
+@@ -3869,6 +3873,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+         headerProgressPaint.setColor(0xff242426);
+         navigationBarPaint.setColor(Color.BLACK);
+         actionBar = new WebActionBar(activity, getResourcesProvider()) {
++            @Override
++            protected ArticleViewer inu_getOwnerArticleViewer() {
++                return ArticleViewer.this;
++            }
+             @Override
+             protected void onOpenedMenu() {
+                 pages[0].listView.stopScroll();
+@@ -4314,6 +4322,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+             }
+             if (id == WebActionBar.search_item) {
+                 actionBar.showSearch(true, true);
++            } else if (id == desu.inugram.helpers.InstantViewTranslateHelper.MENU_ITEM_ID) {
++                desu.inugram.helpers.InstantViewTranslateHelper.onClick(this);
+             } else if (id == WebActionBar.share_item) {
+                 String url;
+                 if (pages[0].isWeb()) {
+@@ -5795,7 +5805,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+ 
+     private LongSparseArray<BlockVideoCellState> videoStates = new LongSparseArray<>();
+ 
+-    private class WebpageAdapter extends RecyclerListView.SelectionAdapter {
++    public class WebpageAdapter extends RecyclerListView.SelectionAdapter {
+ 
+         private Context context;
+         private ArrayList<TLRPC.PageBlock> localBlocks = new ArrayList<>();
+@@ -5810,7 +5820,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
+         private ArrayList<Object> textBlocks = new ArrayList<>();
+         private HashMap<String, Integer> searchTextOffset = new HashMap<>();
+ 
+-        private TLRPC.WebPage currentPage;
++        public TLRPC.WebPage currentPage;
+         private TLRPC.TL_pageBlockChannel channelBlock;
+         private boolean isRtl;
+         private final boolean padding;
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
@@ -284,3 +366,24 @@ index 0000000..0000000 100644
                      }
                  }
                  if (selectedObject != null && selectedObject.messageOwner != null && selectedObject.messageOwner.video_processing_pending) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/web/WebActionBar.java b/TMessagesProj/src/main/java/org/telegram/ui/web/WebActionBar.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/web/WebActionBar.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/web/WebActionBar.java
+@@ -129,6 +129,8 @@ public class WebActionBar extends FrameLayout {
+     public static final int forward_item = 9;
+     public static final int instant_item = 10;
+ 
++    protected ArticleViewer inu_getOwnerArticleViewer() { return null; }
++
+     public WebActionBar(Context context, Theme.ResourcesProvider resourcesProvider) {
+         super(context);
+         this.resourcesProvider = resourcesProvider;
+@@ -210,6 +212,7 @@ public class WebActionBar extends FrameLayout {
+                 o.add(R.drawable.msg_openin, getString(R.string.OpenInExternalApp), click.run(open_item));
+                 o.add(R.drawable.msg_search, getString(R.string.Search), click.run(search_item));
+                 o.add(R.drawable.msg_share, getString(R.string.ShareFile), click.run(share_item));
++                desu.inugram.helpers.InstantViewTranslateHelper.addMenuItem(o, click.run(desu.inugram.helpers.InstantViewTranslateHelper.MENU_ITEM_ID), inu_getOwnerArticleViewer());
+                 o.add(R.drawable.msg_settings_old, getString(R.string.Settings), click.run(settings_item));
+             } else if (menuType == ArticleViewer.PageLayout.TYPE_WEB) {
+                 if (!isTonsite) {

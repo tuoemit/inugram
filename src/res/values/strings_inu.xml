@@ -132,6 +132,11 @@
     <string name="InuInPlaceTranslation">In-place translation</string>
     <string name="InuTranslateWebPreviews">Translate web previews</string>
     <string name="InuTranslateWebPreviewsInfo">Also translate link preview title/description. Translated independently from the message body, so it works even when the message language is in Do Not Translate.</string>
+    <string name="InuTranslateInstantView">Translate page</string>
+    <string name="InuInstantViewShowOriginal">Show original</string>
+    <string name="InuTranslating">Translating…</string>
+    <string name="InuTranslateInstantViewSkipped">Source language is in your Do Not Translate list.</string>
+    <string name="InuTranslateInstantViewPartial">Some sections could not be translated.</string>
     <string name="InuTranslator">Translator</string>
     <string name="InuTranslationTarget">Target language</string>
     <string name="InuTranslationTargetFollowApp">Follow app</string>

@@ -74,6 +74,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - long-tap inline callback button to copy text or callback data
 - "select between messages" (🐶 done right, with proper capping)
 - in-place message translation, with optional web preview translation
+- instant view pages translator
 
 ## message input / formatting
 
