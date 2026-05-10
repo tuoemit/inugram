@@ -88,9 +88,9 @@ pnpm run export # to export stgit into patches/
 ### modifying an existing patch
 
 ```bash
-# option 1: edit the patch in-place via helper script
+# option 1: edit the patch in-place via stg refresh
 # ...do whatever you need in worktree/...
-pnpm run append-to-patch misc__my-patch # --index to only append staged changes
+stg refresh -p misc__my-patch # --index to only append staged changes
 pnpm run export
 
 # *pretty much* same as above, but manually
