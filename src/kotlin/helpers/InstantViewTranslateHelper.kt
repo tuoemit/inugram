@@ -73,12 +73,17 @@ object InstantViewTranslateHelper {
     }
 
     @JvmStatic
+    fun onPageOpened(viewer: ArticleViewer?, page: TLRPC.WebPage?) {
+        if (viewer == null || page?.cached_page == null) return
+        ensureDetected(stateFor(viewer, page))
+    }
+
+    @JvmStatic
     fun addMenuItem(o: ItemOptions, click: Runnable, viewer: ArticleViewer?) {
         if (viewer == null) return
         val page = viewer.currentPageLayout?.adapter?.currentPage ?: return
         val state = stateFor(viewer, page)
-        ensureDetected(state)
-        if (state.unavailable) return
+        if (!state.detectionDone || state.unavailable) return
 
         val label = LocaleController.getString(
             when {
