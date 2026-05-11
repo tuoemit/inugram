@@ -208,6 +208,8 @@
     <string name="InuDisableScrimBlur">Disable scrim blur</string>
     <string name="InuDisableScrimBlurInfo">Replaces the blurred backdrop behind context menus and previews with a flat dim. Enabling may reduce lag.</string>
 
+    <string name="InuProfilePhotoGradientFade">Disable profile photo blur</string>
+
     <string name="InuNonIslandUI">Non-island UI</string>
     <string name="InuAnimationSpeed">Animation speed</string>
     <string name="InuAnimationSpeedInstant">Instant</string>

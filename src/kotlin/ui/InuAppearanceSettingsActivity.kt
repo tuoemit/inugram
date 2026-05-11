@@ -61,6 +61,12 @@ class InuAppearanceSettingsActivity : InuSettingsPageActivity() {
             )
         )
         items.add(
+            UItem.asCheck(
+                TOGGLE_PROFILE_PHOTO_GRADIENT_FADE,
+                LocaleController.getString(R.string.InuProfilePhotoGradientFade)
+            ).setChecked(InuConfig.PROFILE_PHOTO_GRADIENT_FADE.value)
+        )
+        items.add(
             UItem.asButton(
                 BUTTON_ICON_REPLACEMENT,
                 LocaleController.getString(R.string.InuIconReplacement),
@@ -249,6 +255,11 @@ class InuAppearanceSettingsActivity : InuSettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_PROFILE_PHOTO_GRADIENT_FADE -> {
+                val new = InuConfig.PROFILE_PHOTO_GRADIENT_FADE.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             TOGGLE_NON_ISLAND_TAB_BARS -> {
                 val new = InuConfig.NON_ISLAND_TAB_BARS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
@@ -278,6 +289,7 @@ class InuAppearanceSettingsActivity : InuSettingsPageActivity() {
         private val TOGGLE_DISABLE_ROUNDING = InuUtils.generateId()
         private val TOGGLE_HIDE_MY_PHONE_NUMBER = InuUtils.generateId()
         private val TOGGLE_DISABLE_SCRIM_BLUR = InuUtils.generateId()
+        private val TOGGLE_PROFILE_PHOTO_GRADIENT_FADE = InuUtils.generateId()
         private val BUTTON_ICON_REPLACEMENT = InuUtils.generateId()
         private val BUTTON_MAP_PROVIDER = InuUtils.generateId()
         private val BUTTON_MAP_PREVIEW_PROVIDER = InuUtils.generateId()

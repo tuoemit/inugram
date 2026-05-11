@@ -1,7 +1,13 @@
 package desu.inugram.helpers
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Paint
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.graphics.ColorUtils
 import desu.inugram.InuConfig
 import org.telegram.messenger.AccountInstance
 import org.telegram.messenger.AndroidUtilities
@@ -17,10 +23,108 @@ import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.ItemOptions
+import org.telegram.ui.Components.ProfileGalleryBlurView
+import org.telegram.ui.Components.ProfileGalleryView
 
 object ProfileHelper {
     const val ACTION_TOGGLE_HIDE_WALLPAPER = 505
     const val ACTION_TOGGLE_HIDE_THEME = 506
+
+    private const val GRADIENT_FADE_DARK = 0x80000000.toInt()
+    private val fadePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val actionsBackdropPaint = Paint()
+    private var cachedRampGradient: LinearGradient? = null
+    private var cachedRampHeight = 0f
+
+    @JvmStatic
+    fun useProfilePhotoGradientFade(): Boolean = InuConfig.PROFILE_PHOTO_GRADIENT_FADE.value
+
+    @JvmStatic
+    fun notifyBlurExpandProgress(pager: ProfileGalleryView?, value: Float) {
+        val b = pager?.blurDrawer ?: return
+        b.inu_expandProgress = value
+        b.invalidate()
+    }
+
+    @JvmStatic
+    fun expandedActionsOffset(expandProgress: Float): Float =
+        if (useProfilePhotoGradientFade()) AndroidUtilities.dpf2(8f) * expandProgress else 0f
+
+    @JvmStatic
+    fun adjustChipColor(btnColor: Int, whiteColor: Int, expandProgress: Float): Int =
+        if (useProfilePhotoGradientFade() && expandProgress > 0f) {
+            ColorUtils.blendARGB(btnColor, whiteColor, expandProgress)
+        } else btnColor
+
+    @JvmStatic
+    fun blendChipBackgroundForExpand(backgroundColor: Int, whiteColor: Int, expandProgress: Float): Int =
+        if (useProfilePhotoGradientFade() && expandProgress > 0f) {
+            ColorUtils.blendARGB(backgroundColor, whiteColor, expandProgress)
+        } else backgroundColor
+
+    @JvmStatic
+    fun forceChipShadowForExpand(expandProgress: Float): Boolean =
+        useProfilePhotoGradientFade() && expandProgress > 0f
+
+    @JvmStatic
+    fun drawProfilePhotoGradientFade(
+        canvas: Canvas,
+        blurView: ProfileGalleryBlurView,
+        width: Float,
+        translate: Boolean,
+        fraction: Float,
+        alpha: Float,
+    ): Boolean {
+        if (!useProfilePhotoGradientFade()) return false
+        val visibility = (1f - fraction).coerceIn(0f, 1f) * alpha.coerceIn(0f, 1f)
+        if (visibility <= 0f || width <= 0f) return true
+
+        val openingScale = if (blurView.measuredWidth > 0) width / blurView.measuredWidth else 1f
+        val sizePx = blurView.size * openingScale
+        val actionPx = blurView.actionSize * openingScale
+        val scaledSize = sizePx * (1f - fraction).coerceIn(0f, 1f)
+
+        val photoTop = if (translate) -scaledSize else 0f
+        val photoBottom = if (translate) 0f else sizePx
+        val actionBottom = if (translate) 0f else sizePx + actionPx
+
+        if (photoBottom > photoTop) {
+            val rampEnd = AndroidUtilities.dpf2(56f).coerceAtMost(photoBottom - photoTop)
+            fadePaint.shader = getRampGradient(rampEnd)
+            fadePaint.alpha = (visibility * 255f).toInt().coerceIn(0, 255)
+            canvas.save()
+            canvas.translate(0f, photoTop)
+            canvas.drawRect(0f, 0f, width, rampEnd, fadePaint)
+            canvas.restore()
+            fadePaint.shader = null
+
+            if (photoTop + rampEnd < photoBottom) {
+                fadePaint.color = GRADIENT_FADE_DARK
+                fadePaint.alpha = ((GRADIENT_FADE_DARK ushr 24) * visibility).toInt().coerceIn(0, 255)
+                canvas.drawRect(0f, photoTop + rampEnd, width, photoBottom, fadePaint)
+            }
+        }
+
+        if (actionBottom > photoBottom) {
+            actionsBackdropPaint.color = Theme.getColor(Theme.key_windowBackgroundGray)
+            actionsBackdropPaint.alpha = (visibility * 255f).toInt().coerceIn(0, 255)
+            canvas.drawRect(0f, photoBottom, width, actionBottom, actionsBackdropPaint)
+        }
+
+        return true
+    }
+
+    private fun getRampGradient(rampHeight: Float): LinearGradient {
+        cachedRampGradient?.let { if (cachedRampHeight == rampHeight) return it }
+        return LinearGradient(
+            0f, 0f, 0f, rampHeight,
+            Color.TRANSPARENT, GRADIENT_FADE_DARK,
+            Shader.TileMode.CLAMP,
+        ).also {
+            cachedRampGradient = it
+            cachedRampHeight = rampHeight
+        }
+    }
 
     @JvmStatic
     fun shouldShowIdRow(): Boolean {

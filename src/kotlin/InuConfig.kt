@@ -340,6 +340,9 @@ object InuConfig {
     val DISABLE_SCRIM_BLUR = BoolItem("disable_scrim_blur", false)
 
     @JvmField
+    val PROFILE_PHOTO_GRADIENT_FADE = BoolItem("profile_photo_gradient_fade", false)
+
+    @JvmField
     val SIMPLE_ATTACH_POPUP_ANIMATION = BoolItem("simple_attach_popup_animation", false)
 
     @JvmField

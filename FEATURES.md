@@ -20,6 +20,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 hide fade views
 - 🐶 old (pre-12.6) mention/reaction indicator
 - 🐶 toggleable scrim blur
+- 🐶 toggle to replace profile photo bottom blur with a plain gradient fade
 - disable number rounding
 - export/import settings to/from json file
 - cloud sync of settings via web app storage api
@@ -75,7 +76,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - "select between messages" (🐶 done right, with proper capping)
 - in-place message translation, with optional web preview translation
 - instant view pages translator
-- 🐶 show original time/date in "forwarded from" header
+- show original time/date in "forwarded from" header
 
 ## message input / formatting
 
@@ -126,8 +127,8 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - hide trending stickers/emoji in egs
 - 🐶 hide ai features
 - hide stories
-- hide voice hint 
-- hide paid reaction upsell 
+- hide voice hint
+- hide paid reaction upsell
 - hide repost to story
 - 🐶 hide bot commands and webview buttons
 - hide intro greeting + non-clickable custom intro sticker
