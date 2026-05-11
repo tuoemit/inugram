@@ -25,7 +25,7 @@ index 0000000..0000000 100644
              }
              MessageObject old = messagesDict[loadIndex].get(messageObject.getId());
 -            if (messageObject.getId() > 0 && old == null && UserObject.isBot(currentUser)) {
-+            if (messageObject.getId() > 0 && old == null) {
++            if (messageObject.getId() > 0 && old == null && currentUser != null) {
                  old = BotForumHelper.getInstance(currentAccount).onBotForumDraftCheckNewMessages(currentUser.id, (int) getTopicId(), messageObject.getId(), messageObject.messageText.toString());
                  if (old != null) {
                      if (!messages.contains(old)) {
