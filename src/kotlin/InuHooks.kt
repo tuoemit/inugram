@@ -55,6 +55,7 @@ object InuHooks {
     @JvmStatic
     fun onUpdate(update: TLObject?, account: Int) {
         LoginHelper.onUpdate(update, account)
+        UpdateHelper.onUpdate(update, account)
     }
 
     @JvmStatic

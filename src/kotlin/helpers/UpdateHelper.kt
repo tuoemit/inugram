@@ -13,12 +13,14 @@ import org.telegram.messenger.R
 import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
 import org.telegram.tgnet.ConnectionsManager
+import org.telegram.tgnet.TLObject
 import org.telegram.tgnet.TLRPC
 import kotlin.math.max
 import kotlin.math.min
 
 object UpdateHelper {
     const val USERNAME = "InugramCI"
+    private const val CHANNEL_ID = 3968318575L
     private const val CHECK_INTERVAL_MS = 4L * 60 * 60 * 1000
     private const val INFLIGHT_TIMEOUT_MS = 60L * 1000
 
@@ -132,43 +134,65 @@ object UpdateHelper {
                     return@runOnUIThread
                 }
                 val (msg, info) = match
-                val updateObj = TLRPC.TL_help_appUpdate().apply {
-                    flags = flags or 2
-                    version = info.verCode.toString()
-                    text = msg.message ?: ""
-                    entities = msg.entities
-                    document = info.document
-                }
-
-                val blockquote = updateObj.entities.firstOrNull {
-                    it is TLRPC.TL_messageEntityBlockquote
-                }
-                if (blockquote != null) {
-                    val start = blockquote.offset
-                    val end = blockquote.offset + blockquote.length
-                    val newEntities = arrayListOf<TLRPC.MessageEntity>()
-                    for (entity in updateObj.entities) {
-                        if (entity === blockquote) continue
-                        if (entity.offset + entity.length <= start) continue
-                        if (entity.offset >= end) continue
-                        val clippedStart = max(entity.offset, start)
-                        val clippedEnd = min(entity.offset + entity.length, end)
-                        entity.offset = clippedStart - start
-                        entity.length = clippedEnd - clippedStart
-                        newEntities.add(entity)
-                    }
-                    updateObj.text = updateObj.text.substring(start, end)
-                    updateObj.entities = newEntities
-                }
-
-                SharedConfig.pendingAppUpdate = updateObj
-                SharedConfig.pendingAppUpdateBuildVersion = current.versionCode
-                SharedConfig.saveConfig()
-                pendingBetaUpdate = BetaUpdate(info.appVerName, info.verCode, updateObj.text)
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable)
+                val updateObj = applyUpdate(msg, info, current)
                 finish(callback, CheckResult.Updated(updateObj))
             }
         }
+    }
+
+    @JvmStatic
+    fun onUpdate(update: TLObject?, account: Int) {
+        if (!InuConfig.UPDATES_ENABLED.value) return
+        if (BuildConfig.INU_BUILD_TYPE == "debug") return
+        if (update !is TLRPC.TL_updateNewChannelMessage) return
+        val msg = update.message ?: return
+        if (msg.peer_id?.channel_id != CHANNEL_ID) return
+        if (msg.message?.contains("#release") != true) return
+        val info = extractApkInfo(msg) ?: return
+        val current = currentBuild()
+        if (!isNewer(info, current)) return
+        AndroidUtilities.runOnUIThread {
+            applyUpdate(msg, info, current)
+            InuConfig.UPDATE_LAST_CHECK_MS.value = System.currentTimeMillis()
+        }
+    }
+
+    private fun applyUpdate(msg: TLRPC.Message, info: ApkInfo, current: CurrentBuild): TLRPC.TL_help_appUpdate {
+        val updateObj = TLRPC.TL_help_appUpdate().apply {
+            flags = flags or 2
+            version = info.verCode.toString()
+            text = msg.message ?: ""
+            entities = msg.entities
+            document = info.document
+        }
+
+        val blockquote = updateObj.entities.firstOrNull {
+            it is TLRPC.TL_messageEntityBlockquote
+        }
+        if (blockquote != null) {
+            val start = blockquote.offset
+            val end = blockquote.offset + blockquote.length
+            val newEntities = arrayListOf<TLRPC.MessageEntity>()
+            for (entity in updateObj.entities) {
+                if (entity === blockquote) continue
+                if (entity.offset + entity.length <= start) continue
+                if (entity.offset >= end) continue
+                val clippedStart = max(entity.offset, start)
+                val clippedEnd = min(entity.offset + entity.length, end)
+                entity.offset = clippedStart - start
+                entity.length = clippedEnd - clippedStart
+                newEntities.add(entity)
+            }
+            updateObj.text = updateObj.text.substring(start, end)
+            updateObj.entities = newEntities
+        }
+
+        SharedConfig.pendingAppUpdate = updateObj
+        SharedConfig.pendingAppUpdateBuildVersion = current.versionCode
+        SharedConfig.saveConfig()
+        pendingBetaUpdate = BetaUpdate(info.appVerName, info.verCode, updateObj.text)
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable)
+        return updateObj
     }
 
     private fun finish(callback: ((CheckResult) -> Unit)?, result: CheckResult) {
