@@ -47,8 +47,15 @@ object ProfileHelper {
     }
 
     @JvmStatic
-    fun expandedActionsOffset(expandProgress: Float): Float =
-        if (useProfilePhotoGradientFade()) AndroidUtilities.dpf2(8f) * expandProgress else 0f
+    fun expandedActionsOffset(playProfileAnimation: Int, avatarAnimationProgress: Float, currentExpandAnimatorValue: Float): Float {
+        if (!useProfilePhotoGradientFade()) return 0f
+        val expand = when {
+            playProfileAnimation == 2 -> 1f
+            avatarAnimationProgress >= 1f || playProfileAnimation == 0 -> currentExpandAnimatorValue.coerceIn(0f, 1f)
+            else -> 0f
+        }
+        return AndroidUtilities.dpf2(8f) * expand
+    }
 
     @JvmStatic
     fun adjustChipColor(btnColor: Int, whiteColor: Int, expandProgress: Float): Int =

@@ -156,7 +156,7 @@ index 0000000..0000000 100644
              float bottom = extraHeight + newTop - dp(hasMusic ? 25 : 0);
              float height = Math.min(dp(74), bottom - newTop);
 -            actionsView.updatePosition(bottom - height, height);
-+            actionsView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(currentExpandAnimatorValue), height);
++            actionsView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue), height);
          }
  
          if (callToActionItem != null && callToActionItem.getTag() != null) {
@@ -165,7 +165,7 @@ index 0000000..0000000 100644
              float bottom = extraHeight + newTop + dp(74);
              float height = Math.min(getActionsExtraHeight(), bottom - newTop);
 -            musicView.updatePosition(bottom - height, height - dp(74));
-+            musicView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(currentExpandAnimatorValue), height - dp(74));
++            musicView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue), height - dp(74));
          }
      }
  
