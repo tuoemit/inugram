@@ -87,10 +87,10 @@
     <string name="InuStickerTimeModeHideTime">Hide only time</string>
     <string name="InuStickerTimeModeHideIncoming">Hide only for incoming</string>
     <string name="InuStickerTimeModeHideCompletely">Hide completely</string>
-    <string name="InuStickerSizeDialogMessage">good girl!</string>
+    <string name="InuStickerSizeDialogMessage">good puppy!</string>
     <string name="InuDeleteForBoth">\"Delete for both\" by default</string>
     <string name="InuDeleteForBothMessages">Messages</string>
-    <string name="InuDeleteForBothDms">DMs</string>
+    <string name="InuDeleteForBothDms">DM dialogs</string>
     <string name="InuDeleteForBothGroups">Group chats</string>
     <string name="InuSimpleAttachPopupAnimation">Simple attach popup animation</string>
     <string name="InuHidePaidReactionUpsell">Hide paid reaction upsell</string>
