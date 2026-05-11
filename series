@@ -85,7 +85,7 @@ bugfix/missing-replace-emoji.patch
 debloat/cloud-drafts.patch
 bugfix/media-loading-perf.patch
 feature/hide-my-phone.patch
-feaure/interactive-chat-preview.patch
+feature/interactive-chat-preview.patch
 bugfix/photo-spoiler-power-saving.patch
 bugfix/shared-media-spoiler.patch
 debloat/notification-bubbles.patch
