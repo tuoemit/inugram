@@ -6,9 +6,9 @@ Subject: chat editor improvements: - make it available for everyone (as a read-o
 ---
  .../org/telegram/ui/ChatEditActivity.java     | 34 ++++++-
  .../org/telegram/ui/ChatUsersActivity.java    | 90 ++++++++++++++-----
- .../ui/Components/SlideChooseView.java        |  1 +
+ .../ui/Components/SlideChooseView.java        |  3 +
  .../java/org/telegram/ui/ProfileActivity.java |  2 +-
- 4 files changed, 100 insertions(+), 27 deletions(-)
+ 4 files changed, 102 insertions(+), 27 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatEditActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatEditActivity.java
 index 0000000..0000000 100644
@@ -303,7 +303,7 @@ index 0000000..0000000 100644
                              LocaleController.formatString(R.string.SlowmodeMinutes, 15),
                              LocaleController.formatString(R.string.SlowmodeHours, 1)
                      );
-+                    chooseView.setEnabled(ChatObject.canBlockUsers(currentChat));
++                    chooseView.inu_touchEnabled = ChatObject.canBlockUsers(currentChat);
                      chooseView.setCallback(which -> {
                          if (info == null) {
                              return;
@@ -375,11 +375,20 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/SlideChooseV
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/SlideChooseView.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/SlideChooseView.java
-@@ -138,6 +138,7 @@ public class SlideChooseView extends View {
+@@ -57,6 +57,8 @@ public class SlideChooseView extends View {
+ 
+     private boolean touchWasClose = false;
+ 
++    public boolean inu_touchEnabled = true;
++
+     public SlideChooseView(Context context) {
+         this(context, null);
+     }
+@@ -138,6 +140,7 @@ public class SlideChooseView extends View {
  
      @Override
      public boolean onTouchEvent(MotionEvent event) {
-+        if (!this.isEnabled()) return false;
++        if (!inu_touchEnabled) return false;
          float x = event.getX();
          float y = event.getY();
          float indexTouch = MathUtils.clamp((x - sideSide + circleSize / 2f) / (lineSize + gapSize * 2 + circleSize), 0, optionsStr.length - 1);
