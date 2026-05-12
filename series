@@ -119,3 +119,4 @@ bugfix/non-bot-drafts.patch
 feature/live-typing-draft.patch
 feature/forwarded-time-inline.patch
 debloat/profile-photo-blur.patch
+bugfix/reaction-sending-race.patch

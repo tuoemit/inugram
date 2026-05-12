@@ -147,6 +147,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - attach panel: better perf, safe close before fully open
 - paid reaction animation respects litemode
 - reaction counter shift during long-tap menu
+- reactions silently disappearing right after being sent (stale server read race)
 - bubble jump when ime height changes mid send-animation
 - "regular" formatting option with mixed-span selections
 - photo viewer ui respects litemode blur
