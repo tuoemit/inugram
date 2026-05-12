@@ -6,6 +6,7 @@ import desu.inugram.InuConfig
 import desu.inugram.helpers.InuUtils
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessagesController
+import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
 import org.telegram.messenger.SharedConfig
 import org.telegram.ui.Cells.NotificationsCheckCell
@@ -131,6 +132,7 @@ class InuAnnoyancesSettingsActivity : InuSettingsPageActivity() {
             TOGGLE_HIDE_STORIES -> {
                 val new = InuConfig.HIDE_STORIES.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
+                postNotificationForAllAccounts(NotificationCenter.storiesUpdated)
             }
 
             TOGGLE_HIDE_TRENDING_STICKERS -> {

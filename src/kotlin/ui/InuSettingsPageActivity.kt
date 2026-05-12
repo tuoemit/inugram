@@ -15,7 +15,9 @@ import android.view.View
 import androidx.core.graphics.withTranslation
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.LocaleController
+import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
+import org.telegram.messenger.UserConfig
 import org.telegram.messenger.Utilities
 import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Cells.NotificationsCheckCell
@@ -38,6 +40,14 @@ abstract class InuSettingsPageActivity : UniversalFragment() {
     override fun onInsets(left: Int, top: Int, right: Int, bottom: Int) {
         val lv = listView ?: return
         lv.setPadding(lv.paddingLeft, lv.paddingTop, lv.paddingRight, bottom)
+    }
+
+    protected fun postNotificationForAllAccounts(id: Int, vararg args: Any?) {
+        for (i in 0 until UserConfig.MAX_ACCOUNT_COUNT) {
+            if (UserConfig.getInstance(i).isClientActivated) {
+                NotificationCenter.getInstance(i).postNotificationName(id, *args)
+            }
+        }
     }
 
     protected fun showRestartBulletin() {
