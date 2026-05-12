@@ -4,14 +4,25 @@ Date: Tue, 5 May 2026 15:32:29 +0200
 Subject: fix profile scroll position jumping when opening uncached user
 
 ---
- .../java/org/telegram/ui/ProfileActivity.java | 32 ++++++++++++++++---
- 1 file changed, 27 insertions(+), 5 deletions(-)
+ .../java/org/telegram/ui/ProfileActivity.java | 36 ++++++++++++++++---
+ 1 file changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -3195,9 +3195,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -1245,6 +1245,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                 color1Animated.set(color1, true);
+                 color2Animated.set(color2, true);
+             }
++            backgroundGradientY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0)
++                    + ActionBar.getCurrentActionBarHeight()
++                    - 21 * AndroidUtilities.density
++                    + actionBar.getTranslationY();
+             invalidate();
+         }
+ 
+@@ -3195,9 +3199,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                          layout = true;
                      } else if (invalidateScroll || currentPaddingTop != paddingTop) {
                          if (savedScrollPosition >= 0) {
@@ -24,7 +35,7 @@ index 0000000..0000000 100644
                                  top = getHeaderExtraHeight();
                              }
                              layoutManager.scrollToPositionWithOffset(pos, top - paddingTop);
-@@ -15218,34 +15219,55 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -15218,34 +15223,55 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              listAdapter.notifyDataSetChanged();
          }
          if (savedScrollPosition >= 0) {

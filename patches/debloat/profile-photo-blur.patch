@@ -130,7 +130,7 @@ index 0000000..0000000 100644
                  canvas.translate(inset, inset + thisHeight);
                  float fraction = !isPulledDown && !blurView.isUsingRenderNode() && avatarsViewPager.getRealPosition() != 0 ? 1f : (1f - blurSizeFraction);
                  blurView.draw(canvas, this, thisWidth - inset * 2f, thisHeight - inset * 2f, true, fraction, alpha);
-@@ -1300,7 +1301,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -1304,7 +1305,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              final int color1 = color1Animated.set(this.color1);
              final int color2 = color2Animated.set(this.color2);
              if (actionsView != null) {
@@ -139,7 +139,7 @@ index 0000000..0000000 100644
              }
  
              int gradientX = getWidth() / 2;
-@@ -1528,9 +1529,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -1532,9 +1533,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              }
  
              topOverlayGradient.draw(canvas);
@@ -151,7 +151,7 @@ index 0000000..0000000 100644
  
              int count = avatarsViewPager.getRealCount();
              selectedPosition = avatarsViewPager.getRealPosition();
-@@ -11014,7 +11015,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -11018,7 +11019,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              actionsView.clipHeight = -1;
              float bottom = extraHeight + newTop - dp(hasMusic ? 25 : 0);
              float height = Math.min(dp(74), bottom - newTop);
@@ -160,7 +160,7 @@ index 0000000..0000000 100644
          }
  
          if (callToActionItem != null && callToActionItem.getTag() != null) {
-@@ -11044,7 +11045,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -11048,7 +11049,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
  //            musicView.clipHeight = -1;
              float bottom = extraHeight + newTop + dp(74);
              float height = Math.min(getActionsExtraHeight(), bottom - newTop);
