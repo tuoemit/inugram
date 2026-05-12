@@ -7,13 +7,17 @@ import android.graphics.Paint
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.Toast
 import androidx.core.graphics.ColorUtils
 import desu.inugram.InuConfig
 import org.telegram.messenger.AccountInstance
 import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.ApplicationLoader
+import org.telegram.messenger.BuildVars
 import org.telegram.messenger.ChatObject
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessagesController
+import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
 import org.telegram.tgnet.TLObject
@@ -29,6 +33,7 @@ import org.telegram.ui.Components.ProfileGalleryView
 object ProfileHelper {
     const val ACTION_TOGGLE_HIDE_WALLPAPER = 505
     const val ACTION_TOGGLE_HIDE_THEME = 506
+    const val ACTION_DEBUG_CLEAR_CACHE = 599
 
     private const val GRADIENT_FADE_DARK = 0x80000000.toInt()
     private val fadePaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -175,6 +180,13 @@ object ProfileHelper {
         if (dialogId > 0 && dialogId != UserConfig.getInstance(currentAccount).clientUserId) {
             TypingDraftHelper.addSwipeBackMenuItem(otherItem, currentAccount, dialogId, resourcesProvider)
         }
+        if (BuildVars.DEBUG_PRIVATE_VERSION) {
+            otherItem.addSubItem(
+                ACTION_DEBUG_CLEAR_CACHE,
+                R.drawable.msg_delete,
+                "Debug: clear full info cache",
+            )
+        }
     }
 
     @JvmStatic
@@ -182,9 +194,41 @@ object ProfileHelper {
         when (id) {
             ACTION_TOGGLE_HIDE_WALLPAPER -> ChatHelper.toggleRemoveWallpaper(currentAccount, dialogId)
             ACTION_TOGGLE_HIDE_THEME -> ChatHelper.toggleRemoveTheme(currentAccount, dialogId)
+            ACTION_DEBUG_CLEAR_CACHE -> debugClearFullInfoCache(currentAccount, dialogId)
             else -> return false
         }
         return true
+    }
+
+    private fun debugClearFullInfoCache(currentAccount: Int, dialogId: Long) {
+        val mc = MessagesController.getInstance(currentAccount)
+        val cls = MessagesController::class.java
+        runCatching {
+            val isUser = dialogId > 0
+            val mapName = if (isUser) "fullUsers" else "fullChats"
+            val loadedName = if (isUser) "loadedFullUsers" else "loadedFullChats"
+            val key = if (isUser) dialogId else -dialogId
+
+            cls.getDeclaredField(mapName).apply { isAccessible = true }.let { f ->
+                val map = f.get(mc) as androidx.collection.LongSparseArray<*>
+                map.remove(key)
+            }
+            cls.getDeclaredField(loadedName).apply { isAccessible = true }.let { f ->
+                val arr = f.get(mc) as org.telegram.messenger.support.LongSparseLongArray
+                arr.delete(key)
+            }
+        }.onFailure { it.printStackTrace() }
+
+        val storage = MessagesStorage.getInstance(currentAccount)
+        storage.storageQueue.postRunnable {
+            runCatching {
+                val table = if (dialogId > 0) "user_settings" else "chat_settings_v2"
+                val uid = if (dialogId > 0) dialogId else -dialogId
+                storage.database.executeFast("DELETE FROM $table WHERE uid = $uid").stepThis().dispose()
+            }.onFailure { it.printStackTrace() }
+        }
+
+        Toast.makeText(ApplicationLoader.applicationContext, "Full info cache cleared — close & reopen profile", Toast.LENGTH_LONG).show()
     }
 
     @JvmStatic
