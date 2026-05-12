@@ -126,6 +126,15 @@ object FolderHelper {
         return Pair.create("", "")
     }
 
+    /** resolve (name, emoticon) for a non-default filter, with flag-based fallbacks */
+    @JvmStatic
+    fun getTabInfo(filter: MessagesController.DialogFilter): Pair<String, String> {
+        val defaults = getDefaultsFromFlags(filter.flags)
+        val name = filter.name?.takeIf { it.isNotEmpty() } ?: defaults.first
+        val emoticon = filter.inu_emoticon?.takeIf { it.isNotEmpty() } ?: defaults.second
+        return Pair.create(name, emoticon)
+    }
+
     @JvmStatic
     fun getTabIcon(emoticon: String?): Int {
         if (emoticon != null) {
