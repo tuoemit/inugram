@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.Toast
 import androidx.core.graphics.ColorUtils
-import androidx.recyclerview.widget.RecyclerView
 import desu.inugram.InuConfig
 import org.telegram.messenger.AccountInstance
 import org.telegram.messenger.AndroidUtilities
@@ -30,7 +29,6 @@ import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.ProfileGalleryBlurView
 import org.telegram.ui.Components.ProfileGalleryView
-import org.telegram.ui.Gifts.GiftSheet
 
 object ProfileHelper {
     const val ACTION_TOGGLE_HIDE_WALLPAPER = 505
@@ -54,19 +52,6 @@ object ProfileHelper {
         if (!reduceMotion() || openAnimationInProgress) return
         val fade = diff.coerceIn(0f, 1f)
         for (v in views) v?.alpha = fade
-    }
-
-    @JvmStatic
-    fun disableGiftLottieAutoplay(listView: RecyclerView) {
-        if (!reduceMotion()) return
-        listView.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
-            override fun onChildViewAttachedToWindow(view: View) {
-                if (view is GiftSheet.GiftCell) {
-                    view.imageView.imageReceiver.setAllowStartLottieAnimation(false)
-                }
-            }
-            override fun onChildViewDetachedFromWindow(view: View) {}
-        })
     }
 
     @JvmStatic

@@ -4,11 +4,11 @@ Date: Tue, 12 May 2026 19:57:59 +0200
 Subject: reduce motion in profile
 
 ---
- .../ui/Components/ProfileActionsView.java     |  4 ++++
- .../ui/Gifts/ProfileGiftsContainer.java       |  1 +
- .../java/org/telegram/ui/ProfileActivity.java | 24 ++++++++++++-------
- .../telegram/ui/Stars/ProfileGiftsView.java   |  8 ++++---
- 4 files changed, 26 insertions(+), 11 deletions(-)
+ .../ui/Components/ProfileActionsView.java     |  4 +++
+ .../java/org/telegram/ui/Gifts/GiftSheet.java |  4 +++
+ .../java/org/telegram/ui/ProfileActivity.java | 28 ++++++++++++-------
+ .../telegram/ui/Stars/ProfileGiftsView.java   |  8 ++++--
+ 4 files changed, 31 insertions(+), 13 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ProfileActionsView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/ProfileActionsView.java
 index 0000000..0000000 100644
@@ -25,18 +25,21 @@ index 0000000..0000000 100644
          if (alphaFraction1 <= 0f) {
              return;
          }
-diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Gifts/ProfileGiftsContainer.java b/TMessagesProj/src/main/java/org/telegram/ui/Gifts/ProfileGiftsContainer.java
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Gifts/GiftSheet.java b/TMessagesProj/src/main/java/org/telegram/ui/Gifts/GiftSheet.java
 index 0000000..0000000 100644
---- a/TMessagesProj/src/main/java/org/telegram/ui/Gifts/ProfileGiftsContainer.java
-+++ b/TMessagesProj/src/main/java/org/telegram/ui/Gifts/ProfileGiftsContainer.java
-@@ -241,6 +241,7 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
-                     parent.updateTabsY();
-                 }
-             });
-+            desu.inugram.helpers.ProfileHelper.disableGiftLottieAutoplay(listView);
-             DefaultItemAnimator itemAnimator = new DefaultItemAnimator() {
-                 @Override
-                 protected void onMoveAnimationUpdate(RecyclerView.ViewHolder holder) {
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Gifts/GiftSheet.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Gifts/GiftSheet.java
+@@ -1096,6 +1096,10 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
+ 
+             imageView = new BackupImageView(context);
+             imageView.getImageReceiver().setAutoRepeat(0);
++            if (desu.inugram.helpers.ProfileHelper.reduceMotion()) {
++                imageView.getImageReceiver().setAllowStartLottieAnimation(false);
++                imageView.getImageReceiver().setAllowStartAnimation(false);
++            }
+             card.addView(imageView, imageViewLayoutParams = LayoutHelper.createFrame(80, 80, Gravity.CENTER, 0, 12, 0, 12));
+ 
+             lockView = new PremiumLockIconView(context, PremiumLockIconView.TYPE_GIFT_LOCK, resourcesProvider);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
@@ -126,6 +129,20 @@ index 0000000..0000000 100644
  
          if (openAnimationInProgress && playProfileAnimation == 2 && avatarContainer != null) {
              float vh = avatarContainer.getHeight() * avatarContainer.getScaleY();
+@@ -11292,11 +11298,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                     if (/*!getMessagesController().premiumFeaturesBlocked() && */user != null && !MessagesController.isSupportUser(user) && DialogObject.getEmojiStatusDocumentId(user.emoji_status) != 0) {
+                         rightIconIsStatus = true;
+                         rightIconIsPremium = false;
+-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, true, true, a));
++                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, true, !ProfileHelper.reduceMotion(), a));
+                     } else if (getMessagesController().isPremiumUser(user)) {
+                         rightIconIsStatus = false;
+                         rightIconIsPremium = true;
+-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, true, true, a));
++                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, true, !ProfileHelper.reduceMotion(), a));
+                     } else {
+                         nameTextView[a].setRightDrawable(null);
+                     }
 @@ -16380,7 +16386,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              collectibleHint = new HintView2(getContext(), HintView2.DIRECTION_BOTTOM);
              collectibleHintBackgroundColor = Theme.blendOver(status.center_color | 0xFF000000, Theme.multAlpha(status.pattern_color | 0xFF000000, .5f));
