@@ -64,10 +64,10 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
         )
         items.add(
             mkTwoLineCheckItem(
-                TOGGLE_DISABLE_CHAT_PREVIEW_EXPAND,
+                TOGGLE_INTERACTIVE_CHAT_PREVIEW,
                 R.string.InuDisableChatPreviewExpand,
                 R.string.InuDisableChatPreviewExpandInfo,
-                InuConfig.DISABLE_CHAT_PREVIEW_EXPAND.value
+                InuConfig.INTERACTIVE_CHAT_PREVIEW.value
             )
         )
         items.add(UItem.asShadow(null))
@@ -196,8 +196,8 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
                 (view as? TextCheckCell)?.isChecked = new
             }
 
-            TOGGLE_DISABLE_CHAT_PREVIEW_EXPAND -> {
-                val new = InuConfig.DISABLE_CHAT_PREVIEW_EXPAND.toggle()
+            TOGGLE_INTERACTIVE_CHAT_PREVIEW -> {
+                val new = InuConfig.INTERACTIVE_CHAT_PREVIEW.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
@@ -269,6 +269,6 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
         private val TOGGLE_FAB_HIDE_ON_SCROLL = InuUtils.generateId()
         private val TOGGLE_FAB_OFFSET_FOR_BOTTOM_BAR = InuUtils.generateId()
         private val TOGGLE_FAB_LEFT_SIDE = InuUtils.generateId()
-        private val TOGGLE_DISABLE_CHAT_PREVIEW_EXPAND = InuUtils.generateId()
+        private val TOGGLE_INTERACTIVE_CHAT_PREVIEW = InuUtils.generateId()
     }
 }

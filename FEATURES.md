@@ -41,6 +41,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 deeplink / username quick-open from global search
 - mutual contact icon in contacts list
 - open archive directly on pull-down (🐶 done right, without revealing the cell)
+- interactive chat preview (long-tap avatar): tappable bubbles, no tap-to-expand
 
 ## chats
 
