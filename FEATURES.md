@@ -167,3 +167,4 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - nav stack lockup after rapid back swipes
 - click-through area to the left/right of bottom bar tabs
 - profile scroll jump when opening uncached user
+- stale unread badges on global-search top peers
