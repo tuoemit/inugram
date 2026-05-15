@@ -206,6 +206,9 @@ object InuConfig {
     val HIDE_PAID_REACTION_UPSELL = BoolItem("hide_paid_reaction_upsell", true)
 
     @JvmField
+    val HIDE_HASHTAG_SUGGESTIONS = BoolItem("hide_hashtag_suggestions", true)
+
+    @JvmField
     val DISABLE_PROFILE_SCROLL_SNAP = BoolItem("disable_profile_scroll_snap", true)
 
     @JvmField
