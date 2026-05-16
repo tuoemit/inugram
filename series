@@ -126,7 +126,6 @@ feature/force-system-font.patch
 feature/profile-reduce-motion.patch
 bugfix/profile-black-bar.patch
 feature/prefer-media-tab.patch
-bugfix/ignore-xmp-errors.patch
 feature/hide-send-as.patch
 feature/hide-call-action.patch
 bugfix/top-peers-unread-counter.patch
@@ -134,3 +133,4 @@ bugfix/stale-unread-mention.patch
 feature/forward-options.patch
 debloat/hashtag-suggestions.patch
 feature/faster-file-load.patch
+bugfix/faster-gallery.patch

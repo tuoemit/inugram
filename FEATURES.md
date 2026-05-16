@@ -173,3 +173,4 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - profile scroll jump when opening uncached user
 - stale unread badges on global-search top peers
 - stale unread mention pointer after reading mention on another device (mention button jumping to old message)
+- photo/video gallery performance improvements
