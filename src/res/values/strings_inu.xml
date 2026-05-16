@@ -264,6 +264,7 @@
 
     <string name="InuForwardWithoutAuthor">Without author</string>
     <string name="InuForwardWithoutCaption">Without caption</string>
+    <string name="InuHiddenCaptionDescription">Captions removed</string>
 
     <string name="InuTextClassifierMode">Text classifier mode</string>
     <string name="InuTextClassifierModeInfo">Text classifier is a system component that auto-expands selection when double-tapping text</string>

@@ -81,6 +81,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - instant view pages translator
 - show original time/date in "forwarded from" header
 - long-tap "forward" in message menu to forward without sender's name or caption
+- long-tap forward bar (above input) to cycle between regular / without sender / without caption
 
 ## message input / formatting
 
