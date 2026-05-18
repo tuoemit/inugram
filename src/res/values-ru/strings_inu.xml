@@ -9,6 +9,7 @@
     <string name="InuAppearance">Внешний вид</string>
     <string name="InuBehavior">Поведение</string>
     <string name="InuAnnoyances">Раздражители</string>
+    <string name="InuMessages">Сообщения</string>
     <string name="InuOther">Другое</string>
     <string name="InuMainPage">Список диалогов</string>
     <string name="InuUserProfile">Профиль пользователя</string>
@@ -142,7 +143,6 @@
     <string name="InuDisableChatBubbles">Отключить пузыри сообщений</string>
     <string name="InuInPlaceTranslation">Перевод на месте</string>
     <string name="InuTranslateWebPreviews">Переводить превью ссылок</string>
-    <string name="InuTranslateWebPreviewsInfo">Также переводить заголовок/описание превью ссылки. Переводится независимо от тела сообщения, поэтому работает даже если язык сообщения находится в списке «Не переводить».</string>
     <string name="InuTranslateInstantView">Перевести страницу</string>
     <string name="InuInstantViewShowOriginal">Показать оригинал</string>
     <string name="InuTranslating">Перевод…</string>
@@ -263,7 +263,7 @@
     <string name="InuPinnedReactions">Закреплённые реакции</string>
     <string name="InuPinnedReactionsInfo">Закреплять реакции в начале панели реакций.</string>
     <string name="InuPinnedReactionsHeader">Закреплённые реакции</string>
-    <string name="InuPinnedReactionsLimitInfo">До 10 закреплённых реакций. Долгое нажатие — перетащить и изменить порядок.</string>
+    <string name="InuPinnedReactionsLimitInfo">До 20 закреплённых реакций. Долгое нажатие — перетащить и изменить порядок.</string>
     <string name="InuPinnedReactionsCopyServer">Скопировать с сервера</string>
     <string name="InuPinnedReactionsCopyServerConfirm">Это заменит ваши текущие закреплённые реакции на топ-реакции с сервера. Продолжить?</string>
     <string name="InuPinnedReactionsRemoveAll">Удалить все</string>

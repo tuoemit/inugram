@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.content.Context
 import android.graphics.Canvas
@@ -27,7 +27,7 @@ import org.telegram.ui.Components.UniversalFragment
 import org.telegram.ui.LaunchActivity
 import kotlin.system.exitProcess
 
-abstract class InuSettingsPageActivity : UniversalFragment() {
+abstract class SettingsPageActivity : UniversalFragment() {
     override fun isSupportEdgeToEdge(): Boolean = true
 
     override fun createView(context: Context): View {

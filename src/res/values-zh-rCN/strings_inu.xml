@@ -9,6 +9,7 @@
     <string name="InuAppearance">外观</string>
     <string name="InuBehavior">行为</string>
     <string name="InuAnnoyances">烦人项</string>
+    <string name="InuMessages">消息</string>
     <string name="InuOther">其他</string>
     <string name="InuMainPage">对话列表</string>
     <string name="InuUserProfile">用户资料</string>
@@ -142,7 +143,6 @@
     <string name="InuDisableChatBubbles">禁用对话气泡</string>
     <string name="InuInPlaceTranslation">就地翻译</string>
     <string name="InuTranslateWebPreviews">翻译网页预览</string>
-    <string name="InuTranslateWebPreviewsInfo">也翻译链接预览的标题/描述。与消息正文独立翻译，因此即便消息语言在「不翻译」列表中也会生效。</string>
     <string name="InuTranslateInstantView">翻译页面</string>
     <string name="InuInstantViewShowOriginal">显示原文</string>
     <string name="InuTranslating">翻译中…</string>
@@ -263,7 +263,7 @@
     <string name="InuPinnedReactions">置顶回应</string>
     <string name="InuPinnedReactionsInfo">将回应固定在回应栏开头。</string>
     <string name="InuPinnedReactionsHeader">置顶回应</string>
-    <string name="InuPinnedReactionsLimitInfo">最多 10 个置顶回应。长按拖动以重新排序。</string>
+    <string name="InuPinnedReactionsLimitInfo">最多 20 个置顶回应。长按拖动以重新排序。</string>
     <string name="InuPinnedReactionsCopyServer">从服务端复制</string>
     <string name="InuPinnedReactionsCopyServerConfirm">这将用服务端提供的热门回应替换当前的置顶回应。继续吗？</string>
     <string name="InuPinnedReactionsRemoveAll">全部移除</string>

@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.view.View
 import org.telegram.ui.ActionBar.BaseFragment

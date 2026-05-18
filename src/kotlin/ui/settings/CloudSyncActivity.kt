@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.content.Context
 import android.graphics.Canvas
@@ -38,7 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class InuCloudSyncActivity : InuSettingsPageActivity() {
+class CloudSyncActivity : SettingsPageActivity() {
     private var syncAccount: Int = -1
     private var cloudTs: Long = 0L
     private var loading: Boolean = false

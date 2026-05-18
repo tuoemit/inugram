@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,7 @@ import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuAppearanceSettingsActivity : InuSettingsPageActivity() {
+class AppearanceSettingsActivity : SettingsPageActivity() {
 
     private var animationSpeedSlider: SliderCell? = null
 

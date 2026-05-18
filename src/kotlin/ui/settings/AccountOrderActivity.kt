@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.content.Context
 import android.view.View
@@ -10,7 +11,7 @@ import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 import org.telegram.ui.SettingsActivity
 
-class InuAccountOrderActivity : InuSettingsPageActivity() {
+class AccountOrderActivity : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuReorderAccounts)
 

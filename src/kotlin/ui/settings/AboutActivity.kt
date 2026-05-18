@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.view.View
 import desu.inugram.InuConfig
@@ -15,7 +16,7 @@ import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuAboutActivity : InuSettingsPageActivity() {
+class AboutActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuAbout)
 
     override fun fillItems(items: ArrayList<UItem>, adapter: UniversalAdapter) {

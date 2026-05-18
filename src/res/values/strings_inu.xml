@@ -9,6 +9,7 @@
     <string name="InuAppearance">Appearance</string>
     <string name="InuBehavior">Behavior</string>
     <string name="InuAnnoyances">Annoyances</string>
+    <string name="InuMessages">Messages</string>
     <string name="InuOther">Other</string>
     <string name="InuMainPage">Dialogs list</string>
     <string name="InuUserProfile">User profile</string>
@@ -142,7 +143,6 @@
     <string name="InuDisableChatBubbles">Disable conversation bubbles</string>
     <string name="InuInPlaceTranslation">In-place translation</string>
     <string name="InuTranslateWebPreviews">Translate web previews</string>
-    <string name="InuTranslateWebPreviewsInfo">Also translate link preview title/description. Translated independently from the message body, so it works even when the message language is in Do Not Translate.</string>
     <string name="InuTranslateInstantView">Translate page</string>
     <string name="InuInstantViewShowOriginal">Show original</string>
     <string name="InuTranslating">Translating…</string>
@@ -263,7 +263,7 @@
     <string name="InuPinnedReactions">Pinned reactions</string>
     <string name="InuPinnedReactionsInfo">Pin reactions at the start of the reactions bar.</string>
     <string name="InuPinnedReactionsHeader">Pinned reactions</string>
-    <string name="InuPinnedReactionsLimitInfo">Up to 10 pinned reactions. Long-press to drag and reorder.</string>
+    <string name="InuPinnedReactionsLimitInfo">Up to 20 pinned reactions. Long-press to drag and reorder.</string>
     <string name="InuPinnedReactionsCopyServer">Copy from server</string>
     <string name="InuPinnedReactionsCopyServerConfirm">This will replace your current pinned reactions with the server-provided top reactions. Continue?</string>
     <string name="InuPinnedReactionsRemoveAll">Remove all</string>

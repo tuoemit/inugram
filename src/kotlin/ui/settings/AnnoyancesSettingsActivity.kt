@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.view.View
 import androidx.core.content.edit
@@ -15,7 +15,7 @@ import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuAnnoyancesSettingsActivity : InuSettingsPageActivity() {
+class AnnoyancesSettingsActivity : SettingsPageActivity() {
 
     private val aiFeaturesGroup = ExpandableBoolGroup(
         LocaleController.getString(R.string.InuHideAiFeatures),
@@ -113,6 +113,14 @@ class InuAnnoyancesSettingsActivity : InuSettingsPageActivity() {
                 InuConfig.DISABLE_MOTION_PHOTOS.value
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_DISABLE_INTRO_STICKER,
+                R.string.InuDisableIntroSticker,
+                R.string.InuDisableIntroStickerInfo,
+                InuConfig.DISABLE_INTRO_STICKER.value
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(
@@ -176,6 +184,11 @@ class InuAnnoyancesSettingsActivity : InuSettingsPageActivity() {
 
             TOGGLE_DISABLE_MOTION_PHOTOS -> {
                 val new = InuConfig.DISABLE_MOTION_PHOTOS.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_DISABLE_INTRO_STICKER -> {
+                val new = InuConfig.DISABLE_INTRO_STICKER.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
@@ -261,6 +274,7 @@ class InuAnnoyancesSettingsActivity : InuSettingsPageActivity() {
         private val TOGGLE_HIDE_PAID_REACTION_UPSELL = InuUtils.generateId()
         private val TOGGLE_HIDE_HASHTAG_SUGGESTIONS = InuUtils.generateId()
         private val TOGGLE_DISABLE_MOTION_PHOTOS = InuUtils.generateId()
+        private val TOGGLE_DISABLE_INTRO_STICKER = InuUtils.generateId()
         private val BUTTON_CLEAR_HINTS = InuUtils.generateId()
     }
 }

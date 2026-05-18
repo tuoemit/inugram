@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.text.InputType
 import android.view.View
@@ -17,7 +18,7 @@ import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuWebPreviewReplacementsActivity : InuSettingsPageActivity() {
+class WebPreviewReplacementsActivity : SettingsPageActivity() {
     private var replacements = WebPreviewHelper.load().toMutableList()
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuWebPreviewReplacements)

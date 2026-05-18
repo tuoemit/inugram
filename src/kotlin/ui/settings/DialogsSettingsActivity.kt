@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.view.View
 import desu.inugram.InuConfig
@@ -14,7 +14,7 @@ import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuDialogsSettingsActivity : InuSettingsPageActivity() {
+class DialogsSettingsActivity : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuMainPage)
 
@@ -64,6 +64,12 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
         items.add(
             UItem.asCheck(TOGGLE_OPEN_ARCHIVE_ON_PULL, LocaleController.getString(R.string.InuOpenArchiveOnPull))
                 .setChecked(InuConfig.OPEN_ARCHIVE_ON_PULL.value)
+        )
+        items.add(
+            UItem.asCheck(
+                TOGGLE_DISABLE_SWIPE_TO_UNARCHIVE,
+                LocaleController.getString(R.string.InuDisableSwipeToUnarchive),
+            ).setChecked(InuConfig.DISABLE_SWIPE_TO_UNARCHIVE.value)
         )
         items.add(
             UItem.asCheck(TOGGLE_BOT_WEBVIEW_BUTTON, LocaleController.getString(R.string.InuHideBotWebView))
@@ -209,6 +215,11 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
                 (view as? TextCheckCell)?.isChecked = new
             }
 
+            TOGGLE_DISABLE_SWIPE_TO_UNARCHIVE -> {
+                val new = InuConfig.DISABLE_SWIPE_TO_UNARCHIVE.toggle()
+                (view as? TextCheckCell)?.isChecked = new
+            }
+
             TOGGLE_INTERACTIVE_CHAT_PREVIEW -> {
                 val new = InuConfig.INTERACTIVE_CHAT_PREVIEW.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
@@ -274,6 +285,7 @@ class InuDialogsSettingsActivity : InuSettingsPageActivity() {
         private val TOGGLE_BOT_WEBVIEW_BUTTON = InuUtils.generateId()
         private val TOGGLE_OLD_MENTION_INDICATOR = InuUtils.generateId()
         private val TOGGLE_OPEN_ARCHIVE_ON_PULL = InuUtils.generateId()
+        private val TOGGLE_DISABLE_SWIPE_TO_UNARCHIVE = InuUtils.generateId()
         private val TOGGLE_BOTTOM_TABS_HIDE = InuUtils.generateId()
         private val TOGGLE_HIDE_CONTACTS_TAB = InuUtils.generateId()
         private val TOGGLE_COMPACT_MODE = InuUtils.generateId()

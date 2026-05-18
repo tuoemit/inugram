@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.view.View
 import org.telegram.messenger.LocaleController
@@ -11,7 +12,7 @@ import org.telegram.ui.Components.TranslateAlert2
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuTranslationTargetActivity : InuSettingsPageActivity() {
+class TranslationTargetActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuTranslationTarget)
 
     private val languages by lazy { TranslateController.getLanguages() }

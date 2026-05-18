@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.content.Context
 import android.view.View
@@ -12,7 +13,7 @@ import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuFormattingPopupActivity : InuSettingsPageActivity() {
+class FormattingPopupActivity : SettingsPageActivity() {
     private var entries = InuConfig.FORMATTING_POPUP_ITEMS.value.toMutableList()
     private var reorderSectionId = -1
 

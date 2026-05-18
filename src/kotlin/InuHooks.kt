@@ -35,6 +35,7 @@ import java.util.Hashtable
 
 
 object InuHooks {
+    @JvmStatic
     fun init(context: Context) {
         InuConfig.load(context)
         FontHelper.init(context)

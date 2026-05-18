@@ -9,6 +9,7 @@
     <string name="InuAppearance">外観</string>
     <string name="InuBehavior">動作</string>
     <string name="InuAnnoyances">煩わしい要素</string>
+    <string name="InuMessages">メッセージ</string>
     <string name="InuOther">その他</string>
     <string name="InuMainPage">チャット一覧</string>
     <string name="InuUserProfile">ユーザープロフィール</string>
@@ -142,7 +143,6 @@
     <string name="InuDisableChatBubbles">会話バブルを無効化</string>
     <string name="InuInPlaceTranslation">その場で翻訳</string>
     <string name="InuTranslateWebPreviews">ウェブプレビューを翻訳</string>
-    <string name="InuTranslateWebPreviewsInfo">リンクプレビューのタイトル/説明も翻訳します。メッセージ本文とは独立して翻訳されるので、メッセージの言語が「翻訳しない」に含まれていても動作します。</string>
     <string name="InuTranslateInstantView">ページを翻訳</string>
     <string name="InuInstantViewShowOriginal">原文を表示</string>
     <string name="InuTranslating">翻訳中…</string>
@@ -263,7 +263,7 @@
     <string name="InuPinnedReactions">ピン留めリアクション</string>
     <string name="InuPinnedReactionsInfo">リアクションバーの先頭にリアクションをピン留めします。</string>
     <string name="InuPinnedReactionsHeader">ピン留めリアクション</string>
-    <string name="InuPinnedReactionsLimitInfo">最大 10 件までピン留めできます。長押しでドラッグして並び替え。</string>
+    <string name="InuPinnedReactionsLimitInfo">最大 20 件までピン留めできます。長押しでドラッグして並び替え。</string>
     <string name="InuPinnedReactionsCopyServer">サーバーからコピー</string>
     <string name="InuPinnedReactionsCopyServerConfirm">現在のピン留めリアクションを、サーバー提供の人気リアクションに置き換えます。続行しますか？</string>
     <string name="InuPinnedReactionsRemoveAll">すべて削除</string>

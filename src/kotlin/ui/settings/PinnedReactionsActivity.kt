@@ -1,4 +1,5 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
+
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -48,7 +49,7 @@ import org.telegram.ui.PremiumPreviewFragment
 import org.telegram.ui.SelectAnimatedEmojiDialog
 import java.util.Collections
 
-class InuPinnedReactionsActivity : InuSettingsPageActivity() {
+class PinnedReactionsActivity : SettingsPageActivity() {
 
     private val pins = InuConfig.PINNED_REACTIONS.value
     private var selectedIndex = 0

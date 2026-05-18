@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.app.Dialog
 import android.text.TextPaint
@@ -20,7 +20,7 @@ import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 import org.telegram.ui.PasscodeActivity
 
-class InuPasscodeAccountSettingsActivity(private val account: Int) : InuSettingsPageActivity() {
+class PasscodeAccountSettingsActivity(private val account: Int) : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence {
         val user = UserConfig.getInstance(account).currentUser ?: return ""

@@ -1,8 +1,9 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.view.View
 import desu.inugram.InuConfig
 import desu.inugram.helpers.InuUtils
+import desu.inugram.ui.settings.TranslationTargetActivity
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
@@ -13,7 +14,7 @@ import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 import org.telegram.ui.RestrictedLanguagesSelectActivity
 
-class InuTranslatorSettingsActivity : InuSettingsPageActivity() {
+class TranslatorSettingsActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuTranslator)
 
     private val translateController get() = MessagesController.getInstance(currentAccount).translateController
@@ -63,7 +64,6 @@ class InuTranslatorSettingsActivity : InuSettingsPageActivity() {
                 LocaleController.getString(R.string.InuTranslateWebPreviews),
             ).setChecked(InuConfig.TRANSLATE_WEB_PREVIEWS.value)
         )
-        items.add(UItem.asShadow(LocaleController.getString(R.string.InuTranslateWebPreviewsInfo)))
     }
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
@@ -96,7 +96,7 @@ class InuTranslatorSettingsActivity : InuSettingsPageActivity() {
 
             BUTTON_DO_NOT_TRANSLATE -> presentFragment(RestrictedLanguagesSelectActivity())
 
-            BUTTON_TARGET_LANG -> presentFragment(InuTranslationTargetActivity())
+            BUTTON_TARGET_LANG -> presentFragment(TranslationTargetActivity())
         }
     }
 

@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.view.View
 import desu.inugram.InuConfig
@@ -10,7 +10,7 @@ import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
-class InuUserProfileSettingsActivity : InuSettingsPageActivity() {
+class UserProfileSettingsActivity : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuUserProfile)
 
@@ -70,20 +70,6 @@ class InuUserProfileSettingsActivity : InuSettingsPageActivity() {
                 LocaleController.getString(R.string.InuDisableChatTitlePhone)
             ).setChecked(InuConfig.DISABLE_CHAT_TITLE_PHONE.value)
         )
-        items.add(UItem.asShadow(null))
-
-        items.add(
-            UItem.asCheck(
-                TOGGLE_HIDE_CALL_ACTION_BUTTON,
-                LocaleController.getString(R.string.InuHideCallActionButton),
-            ).setChecked(InuConfig.HIDE_CALL_ACTION_BUTTON.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_CALL_CONFIRMATION,
-                LocaleController.getString(R.string.InuCallConfirmation),
-            ).setChecked(InuConfig.CALL_CONFIRMATION.value)
-        )
     }
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
@@ -129,16 +115,6 @@ class InuUserProfileSettingsActivity : InuSettingsPageActivity() {
                 val new = InuConfig.DISABLE_CHAT_TITLE_PHONE.toggle()
                 (view as? TextCheckCell)?.isChecked = new
             }
-
-            TOGGLE_CALL_CONFIRMATION -> {
-                val new = InuConfig.CALL_CONFIRMATION.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
-
-            TOGGLE_HIDE_CALL_ACTION_BUTTON -> {
-                val new = InuConfig.HIDE_CALL_ACTION_BUTTON.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
         }
     }
 
@@ -150,7 +126,5 @@ class InuUserProfileSettingsActivity : InuSettingsPageActivity() {
         private val BUTTON_PROFILE_ID_MODE = InuUtils.generateId()
         private val TOGGLE_HIDE_MY_PHONE_NUMBER = InuUtils.generateId()
         private val TOGGLE_DISABLE_CHAT_TITLE_PHONE = InuUtils.generateId()
-        private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
-        private val TOGGLE_HIDE_CALL_ACTION_BUTTON = InuUtils.generateId()
     }
 }

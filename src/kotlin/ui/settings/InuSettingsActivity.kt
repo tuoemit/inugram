@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.app.Activity
 import android.content.Intent
@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class InuSettingsActivity : InuSettingsPageActivity() {
+class InuSettingsActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuSettings)
 
     override fun fillItems(items: ArrayList<UItem>, adapter: UniversalAdapter) {
@@ -41,6 +41,13 @@ class InuSettingsActivity : InuSettingsPageActivity() {
                 BUTTON_CHATS,
                 R.drawable.msg_discussion,
                 LocaleController.getString(R.string.Chats)
+            )
+        )
+        items.add(
+            UItem.asButton(
+                BUTTON_MESSAGES,
+                R.drawable.msg_discuss,
+                LocaleController.getString(R.string.InuMessages)
             )
         )
         items.add(
@@ -125,18 +132,19 @@ class InuSettingsActivity : InuSettingsPageActivity() {
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
         when (item.id) {
-            BUTTON_GENERAL -> presentFragment(InuAppearanceSettingsActivity())
-            BUTTON_CHATS -> presentFragment(InuChatsSettingsActivity())
-            BUTTON_DIALOGS -> presentFragment(InuDialogsSettingsActivity())
-            BUTTON_USER_PROFILE -> presentFragment(InuUserProfileSettingsActivity())
-            BUTTON_ANNOYANCES -> presentFragment(InuAnnoyancesSettingsActivity())
-            BUTTON_BEHAVIOR -> presentFragment(InuBehaviorSettingsActivity())
-            BUTTON_TRANSLATOR -> presentFragment(InuTranslatorSettingsActivity())
-            BUTTON_PASSCODE -> presentFragment(InuPasscodeSettingsActivity())
-            BUTTON_ABOUT -> presentFragment(InuAboutActivity())
+            BUTTON_GENERAL -> presentFragment(AppearanceSettingsActivity())
+            BUTTON_CHATS -> presentFragment(ChatsSettingsActivity())
+            BUTTON_MESSAGES -> presentFragment(MessagesSettingsActivity())
+            BUTTON_DIALOGS -> presentFragment(DialogsSettingsActivity())
+            BUTTON_USER_PROFILE -> presentFragment(UserProfileSettingsActivity())
+            BUTTON_ANNOYANCES -> presentFragment(AnnoyancesSettingsActivity())
+            BUTTON_BEHAVIOR -> presentFragment(BehaviorSettingsActivity())
+            BUTTON_TRANSLATOR -> presentFragment(TranslatorSettingsActivity())
+            BUTTON_PASSCODE -> presentFragment(PasscodeSettingsActivity())
+            BUTTON_ABOUT -> presentFragment(AboutActivity())
             BUTTON_EXPORT -> launchExport()
             BUTTON_IMPORT -> launchImport()
-            BUTTON_CLOUD_SYNC -> presentFragment(InuCloudSyncActivity())
+            BUTTON_CLOUD_SYNC -> presentFragment(CloudSyncActivity())
         }
     }
 
@@ -242,6 +250,7 @@ class InuSettingsActivity : InuSettingsPageActivity() {
     companion object {
         private val BUTTON_GENERAL = InuUtils.generateId()
         private val BUTTON_CHATS = InuUtils.generateId()
+        private val BUTTON_MESSAGES = InuUtils.generateId()
         private val BUTTON_DIALOGS = InuUtils.generateId()
         private val BUTTON_USER_PROFILE = InuUtils.generateId()
         private val BUTTON_ANNOYANCES = InuUtils.generateId()

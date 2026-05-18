@@ -1,4 +1,4 @@
-package desu.inugram.ui
+package desu.inugram.ui.settings
 
 import android.app.Dialog
 import android.content.ClipData
@@ -34,7 +34,7 @@ import org.telegram.ui.Components.UniversalAdapter
 import org.telegram.ui.PasscodeActivity
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView
 
-class InuPasscodeSettingsActivity : InuSettingsPageActivity() {
+class PasscodeSettingsActivity : SettingsPageActivity() {
 
     private var passcodeSet = false
 
@@ -97,7 +97,7 @@ class InuPasscodeSettingsActivity : InuSettingsPageActivity() {
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
         val id = item.id
         if (id >= ACCOUNT_ROW_BASE && id < ACCOUNT_ROW_BASE + UserConfig.MAX_ACCOUNT_COUNT) {
-            presentFragment(InuPasscodeAccountSettingsActivity(id - ACCOUNT_ROW_BASE))
+            presentFragment(PasscodeAccountSettingsActivity(id - ACCOUNT_ROW_BASE))
             return
         }
         when (id) {
@@ -142,7 +142,7 @@ class InuPasscodeSettingsActivity : InuSettingsPageActivity() {
                 val cm = ApplicationLoader.applicationContext
                     .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 cm.setPrimaryClip(ClipData.newPlainText("label", link))
-                BulletinFactory.of(this@InuPasscodeSettingsActivity).createCopyLinkBulletin().show()
+                BulletinFactory.of(this@PasscodeSettingsActivity).createCopyLinkBulletin().show()
             }
         }, info.length - link.length, info.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         return info
