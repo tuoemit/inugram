@@ -112,6 +112,8 @@
     <string name="InuDisableMotionPhotosInfo">Не определять и не показывать живые фото ни в выборщике, ни в сообщениях</string>
     <string name="InuChatAlwaysShowDown">Всегда показывать кнопку «вниз»</string>
     <string name="InuChatAlwaysShowDownInfo">Даже при прокрутке вверх</string>
+    <string name="InuChatTwoFingerSelect">Выделение свайпом двумя пальцами</string>
+    <string name="InuChatTwoFingerSelectInfo">Проведите двумя пальцами по сообщениям, чтобы выделить/снять выделение (как в iOS)</string>
     <string name="InuChatRememberAllReplies">Запоминать все нажатые ответы</string>
     <string name="InuSaveToSavedMessages">Сохранить</string>
     <string name="InuHideSuggestions">Скрыть предложения</string>

@@ -112,6 +112,8 @@
     <string name="InuDisableMotionPhotosInfo">ピッカーとメッセージでモーションフォトを検出・表示しない</string>
     <string name="InuChatAlwaysShowDown">常に「最下部へ」を表示</string>
     <string name="InuChatAlwaysShowDownInfo">上にスクロールしているときも</string>
+    <string name="InuChatTwoFingerSelect">2本指スワイプで選択</string>
+    <string name="InuChatTwoFingerSelectInfo">2本指でメッセージをなぞって選択/解除（iOS風）</string>
     <string name="InuChatRememberAllReplies">タップしたすべての返信を記憶</string>
     <string name="InuSaveToSavedMessages">保存</string>
     <string name="InuHideSuggestions">提案を非表示</string>

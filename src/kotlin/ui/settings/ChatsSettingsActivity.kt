@@ -63,6 +63,14 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 InuConfig.CHAT_ALWAYS_SHOW_DOWN.value,
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_CHAT_TWO_FINGER_SELECT,
+                R.string.InuChatTwoFingerSelect,
+                R.string.InuChatTwoFingerSelectInfo,
+                InuConfig.CHAT_TWO_FINGER_SELECT.value,
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuAttachmentSheet)))
@@ -200,6 +208,11 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_CHAT_TWO_FINGER_SELECT -> {
+                val new = InuConfig.CHAT_TWO_FINGER_SELECT.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             TOGGLE_SHOW_ALL_RECENT_STICKERS -> {
                 val new = InuConfig.SHOW_ALL_RECENT_STICKERS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
@@ -285,6 +298,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_HIDE_KEYBOARD_ON_SCROLL = InuUtils.generateId()
         private val TOGGLE_DISABLE_PULL_TO_NEXT = InuUtils.generateId()
         private val TOGGLE_CHAT_ALWAYS_SHOW_DOWN = InuUtils.generateId()
+        private val TOGGLE_CHAT_TWO_FINGER_SELECT = InuUtils.generateId()
         private val TOGGLE_SHOW_ALL_RECENT_STICKERS = InuUtils.generateId()
         private val TOGGLE_DISABLE_INSTANT_CAMERA = InuUtils.generateId()
         private val TOGGLE_CHAT_VOICE_IN_ATTACH = InuUtils.generateId()

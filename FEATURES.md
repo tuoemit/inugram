@@ -78,6 +78,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - show id in profile, show user json
 - long-tap inline callback button to copy text or callback data
 - "select between messages" (🐶 done right, with proper capping)
+- 🐶 two-finger swipe over messages to select/deselect them
 - in-place message translation, with optional web preview translation
 - instant view pages translator
 - show original time/date in "forwarded from" header

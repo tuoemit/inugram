@@ -112,6 +112,8 @@
     <string name="InuDisableMotionPhotosInfo">不在选择器和消息中检测或渲染动态照片</string>
     <string name="InuChatAlwaysShowDown">始终显示「跳到底部」</string>
     <string name="InuChatAlwaysShowDownInfo">即使在向上滚动时</string>
+    <string name="InuChatTwoFingerSelect">双指滑动选择</string>
+    <string name="InuChatTwoFingerSelectInfo">用两根手指在消息上滑动以选择/取消选择（类似 iOS）</string>
     <string name="InuChatRememberAllReplies">记住所有点击过的回复</string>
     <string name="InuSaveToSavedMessages">保存</string>
     <string name="InuHideSuggestions">隐藏建议</string>

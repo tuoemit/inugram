@@ -161,6 +161,9 @@ object InuConfig {
     val CHAT_ALWAYS_SHOW_DOWN = BoolItem("chat_always_show_down", true)
 
     @JvmField
+    val CHAT_TWO_FINGER_SELECT = BoolItem("chat_two_finger_select", true)
+
+    @JvmField
     val CHAT_REMEMBER_ALL_REPLIES = BoolItem("chat_remember_all_replies", true)
 
     @JvmField

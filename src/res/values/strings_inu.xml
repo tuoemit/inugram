@@ -110,6 +110,8 @@
     <string name="InuDisableMotionPhotosInfo">Don\'t detect or render motion photos, in picker and in messages</string>
     <string name="InuChatAlwaysShowDown">Always show "go to bottom"</string>
     <string name="InuChatAlwaysShowDownInfo">Even when scrolling upwards</string>
+    <string name="InuChatTwoFingerSelect">Two-finger swipe to select</string>
+    <string name="InuChatTwoFingerSelectInfo">Drag with two fingers over messages to select/deselect them (like on iOS)</string>
     <string name="InuChatRememberAllReplies">Remember all clicked replies</string>
     <string name="InuSaveToSavedMessages">Save</string>
     <string name="InuHideSuggestions">Hide suggestions</string>
