@@ -380,12 +380,6 @@
     <string name="InuCopyButtonText">复制「%1$s」</string>
     <string name="InuCopyCallbackData">复制回调数据</string>
     <string name="InuCallbackDataCopied">回调数据已复制</string>
-    <string name="InuLiveDraftMenu">实时草稿</string>
-    <string name="InuLiveDraftModeDisabled">关闭</string>
-    <string name="InuLiveDraftModeEmpty">空</string>
-    <string name="InuLiveDraftModeSizeOnly">仅大小</string>
-    <string name="InuLiveDraftModeFull">完整文本</string>
-    <string name="InuLiveDraftFooter">(实验性！) 边输入边通过 **Live response streaming API** 流式发送草稿 —— 纯属好玩</string>
     <string name="InuNetwork">网络</string>
     <string name="InuFasterDownloads">加速下载</string>
     <string name="InuFasterUploads">加速上传</string>

@@ -380,12 +380,6 @@
     <string name="InuCopyButtonText">「%1$s」をコピー</string>
     <string name="InuCopyCallbackData">コールバックデータをコピー</string>
     <string name="InuCallbackDataCopied">コールバックデータをコピーしました</string>
-    <string name="InuLiveDraftMenu">ライブ下書き</string>
-    <string name="InuLiveDraftModeDisabled">オフ</string>
-    <string name="InuLiveDraftModeEmpty">空</string>
-    <string name="InuLiveDraftModeSizeOnly">サイズのみ</string>
-    <string name="InuLiveDraftModeFull">全文</string>
-    <string name="InuLiveDraftFooter">(実験的！) 入力中の下書きを **Live response streaming API** で配信します — 遊び心</string>
     <string name="InuNetwork">ネットワーク</string>
     <string name="InuFasterDownloads">ダウンロード高速化</string>
     <string name="InuFasterUploads">アップロード高速化</string>

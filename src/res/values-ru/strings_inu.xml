@@ -382,12 +382,6 @@
     <string name="InuCopyButtonText">Копировать «%1$s»</string>
     <string name="InuCopyCallbackData">Копировать Callback-данные</string>
     <string name="InuCallbackDataCopied">Callback-данные скопированы</string>
-    <string name="InuLiveDraftMenu">Живые черновики</string>
-    <string name="InuLiveDraftModeDisabled">Выкл.</string>
-    <string name="InuLiveDraftModeEmpty">Пустой</string>
-    <string name="InuLiveDraftModeSizeOnly">Только размер</string>
-    <string name="InuLiveDraftModeFull">Полный текст</string>
-    <string name="InuLiveDraftFooter">(Экспериментально!) Стримит черновик прямо во время набора через **Live response streaming API** — ради прикола</string>
     <string name="InuNetwork">Сеть</string>
     <string name="InuFasterDownloads">Ускорение скачивания</string>
     <string name="InuFasterUploads">Ускорение выгрузки</string>

@@ -679,7 +679,6 @@ object ChatHelper {
     @JvmStatic
     fun onFragmentDestroy(activity: ChatActivity) {
         TranslateHelper.resetForDialog(activity.dialogId)
-        TypingDraftHelper.forget(activity.currentAccount, activity.dialogId, activity.threadMessageId)
     }
 
     @JvmField
