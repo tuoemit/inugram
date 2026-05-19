@@ -21,6 +21,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 hide fade views
 - 🐶 old (pre-12.6) mention/reaction indicator
 - 🐶 toggleable scrim blur
+- 🐶 reduce menu motion: skip context menu stagger and reaction bar slide-in/scale animations
 - 🐶 toggle to replace profile photo bottom blur with a plain gradient fade
 - disable number rounding
 - export/import settings to/from json file

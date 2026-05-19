@@ -53,6 +53,14 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             )
         )
         items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_REDUCE_MENU_MOTION,
+                R.string.InuReduceMenuMotion,
+                R.string.InuReduceMenuMotionInfo,
+                InuConfig.REDUCE_MENU_MOTION.value
+            )
+        )
+        items.add(
             UItem.asButton(
                 BUTTON_ICON_REPLACEMENT,
                 LocaleController.getString(R.string.InuIconReplacement),
@@ -239,6 +247,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_REDUCE_MENU_MOTION -> {
+                val new = InuConfig.REDUCE_MENU_MOTION.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             TOGGLE_NON_ISLAND_TAB_BARS -> {
                 val new = InuConfig.NON_ISLAND_TAB_BARS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
@@ -323,6 +336,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_FONT_MODE = InuUtils.generateId()
         private const val REQ_PICK_FONT = 31010
         private val TOGGLE_DISABLE_SCRIM_BLUR = InuUtils.generateId()
+        private val TOGGLE_REDUCE_MENU_MOTION = InuUtils.generateId()
         private val BUTTON_ICON_REPLACEMENT = InuUtils.generateId()
         private val BUTTON_MAP_PROVIDER = InuUtils.generateId()
         private val BUTTON_MAP_PREVIEW_PROVIDER = InuUtils.generateId()
@@ -336,6 +350,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("show-seconds", R.string.InuShowSeconds, TOGGLE_SHOW_SECONDS),
                 SearchRegistry.Entry("disable-rounding", R.string.InuDisableRounding, TOGGLE_DISABLE_ROUNDING),
                 SearchRegistry.Entry("disable-scrim-blur", R.string.InuDisableScrimBlur, TOGGLE_DISABLE_SCRIM_BLUR),
+                SearchRegistry.Entry("reduce-menu-motion", R.string.InuReduceMenuMotion, TOGGLE_REDUCE_MENU_MOTION),
                 SearchRegistry.Entry("icon-replacement", R.string.InuIconReplacement, BUTTON_ICON_REPLACEMENT),
                 SearchRegistry.Entry("font", R.string.InuFont, BUTTON_FONT_MODE),
                 SearchRegistry.Entry("map-provider", R.string.InuMapProvider, BUTTON_MAP_PROVIDER),

@@ -141,3 +141,4 @@ bugfix/motion-photo-with-caption.patch
 feature/strip-tracking.patch
 feature/two-finger-select.patch
 hooks/universal-recycler.patch
+debloat/reduce-menu-motion.patch
