@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import desu.inugram.InuConfig
 import desu.inugram.InuHooks
+import desu.inugram.SearchRegistry
 import desu.inugram.helpers.FontHelper
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.MapsHelper
@@ -325,5 +326,25 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_ICON_REPLACEMENT = InuUtils.generateId()
         private val BUTTON_MAP_PROVIDER = InuUtils.generateId()
         private val BUTTON_MAP_PREVIEW_PROVIDER = InuUtils.generateId()
+
+        @JvmField val PAGE = SearchRegistry.Page(
+            slug = "appearance",
+            titleRes = R.string.InuGeneral,
+            iconRes = R.drawable.msg_settings_old,
+            factory = ::AppearanceSettingsActivity,
+            entries = listOf(
+                SearchRegistry.Entry("show-seconds", R.string.InuShowSeconds, TOGGLE_SHOW_SECONDS),
+                SearchRegistry.Entry("disable-rounding", R.string.InuDisableRounding, TOGGLE_DISABLE_ROUNDING),
+                SearchRegistry.Entry("disable-scrim-blur", R.string.InuDisableScrimBlur, TOGGLE_DISABLE_SCRIM_BLUR),
+                SearchRegistry.Entry("icon-replacement", R.string.InuIconReplacement, BUTTON_ICON_REPLACEMENT),
+                SearchRegistry.Entry("font", R.string.InuFont, BUTTON_FONT_MODE),
+                SearchRegistry.Entry("map-provider", R.string.InuMapProvider, BUTTON_MAP_PROVIDER),
+                SearchRegistry.Entry("map-preview-provider", R.string.InuMapPreviewProvider, BUTTON_MAP_PREVIEW_PROVIDER),
+                SearchRegistry.Entry("non-island-tab-bars", R.string.InuNonIslandTabBars, TOGGLE_NON_ISLAND_TAB_BARS),
+                SearchRegistry.Entry("non-island-global-search", R.string.InuNonIslandGlobalSearch, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),
+                SearchRegistry.Entry("non-island-chat-elements", R.string.InuNonIslandChatElements, TOGGLE_NON_ISLAND_CHAT_ELEMENTS),
+                SearchRegistry.Entry("hide-fade-view", R.string.InuHideFadeView, TOGGLE_HIDE_FADE_VIEW),
+            ),
+        )
     }
 }

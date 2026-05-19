@@ -25,6 +25,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - disable number rounding
 - export/import settings to/from json file
 - cloud sync of settings via web app storage api
+- search and deeplinks for fork settings
 - MapLibre-based map view
 - customizable map preview provider
 - in-app updater - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*

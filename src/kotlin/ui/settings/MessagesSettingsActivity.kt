@@ -3,6 +3,7 @@ package desu.inugram.ui.settings
 import android.view.View
 import desu.inugram.InuConfig
 import desu.inugram.InuHooks
+import desu.inugram.SearchRegistry
 import desu.inugram.helpers.DoubleTapAction
 import desu.inugram.helpers.InuUtils
 import desu.inugram.ui.settings.PinnedReactionsActivity
@@ -244,5 +245,25 @@ class MessagesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_SHOW_FORWARD_TIME = InuUtils.generateId()
         private val BUTTON_DOUBLE_TAP_INCOMING = InuUtils.generateId()
         private val BUTTON_DOUBLE_TAP_OUTGOING = InuUtils.generateId()
+
+        @JvmField val PAGE = SearchRegistry.Page(
+            slug = "messages",
+            titleRes = R.string.InuMessages,
+            iconRes = R.drawable.msg_discuss,
+            factory = ::MessagesSettingsActivity,
+            entries = listOf(
+                SearchRegistry.Entry("sticker-time-mode", R.string.InuStickerTimeMode, BUTTON_STICKER_TIME_MODE),
+                SearchRegistry.Entry("no-sticker-extra-padding", R.string.InuNoStickerExtraPadding, TOGGLE_NO_STICKER_EXTRA_PADDING),
+                SearchRegistry.Entry("pinned-reactions", R.string.InuPinnedReactions, BUTTON_PINNED_REACTIONS),
+                SearchRegistry.Entry("reaction-bar-below", R.string.InuReactionBarBelow, TOGGLE_REACTION_BAR_BELOW),
+                SearchRegistry.Entry("chat-views-bottom", R.string.InuChatViewsBottom, TOGGLE_CHAT_VIEWS_BOTTOM),
+                SearchRegistry.Entry("hide-reaction-entry", R.string.InuHideReactionEntry, TOGGLE_HIDE_REACTION_ENTRY),
+                SearchRegistry.Entry("message-menu-order", R.string.InuMessageMenuOrder, BUTTON_MESSAGE_MENU_ORDER),
+                SearchRegistry.Entry("chat-remember-all-replies", R.string.InuChatRememberAllReplies, TOGGLE_CHAT_REMEMBER_ALL_REPLIES),
+                SearchRegistry.Entry("show-forward-time", R.string.InuShowForwardTime, TOGGLE_SHOW_FORWARD_TIME),
+                SearchRegistry.Entry("double-tap-incoming", R.string.InuIncomingMessages, BUTTON_DOUBLE_TAP_INCOMING),
+                SearchRegistry.Entry("double-tap-outgoing", R.string.InuOutgoingMessages, BUTTON_DOUBLE_TAP_OUTGOING),
+            ),
+        )
     }
 }
