@@ -145,7 +145,7 @@
     <string name="InuCallConfirmation">Ask before calling</string>
     <string name="InuCallConfirmationTitle">Confirm calling</string>
     <string name="InuCallConfirmationText">Call **%1$s**?</string>
-    <string name="InuDisableChatBubbles">Disable conversation bubbles</string>
+    <string name="InuDisableChatBubbles">Disable Android notification bubbles</string>
     <string name="InuInPlaceTranslation">In-place translation</string>
     <string name="InuTranslateWebPreviews">Translate web previews</string>
     <string name="InuTranslateInstantView">Translate page</string>
@@ -240,7 +240,7 @@
     <string name="InuNonIslandTabBars">Tab bars</string>
     <string name="InuNonIslandGlobalSearch">Global search</string>
     <string name="InuNonIslandChatElements">Chat elements</string>
-    <string name="InuNonIslandHint">In non-island UI mode, we try to tweak the elements to more closely match pre-12.5 UI. For best experience, either enable or disable them all.\nThere are probably a bunch of visual bugs, so be advised.</string>
+    <string name="InuNonIslandHint">In non-island UI mode, we try to tweak the elements to more closely match old UI. For best experience, either enable or disable them all.\nThere are probably a bunch of visual bugs, so be advised.</string>
 
     <string name="InuHideFadeView">Hide fade views</string>
 
@@ -277,7 +277,7 @@
     <string name="InuPinnedReactionsRemoveAll">Remove all</string>
     <string name="InuPinnedReactionsRemoveAllConfirm">Remove all pinned reactions?</string>
 
-    <string name="InuOldMentionIndicator">Pre-12.6 mention indicator</string>
+    <string name="InuOldMentionIndicator">Legacy mention indicator</string>
 
     <string name="InuShowForwardTime">Show forward time</string>
 

@@ -84,7 +84,7 @@ object PasscodeHelper {
         hasPasscodeForAccount(account) && prefs.getBoolean("hide$account", false)
 
     @JvmStatic
-    fun qisAccountHidden(account: Int): Boolean {
+    fun isAccountHidden(account: Int): Boolean {
         if (ParanoiaHelper.hidesOtherAccounts() && account != UserConfig.selectedAccount) return true
         return isAccountHiddenByPasscode(account)
     }
