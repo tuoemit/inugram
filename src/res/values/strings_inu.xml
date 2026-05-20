@@ -29,6 +29,8 @@
     <string name="InuShowSeconds">Show seconds</string>
     <string name="InuDisableRounding">Disable number rounding</string>
     <string name="InuDisableRoundingInfo">1.2K -> 1,234</string>
+    <string name="InuMaterial3">Material Design 3</string>
+    <string name="InuMaterial3Switches">Switches</string>
     <string name="InuDisableInstantCamera">Disable instant camera</string>
     <string name="InuDisableInstantCameraInfo">Prevents camera from starting when opening the attachment panel</string>
     <string name="InuShowAllRecentStickers">Show all recent stickers</string>
@@ -77,7 +79,6 @@
     <string name="InuDialogsFabActionOpenSearch">Open search</string>
     <string name="InuDialogsFabActionSavedMessages">Saved messages</string>
     <string name="InuPredictiveBack">Predictive back</string>
-    <string name="InuPredictiveBackInfo">Animation shown while swiping back or pressing the back button. Android 14+. Requires app restart.</string>
     <string name="InuPredictiveBackOff">Off</string>
     <string name="InuPredictiveBackStock">Stock</string>
     <string name="InuPredictiveBackMaterial3">Material 3</string>
@@ -184,7 +185,7 @@
     <string name="InuIconReplacementSolar">Solar by @Design480</string>
 
     <string name="InuMapsHeader">Maps</string>
-    <string name="InuMapProvider">Map provider</string>
+    <string name="InuMapProvider">Map view provider</string>
     <string name="InuMapProviderGoogle">Google Maps</string>
     <string name="InuMapProviderOsm">OpenStreetMap</string>
     <string name="InuMapPreviewProvider">Map preview provider</string>

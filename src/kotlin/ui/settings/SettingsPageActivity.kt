@@ -15,6 +15,7 @@ import android.text.TextPaint
 import android.text.style.ReplacementSpan
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.graphics.withTranslation
 import desu.inugram.SearchRegistry
@@ -126,6 +127,16 @@ abstract class SettingsPageActivity : UniversalFragment() {
     // rebuilds views of all fragments below this one — settings page itself stays.
     protected fun softRebuild() {
         LaunchActivity.instance?.rebuildAllFragments(false)
+    }
+
+    // redraws all visible rows; softRebuild skips the current page, so toggles that change how
+    // cells draw (e.g. material 3 switches) need this to take effect live.
+    protected fun invalidateVisibleRows() {
+        fun walk(view: View) {
+            view.invalidate()
+            if (view is ViewGroup) for (i in 0 until view.childCount) walk(view.getChildAt(i))
+        }
+        walk(listView ?: return)
     }
 
     protected fun showRestartBulletin() {

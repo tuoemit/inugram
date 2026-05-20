@@ -143,3 +143,4 @@ feature/two-finger-select.patch
 hooks/universal-recycler.patch
 debloat/reduce-menu-motion.patch
 feature/paranoia.patch
+feature/md3-switches.patch

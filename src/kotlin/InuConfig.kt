@@ -98,6 +98,9 @@ object InuConfig {
     @JvmField
     val DISABLE_ROUNDING = BoolItem("disable_rounding", false)
 
+    @JvmField
+    val MATERIAL3_SWITCHES = BoolItem("material3_switches", false)
+
     class PredictiveBackModeItem : IntItem("predictive_back_mode", OFF) {
         companion object {
             const val OFF = 0
