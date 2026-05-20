@@ -9,6 +9,7 @@ import desu.inugram.ui.settings.ChatsSettingsActivity
 import desu.inugram.ui.settings.DialogsSettingsActivity
 import desu.inugram.ui.settings.InuSettingsActivity
 import desu.inugram.ui.settings.MessagesSettingsActivity
+import desu.inugram.ui.settings.PrivacySecurityActivity
 import desu.inugram.ui.settings.SettingsPageActivity
 import desu.inugram.ui.settings.TranslatorSettingsActivity
 import desu.inugram.ui.settings.UserProfileSettingsActivity
@@ -43,6 +44,7 @@ object SearchRegistry {
             AnnoyancesSettingsActivity.PAGE,
             BehaviorSettingsActivity.PAGE,
             TranslatorSettingsActivity.PAGE,
+            PrivacySecurityActivity.PAGE,
         )
     }
 
