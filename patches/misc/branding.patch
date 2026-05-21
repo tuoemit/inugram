@@ -6,9 +6,9 @@ Subject: change app name to Inugram
 ---
  TMessagesProj/src/main/AndroidManifest.xml    | 33 +++++++++++++++++++
  .../telegram/messenger/LocaleController.java  | 10 +++---
- .../java/org/telegram/ui/DialogsActivity.java |  9 ++---
+ .../java/org/telegram/ui/DialogsActivity.java |  6 +++-
  .../telegram/ui/LauncherIconController.java   |  6 ++--
- .../ui/Stories/DialogStoriesCell.java         | 20 +++++------
+ .../ui/Stories/DialogStoriesCell.java         | 23 ++++++++-----
  .../java/org/telegram/ui/ThemeActivity.java   | 12 +++++--
  .../org/telegram/ui/UpdateLayoutWrapper.java  | 14 ++------
  .../res/mipmap-anydpi-v26/ic_launcher.xml     |  6 ++--
@@ -23,7 +23,7 @@ Subject: change app name to Inugram
  .../src/main/res/values-ru/strings.xml        |  6 ++--
  .../src/main/res/values-uk/strings.xml        |  6 ++--
  TMessagesProj/src/main/res/values/strings.xml | 10 +++---
- 19 files changed, 107 insertions(+), 65 deletions(-)
+ 19 files changed, 115 insertions(+), 57 deletions(-)
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock.xml
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock_round.xml
 
@@ -108,21 +108,24 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -3443,12 +3443,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3443,12 +3443,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              } else {
                  statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, dp(26));
                  statusDrawable.center = true;
--                logoDrawable = context.getResources().getDrawable(R.drawable.telegram_logo_2).mutate();
--                logoDrawable.setBounds(0, dp(2), logoDrawable.getIntrinsicWidth(), dp(2) + logoDrawable.getIntrinsicHeight());
--                logoDrawable.setColorFilter(getThemedColor(Theme.key_telegram_color_dialogsLogo), PorterDuff.Mode.MULTIPLY);
--                SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.AppName));
--                ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
--                actionBar.setTitle(ssb, statusDrawable);
-+                actionBar.setTitle(getString(R.string.AppName), statusDrawable);
++                if (desu.inugram.helpers.ParanoiaHelper.isDisguised()) {
+                 logoDrawable = context.getResources().getDrawable(R.drawable.telegram_logo_2).mutate();
+                 logoDrawable.setBounds(0, dp(2), logoDrawable.getIntrinsicWidth(), dp(2) + logoDrawable.getIntrinsicHeight());
+                 logoDrawable.setColorFilter(getThemedColor(Theme.key_telegram_color_dialogsLogo), PorterDuff.Mode.MULTIPLY);
+                 SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.AppName));
+                 ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                 actionBar.setTitle(ssb, statusDrawable);
++                } else {
++                    actionBar.setTitle(getString(R.string.AppName), statusDrawable);
++                }
                  updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
              }
              if (folderId == 0) {
-@@ -14075,4 +14070,4 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -14075,4 +14079,4 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          return true;
      }
  
@@ -168,25 +171,29 @@ index 0000000..0000000 100644
                  }
              } else {
 -                currentTitle = menuItemsOffset < dp(50) ? null :
-+                currentTitle = menuItemsOffset < dp(50) ? LocaleController.getString(R.string.AppName) :
++                currentTitle = menuItemsOffset < dp(50) ? (desu.inugram.helpers.ParanoiaHelper.isDisguised() ? null : LocaleController.getString(R.string.AppName)) :
                      LocaleController.getString(R.string.MyStory);
              }
          } else {
 -            currentTitle = menuItemsOffset < dp(50) ? null :
-+            currentTitle = menuItemsOffset < dp(50) ? LocaleController.getString(R.string.AppName) :
++            currentTitle = menuItemsOffset < dp(50) ? (desu.inugram.helpers.ParanoiaHelper.isDisguised() ? null : LocaleController.getString(R.string.AppName)) :
                  LocaleController.formatPluralString("Stories", totalCount);
          }
  
-@@ -944,7 +946,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -944,7 +946,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
              telegramLogoView.setTranslationX(titleView.getTranslationX() + dp(1));
              telegramLogoView.setTranslationY(bottomY + dp(14 + FAKE_TOP_PADDING + 4.333f) + translationOffset /*titleView.getTranslationY() + dpf2(37.33f)*/);
  
 -            emojiStatusView.setTranslationX(titleView.getTranslationX() - dpf2(3.33f) + telegramLogoView.getMeasuredWidth());
-+            emojiStatusView.setTranslationX(titleView.getTranslationX() + titleView.getDrawable().getCurrentWidth() + dpf2(2.66f));
++            if (desu.inugram.helpers.ParanoiaHelper.isDisguised()) {
++                emojiStatusView.setTranslationX(titleView.getTranslationX() - dpf2(3.33f) + telegramLogoView.getMeasuredWidth());
++            } else {
++                emojiStatusView.setTranslationX(titleView.getTranslationX() + titleView.getDrawable().getCurrentWidth() + dpf2(2.66f));
++            }
              emojiStatusView.setTranslationY(bottomY + dp(14 - 11 + FAKE_TOP_PADDING + 4.333f) + translationOffset);
  
              subtitleOverlayContainer.setTranslationX(titleView.getTranslationX());
-@@ -1302,7 +1304,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -1302,7 +1308,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
              titleView.setText(currentTitle, !LocaleController.isRTL);
          }
  
@@ -195,13 +202,11 @@ index 0000000..0000000 100644
          if (hasEllipsizedText) {
              ellipsizeSpanAnimator.addView(titleView);
          } else {
-@@ -2208,21 +2210,19 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
-     private void checkUi_titleVisibility() {
-         final float progress = MathUtils.clamp(Math.min(collapsedProgress, collapsedProgress2), 0, 1);
-         final float titleVisibility = animatorHasTitleText.getFloatValue();
--        final float logoVisibility = 1f - titleVisibility;
+@@ -2211,18 +2217,19 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+         final float logoVisibility = 1f - titleVisibility;
          final float titleAlpha = titleVisibility * progress;
--        final float logoAlpha = logoVisibility * progress;
+         final float logoAlpha = logoVisibility * progress;
++        final boolean inu_disguised = desu.inugram.helpers.ParanoiaHelper.isDisguised();
  
          if (titleView != null) {
              titleView.setAlpha(titleAlpha);
@@ -210,14 +215,14 @@ index 0000000..0000000 100644
          if (telegramLogoView != null) {
 -            telegramLogoView.setAlpha(logoAlpha);
 -            telegramLogoView.setVisibility(logoAlpha > 0 ? VISIBLE : GONE);
-+            telegramLogoView.setAlpha(0f);
-+            telegramLogoView.setVisibility(GONE);
++            telegramLogoView.setAlpha(inu_disguised ? logoAlpha : 0f);
++            telegramLogoView.setVisibility(inu_disguised && logoAlpha > 0 ? VISIBLE : GONE);
          }
          if (emojiStatusView != null) {
 -            emojiStatusView.setAlpha(logoAlpha);
 -            emojiStatusView.setVisibility(logoAlpha > 0 ? VISIBLE : GONE);
-+            emojiStatusView.setAlpha(progress);
-+            emojiStatusView.setVisibility(progress > 0 ? VISIBLE : GONE);
++            emojiStatusView.setAlpha(inu_disguised ? logoAlpha : progress);
++            emojiStatusView.setVisibility((inu_disguised ? logoAlpha > 0 : progress > 0) ? VISIBLE : GONE);
          }
          if (subtitleOverlayContainer != null) {
              subtitleOverlayContainer.setAlpha(progress);

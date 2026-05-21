@@ -215,7 +215,7 @@ index 0000000..0000000 100644
  
          return true;
      }
-@@ -13446,6 +13448,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -13455,6 +13457,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                      io.add(proxyMenuSubItem);
                  }
              }
@@ -224,7 +224,7 @@ index 0000000..0000000 100644
          } else {
              io.add(R.drawable.msg_customize, getString(R.string.ArchiveSettings), () -> presentFragment(new ArchiveSettingsActivity()));
              io.add(R.drawable.msg_help, getString(R.string.HowDoesItWork), this::showArchiveHelp);
-@@ -13811,8 +13815,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -13820,8 +13824,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          }
  
          final int additionalList = dp(48);
