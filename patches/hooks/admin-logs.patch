@@ -95,7 +95,7 @@ index 0000000..0000000 100644
  
          actionBar.getBackButton().setTranslationX(dp(6));
          actionBar.menu.setTranslationX(-dp(9));
-@@ -1633,7 +1665,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+@@ -1648,7 +1680,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
      private final static int OPTION_CALL = 17;
      private final static int OPTION_RESTRICT = 33;
      private final static int OPTION_REPORT_FALSE_POSITIVE = 34;
@@ -104,7 +104,7 @@ index 0000000..0000000 100644
  
      private boolean createMenu(View v) {
          return createMenu(v, 0, 0);
-@@ -1847,6 +1879,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+@@ -1862,6 +1894,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                  options.add(OPTION_CALL);
              }
          }
@@ -112,7 +112,7 @@ index 0000000..0000000 100644
  
          boolean callbackSent = false;
  
-@@ -2103,11 +2136,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+@@ -2118,11 +2151,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
          roundVideoContainer.setVisibility(View.INVISIBLE);
      }
  

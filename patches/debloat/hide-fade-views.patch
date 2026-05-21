@@ -9,8 +9,9 @@ Subject: hide fade views
  .../java/org/telegram/ui/Components/ShareAlert.java  |  1 +
  .../ui/Components/chat/ChatActivityTopFadeView.java  |  1 +
  .../ui/Components/chat/ChatInputViewsContainer.java  |  1 +
+ .../chat/layouts/ChatActivityFadeView.java           |  1 +
  .../main/java/org/telegram/ui/MainTabsActivity.java  | 12 +++++++++++-
- 6 files changed, 17 insertions(+), 1 deletion(-)
+ 7 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatAttachAlert.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatAttachAlert.java
 index 0000000..0000000 100644
@@ -80,6 +81,18 @@ index 0000000..0000000 100644
                  if (backgroundWithFadeDrawable != null) {
                      backgroundWithFadeDrawable.draw(canvas);
                  }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/chat/layouts/ChatActivityFadeView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/chat/layouts/ChatActivityFadeView.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/chat/layouts/ChatActivityFadeView.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/chat/layouts/ChatActivityFadeView.java
+@@ -65,6 +65,7 @@ public class ChatActivityFadeView extends View {
+ 
+     @Override
+     protected void onDraw(@NonNull Canvas canvas) {
++        if (desu.inugram.helpers.ChatHelper.shouldHideFadeView()) return;
+         super.onDraw(canvas);
+         fadeDrawableTop.draw(canvas);
+         fadeDrawableBottom.draw(canvas);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/MainTabsActivity.java

@@ -4,7 +4,9 @@ Date: Thu, 16 Apr 2026 08:47:27 +0300
 Subject: non-island ui in various parts of the app
 
 ---
+ .../org/telegram/ui/ActionBar/ActionBar.java  |   5 +
  .../ui/Cells/SharedPhotoVideoCell2.java       |   4 +-
+ .../telegram/ui/ChannelAdminLogActivity.java  |  23 +++-
  .../java/org/telegram/ui/ChatActivity.java    |  93 ++++++++-----
  .../ui/Components/ChatActivityEnterView.java  |  17 ++-
  .../ChatActivityTopPanelLayout.java           |  16 ++-
@@ -21,7 +23,7 @@ Subject: non-island ui in various parts of the app
  .../impl/BlurredBackgroundProviderImpl.java   |  15 +-
  .../chat/ChatInputViewsContainer.java         |  28 +++-
  .../ChatActivityBlurredRoundButton.java       |   6 +-
- .../ChatActivityChannelButtonsLayout.java     |   4 +
+ .../ChatActivityChannelButtonsLayout.java     |  33 ++++-
  .../ui/Components/glass/GlassTabView.java     |   5 +-
  .../java/org/telegram/ui/DialogsActivity.java | 130 +++++++++++-------
  .../java/org/telegram/ui/ProfileActivity.java |   2 +-
@@ -29,8 +31,32 @@ Subject: non-island ui in various parts of the app
  .../java/org/telegram/ui/bots/BotAdView.java  |   2 +-
  .../ui/bots/BotCommandsMenuContainer.java     |   4 +-
  .../bots/ChatAttachAlertBotWebViewLayout.java |   5 +-
- 25 files changed, 351 insertions(+), 169 deletions(-)
+ 27 files changed, 397 insertions(+), 180 deletions(-)
 
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java
+@@ -82,6 +82,7 @@ public class ActionBar extends FrameLayout implements Theme.Colorable {
+     }
+ 
+     private Drawable glassDrawable;
++    public boolean inu_nonIsland;
+     private INavigationLayout.BackButtonState backButtonState = INavigationLayout.BackButtonState.BACK;
+     public ImageView backButtonImageView;
+     private BackupImageView avatarSearchImageView;
+@@ -1979,7 +1980,11 @@ public class ActionBar extends FrameLayout implements Theme.Colorable {
+         if (glassDrawable != null) {
+             final int t = getHeight() - getCurrentActionBarHeight() / 2 - dp(26) - dp(7);
+             final int b = t + dp(52) + dp(7) + dp(7);
++            if (inu_nonIsland) {
++                glassDrawable.setBounds(0, 0, getWidth(), getHeight());
++            } else {
+             glassDrawable.setBounds(0, t, getWidth(), b);
++            }
+             glassDrawable.draw(canvas);
+         }
+ 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/SharedPhotoVideoCell2.java b/TMessagesProj/src/main/java/org/telegram/ui/Cells/SharedPhotoVideoCell2.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/SharedPhotoVideoCell2.java
@@ -46,6 +72,59 @@ index 0000000..0000000 100644
              lerp(dp(1), dp(8), checkBoxProgress),
              lerp(dp(1), dp(8), checkBoxProgress)
          );
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChannelAdminLogActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChannelAdminLogActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ChannelAdminLogActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ChannelAdminLogActivity.java
+@@ -1161,9 +1161,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+         contentView.setOccupyStatusBar(!AndroidUtilities.isTablet());
+         contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
+ 
++        boolean nonIsland = desu.inugram.helpers.NonIslandHelper.chatElements();
++        actionBar.inu_nonIsland = nonIsland;
+         actionBar.setGlassDrawable(glassBackgroundDrawableFactory.create(actionBar).setColorProvider(
+                 BlurredBackgroundProviderImpl.topPanelChatActivity(resourceProvider)
+-        ).setRadius(dp(26)).setPadding(dp(7)));
++        ).setRadius(dp(nonIsland ? 0 : 26)).setPadding(dp(nonIsland ? 0 : 7)));
+ 
+         emptyViewContainer = new FrameLayout(context);
+         emptyViewContainer.setVisibility(View.INVISIBLE);
+@@ -1496,10 +1498,16 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+         bottomOverlayChat2 = new ChatActivityChannelButtonsLayout(context, resourceProvider,
+             BlurredBackgroundProviderImpl.bottomPanelChatActivity(resourceProvider), glassBackgroundDrawableFactory);
+         bottomOverlayChat2.setTotalVisibilityFactor(1f);
+-        bottomOverlayChat2.setTranslationY(-AndroidUtilities.navigationBarHeight);
++        bottomOverlayChat2.setTranslationY(nonIsland ? 0 : -AndroidUtilities.navigationBarHeight);
+         bottomOverlayChat2.showButton(ChatActivityChannelButtonsLayout.BUTTON_RECENT_ACTIONS_INFO, true, false);
+         bottomOverlayChat2.setupDrawableForContainer();
+-        contentView.addView(bottomOverlayChat2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 56, Gravity.BOTTOM, 54, 0, 0, (44 - 56) / 2 + 9));
++        contentView.addView(bottomOverlayChat2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 56, Gravity.BOTTOM, nonIsland ? 0 : 54, 0, 0, nonIsland ? 0 : ((44 - 56) / 2 + 9)));
++        if (nonIsland) {
++            // extend below to cover the nav bar inset; bottom padding keeps content above it
++            bottomOverlayChat2.setClipToPadding(false);
++            bottomOverlayChat2.setPadding(0, 0, 0, AndroidUtilities.navigationBarHeight);
++            ((FrameLayout.LayoutParams) bottomOverlayChat2.getLayoutParams()).height = dp(48) + AndroidUtilities.navigationBarHeight;
++        }
+ 
+         bottomOverlayChatText = new TextView(context);
+         bottomOverlayChatText.setOnClickListener(view -> {
+@@ -1524,8 +1532,15 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
+         bottomOverlayChatText.setTypeface(AndroidUtilities.bold());
+         bottomOverlayChatText.setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText));
+         bottomOverlayChatText.setText(getString(R.string.SETTINGS));
++        bottomOverlayChatText.setGravity(Gravity.CENTER);
+         bottomOverlayChatText.setPadding(dp(24), 0, dp(24), 0);
+-        bottomOverlayChat2.getContainer().addView(bottomOverlayChatText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
++        if (nonIsland) {
++            // full-width tap area + ripple; island mode keeps the text-hugging pill
++            bottomOverlayChatText.setBackground(Theme.createSelectorDrawable(
++                Theme.multAlpha(Theme.getColor(Theme.key_chat_fieldOverlayText), 0.10f),
++                Theme.RIPPLE_MASK_ALL));
++        }
++        bottomOverlayChat2.getContainer().addView(bottomOverlayChatText, LayoutHelper.createFrame(nonIsland ? LayoutHelper.MATCH_PARENT : LayoutHelper.WRAP_CONTENT, nonIsland ? LayoutHelper.MATCH_PARENT : LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+         bottomOverlayChat2.makeViewWrapContent(bottomOverlayChatText);
+         bottomOverlayChat2.updateWrappingVisible(false);
+ 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
@@ -1272,7 +1351,7 @@ index 0000000..0000000 100644
  import me.vkryl.android.animator.BoolAnimator;
  import me.vkryl.android.animator.FactorAnimator;
  
-@@ -136,6 +137,9 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
+@@ -136,13 +137,16 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
              }
  
              ScaleStateListAnimator.apply(button, .13f, 2f);
@@ -1282,6 +1361,64 @@ index 0000000..0000000 100644
              button.setVisibility(GONE);
              button.setOnClickListener(v -> {
                  if (onClickListeners[buttonId] != null) {
+                     onClickListeners[buttonId].onClick(v);
+                 }
+             });
+-            addView(button, LayoutHelper.createFrame(56, 56));
++            addView(button, LayoutHelper.createFrame(56, 56, Gravity.CENTER_VERTICAL | Gravity.LEFT));
+ 
+             buttonHolders[buttonId] = new ButtonHolder(button, visibilityAnimator);
+             checkButtonsPositionsAndVisibility();
+@@ -153,10 +157,15 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
+ 
+     private BlurredBackgroundDrawable containerDrawable;
+     public void setupDrawableForContainer() {
++        final boolean flat = NonIslandHelper.chatElements();
++        if (flat) {
++            // flat full-width bar: no rounded clip so the ripple/background fills edge-to-edge
++            container.setOutlineProvider(ViewOutlineProviderImpl.boundsWithPaddingRoundRect(0, 0));
++        }
+         containerDrawable = blurredBackgroundDrawableViewFactory.create(this)
+             .setColorProvider(colorProvider)
+-            .setRadius(dp(22))
+-            .setPadding(dp(6));
++            .setRadius(dp(flat ? 0 : 22))
++            .setPadding(dp(flat ? 0 : 6));
+     }
+ 
+     public boolean isButtonVisible(final int buttonId) {
+@@ -280,6 +289,11 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
+             paddingRight += holder.visibilityAnimator.getValue() ? dp(44 + 10) : 0;
+         }
+ 
++        if (NonIslandHelper.chatElements() && containerDrawable != null) {
++            // flat full-width bar (admin log): container fills the bar so it isn't click-through
++            paddingLeft = paddingRight = 0;
++        }
++
+         final MarginLayoutParams lp = (MarginLayoutParams) container.getLayoutParams();
+ 
+         if (lp.leftMargin != paddingLeft || lp.rightMargin != paddingRight) {
+@@ -414,10 +428,15 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
+     @Override
+     protected boolean drawChild(@NonNull Canvas canvas, View child, long drawingTime) {
+         if (child == container && containerDrawable != null) {
+-            tmpRect.set(
+-                totalWidthLeft + dp(1), 0,
+-                getMeasuredWidth() - dp(1) - totalWidthRight,
+-                getMeasuredHeight());
++            if (NonIslandHelper.chatElements()) {
++                // flat full-width bar, spanning bottom padding (nav bar inset) too
++                tmpRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
++            } else {
++                tmpRect.set(
++                    totalWidthLeft + dp(1), 0,
++                    getMeasuredWidth() - dp(1) - totalWidthRight,
++                    getMeasuredHeight());
++            }
+ 
+             tmpRect.round(AndroidUtilities.rectTmp2);
+             containerDrawable.setBounds(AndroidUtilities.rectTmp2);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassTabView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassTabView.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassTabView.java
