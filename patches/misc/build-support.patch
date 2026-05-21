@@ -4,20 +4,20 @@ Date: Tue, 21 Apr 2026 07:47:50 +0300
 Subject: build support stuff for fork-specific code: - added kotlin - bumped min sdk to 26, removed desugaring - versioning
 
 ---
- TMessagesProj/build.gradle                    | 110 +++++------------
- TMessagesProj/google-services.json            |  76 ++----------
+ TMessagesProj/build.gradle                    | 110 ++++------------
+ TMessagesProj/google-services.json            |  76 ++---------
  TMessagesProj/proguard-rules.pro              |  13 ++
  TMessagesProj/src/main/AndroidManifest.xml    |   7 ++
  .../org/telegram/messenger/BuildVars.java     |  12 +-
  .../org/telegram/ui/PaymentFormActivity.java  |  28 ++---
  .../org/telegram/ui/SettingsActivity.java     |  24 +---
- TMessagesProj_App/build.gradle                | 113 ++++--------------
- TMessagesProj_App/google-services.json        |  76 ++----------
+ TMessagesProj_App/build.gradle                | 119 ++++--------------
+ TMessagesProj_App/google-services.json        |  76 ++---------
  TMessagesProj_AppTests/build.gradle           |   5 +-
  build.gradle                                  |  12 +-
  gradle.properties                             |   4 +-
  settings.gradle                               |   5 +-
- 13 files changed, 130 insertions(+), 355 deletions(-)
+ 13 files changed, 136 insertions(+), 355 deletions(-)
 
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
 index 0000000..0000000 100644
@@ -552,7 +552,20 @@ index 0000000..0000000 100644
  }
  
  android {
-@@ -37,20 +38,11 @@ android {
+@@ -28,6 +29,12 @@ android {
+ 
+     sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
+ 
++    packaging {
++        jniLibs {
++            useLegacyPackaging = true
++        }
++    }
++
+     lintOptions {
+         disable 'MissingTranslation'
+         disable 'ExtraTranslation'
+@@ -37,20 +44,11 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -574,7 +587,7 @@ index 0000000..0000000 100644
              storePassword RELEASE_STORE_PASSWORD
              keyAlias RELEASE_KEY_ALIAS
              keyPassword RELEASE_KEY_PASSWORD
-@@ -61,7 +53,7 @@ android {
+@@ -61,7 +59,7 @@ android {
          debug {
              debuggable true
              jniDebuggable true
@@ -583,7 +596,7 @@ index 0000000..0000000 100644
              applicationIdSuffix ".beta"
              minifyEnabled false
              shrinkResources false
-@@ -70,18 +62,6 @@ android {
+@@ -70,18 +68,6 @@ android {
              ndk.debugSymbolLevel = 'FULL'
          }
  
@@ -602,7 +615,7 @@ index 0000000..0000000 100644
          release {
              debuggable false
              jniDebuggable false
-@@ -95,95 +75,38 @@ android {
+@@ -95,95 +81,38 @@ android {
      }
  
      sourceSets.debug {
@@ -616,8 +629,9 @@ index 0000000..0000000 100644
  
      sourceSets.release {
 -        manifest.srcFile '../TMessagesProj/config/release/AndroidManifest.xml'
--    }
--
++        manifest.srcFile '../TMessagesProj/config/release/AndroidManifest_SDK23.xml'
+     }
+ 
 -    flavorDimensions "minApi"
 -
 -    productFlavors {
@@ -664,9 +678,8 @@ index 0000000..0000000 100644
 -            }
 -            buildConfigField "boolean", "BUNDLE", "false"
 -        }
-+        manifest.srcFile '../TMessagesProj/config/release/AndroidManifest_SDK23.xml'
-     }
- 
+-    }
+-
 -    defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
 +    defaultConfig.versionCode = rootProject.ext.verCode
  
@@ -710,7 +723,7 @@ index 0000000..0000000 100644
              }
          }
      }
-@@ -196,6 +119,10 @@ android {
+@@ -196,6 +125,10 @@ android {
      lintOptions {
          checkReleaseBuilds false
      }
