@@ -84,6 +84,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - long-tap inline callback button to copy text or callback data
 - "select between messages" (🐶 done right, with proper capping)
 - 🐶 two-finger swipe over messages to select/deselect them
+- more bulk actions in message selection mode
 - in-place message translation, with optional web preview translation
 - instant view pages translator
 - show original time/date in "forwarded from" header
@@ -193,3 +194,4 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - admin logs scroll jumping when loading events
 - fix glitch when quickly dismissing photo editor after cropping
 - persist crop when rotating photo in photo editor
+- chat preview no longer marks visible reactions/poll votes as read
