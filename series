@@ -150,3 +150,4 @@ bugfix/admin-logs-scroll.patch
 feature/clickable-web-preview-photos.patch
 bugfix/photo-viewer-crop-dismiss.patch
 bugfix/photo-viewer-rotate-crop.patch
+debloat/volume-keys-videos.patch

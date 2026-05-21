@@ -161,6 +161,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - hide reactions send animation
 - 🐶 simple (non-bouncy) attach panel animation
 - disable notification bubbles
+- disable volume keys playing visible video with sound in chat
 
 ## 🐶 bugfixes (vs stock)
 
