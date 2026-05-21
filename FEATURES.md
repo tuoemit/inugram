@@ -140,7 +140,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 reduce profile motion (skip various enter animations, disable avatar scale-on-scroll effect)
 - 🐶 prefer "Media" tab in profile over Gifts/Posts
 - 🐶 recyclerlistview instant-tap
-- ios-style menu gesture (release-to-commit) in bottom menu tabs
+- open bottom-tab menus early by swiping up; flat highlight (not ripple) on menu hover
 - faster downloads/uploads
 
 ## annoyances

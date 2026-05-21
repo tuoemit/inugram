@@ -108,7 +108,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -3457,12 +3457,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3443,12 +3443,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              } else {
                  statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, dp(26));
                  statusDrawable.center = true;
@@ -122,10 +122,10 @@ index 0000000..0000000 100644
                  updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
              }
              if (folderId == 0) {
-@@ -13744,4 +13739,4 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
-             parentLayout.drawHeaderShadow(canvas, shadowAlpha, headerShadowY);
-         }
+@@ -14075,4 +14070,4 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+         return true;
      }
+ 
 -}
 \ No newline at end of file
 +}
@@ -154,7 +154,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCell.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCell.java
-@@ -316,6 +316,8 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -323,6 +323,8 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
          addView(recyclerListView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, FAKE_TOP_PADDING, 0, 0));
  
          titleView = new AnimatedTextView(getContext(), true, true, false);
@@ -162,8 +162,8 @@ index 0000000..0000000 100644
 +        titleView.setOnWidthUpdatedListener(this::invalidate);
          titleView.setGravity(Gravity.LEFT);
          titleView.setTextColor(getTextLogoColor());
-         titleView.setEllipsizeByGradient(true);
-@@ -615,11 +617,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+         titleView.setTypeface(AndroidUtilities.bold());
+@@ -626,11 +628,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                      currentTitle = str;
                  }
              } else {
@@ -177,7 +177,7 @@ index 0000000..0000000 100644
                  LocaleController.formatPluralString("Stories", totalCount);
          }
  
-@@ -922,7 +924,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -944,7 +946,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
              telegramLogoView.setTranslationX(titleView.getTranslationX() + dp(1));
              telegramLogoView.setTranslationY(bottomY + dp(14 + FAKE_TOP_PADDING + 4.333f) + translationOffset /*titleView.getTranslationY() + dpf2(37.33f)*/);
  
@@ -186,7 +186,7 @@ index 0000000..0000000 100644
              emojiStatusView.setTranslationY(bottomY + dp(14 - 11 + FAKE_TOP_PADDING + 4.333f) + translationOffset);
  
              subtitleOverlayContainer.setTranslationX(titleView.getTranslationX());
-@@ -1258,7 +1260,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -1302,7 +1304,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
              titleView.setText(currentTitle, !LocaleController.isRTL);
          }
  
@@ -195,7 +195,7 @@ index 0000000..0000000 100644
          if (hasEllipsizedText) {
              ellipsizeSpanAnimator.addView(titleView);
          } else {
-@@ -2164,21 +2166,19 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -2208,21 +2210,19 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
      private void checkUi_titleVisibility() {
          final float progress = MathUtils.clamp(Math.min(collapsedProgress, collapsedProgress2), 0, 1);
          final float titleVisibility = animatorHasTitleText.getFloatValue();
@@ -499,7 +499,7 @@ index 0000000..0000000 100644
      <string name="LanguageName">English</string>
      <string name="English">English</string>
      <string name="LanguageNameInEnglish">English</string>
-@@ -2704,8 +2704,8 @@
+@@ -2748,8 +2748,8 @@
      <string name="AuthAnotherClientUrl">This code can be used to allow someone to log in to your Telegram account.\n\nTo confirm Telegram login, please go to Settings &gt; Devices &gt; Scan QR and scan the code.</string>
      <string name="QRCodePermissionNoCameraWithHint">**Telegram** needs camera access so that you can scan QR codes. Tap Settings -> Permissions, and turn **Camera** on.</string>
      <string name="SetProfilePhoto">Set Profile Photo</string>
@@ -510,7 +510,7 @@ index 0000000..0000000 100644
      <string name="AppUpdateVersionAndSize">Version %1$s • %2$s</string>
      <string name="AppBetaUpdateVersion">Version %1$s (%2$s)</string>
      <string name="AppUpdateDownloading">Downloading %1$d%%...</string>
-@@ -4112,7 +4112,7 @@
+@@ -4159,7 +4159,7 @@
      <string name="ViewMessageStatistic">Message Statistic</string>
      <string name="ViewMessage">Open Message</string>
      <!--Intro view-->

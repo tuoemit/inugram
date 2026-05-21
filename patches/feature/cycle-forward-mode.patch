@@ -11,7 +11,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -8140,6 +8140,8 @@ public class ChatActivity extends BaseFragment implements
+@@ -8074,6 +8074,8 @@ public class ChatActivity extends BaseFragment implements
                          scrollToMessageId(replyingMessageObject.getId(), 0, true, 0, true, 0);
                          return true;
                      }
@@ -20,7 +20,7 @@ index 0000000..0000000 100644
                  }
              }
              return false;
-@@ -15145,7 +15147,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -15079,7 +15081,9 @@ public class ChatActivity extends BaseFragment implements
                  }
                  replyNameTextView.setText(text);
  
