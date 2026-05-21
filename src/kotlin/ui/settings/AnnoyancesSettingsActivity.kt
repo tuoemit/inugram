@@ -13,6 +13,7 @@ import org.telegram.messenger.SharedConfig
 import org.telegram.ui.Cells.NotificationsCheckCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.BulletinFactory
+import org.telegram.ui.Components.HintsController
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
@@ -217,15 +218,12 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 MessagesController.getGlobalMainSettings().edit {
                     putInt("channelsuggesthint2", 99)
                     putInt("hidecallshint", 99)
-                    putInt("channelgifthint", 99)
-                    putInt("channelsuggesthint", 99)
                     putInt("savedsearchhint", 99)
                     putInt("savedhint", 99)
                     putInt("voicepausehint", 99)
                     putInt("aihintshown", 99)
                     putInt("voiceoncehint", 99)
                     putInt("viewoncehint", 99)
-                    putInt("accountswitchhint", 99)
                     putInt("multistorieshint", 99)
                     putInt("taptostoryhighlighthint", 99)
                     putInt("searchpostsnew", 99)
@@ -253,6 +251,12 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                     putBoolean("storyhint", false)
                     putBoolean("trimvoicehint", false)
                 }
+                HintsController.Hint.ChannelGiftHint.doNotShowAgain()
+                HintsController.Hint.AccountSwitchHint.doNotShowAgain()
+                HintsController.Hint.RoundHintChannel2.doNotShowAgain()
+                HintsController.Hint.ChannelSuggestHint.doNotShowAgain()
+                HintsController.Hint.GroupEmojiPackHintShown.doNotShowAgain()
+                HintsController.Hint.RoundHint2.doNotShowAgain()
                 InuConfig.VOICE_HINT_SHOWN.value = true;
                 BulletinFactory.of(this)
                     .createSimpleBulletin(
@@ -278,7 +282,8 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_DISABLE_INTRO_STICKER = InuUtils.generateId()
         private val BUTTON_CLEAR_HINTS = InuUtils.generateId()
 
-        @JvmField val PAGE = SearchRegistry.Page(
+        @JvmField
+        val PAGE = SearchRegistry.Page(
             slug = "annoyances",
             titleRes = R.string.InuAnnoyances,
             iconRes = R.drawable.menu_hide_gift,
