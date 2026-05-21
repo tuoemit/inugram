@@ -4,8 +4,8 @@ Date: Fri, 10 Apr 2026 05:29:50 +0300
 Subject: hooks into various places inside ChatActivity
 
 ---
- .../java/org/telegram/ui/ChatActivity.java    | 37 ++++++++++++++-----
- 1 file changed, 27 insertions(+), 10 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 39 +++++++++++++------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
@@ -152,6 +152,15 @@ index 0000000..0000000 100644
                      if (option == OPTION_TRANSLATE) {
                          final boolean translateEnabled = getMessagesController().getTranslateController().isContextTranslateEnabled();
                          String toLangDefault = LocaleController.getInstance().getCurrentLocale().getLanguage();
+@@ -32523,7 +32533,7 @@ public class ChatActivity extends BaseFragment implements
+         return fragment;
+     }
+ 
+-    private void saveMessageToGallery(MessageObject messageObject) {
++    public void saveMessageToGallery(MessageObject messageObject) {
+         String path = messageObject.messageOwner.attachPath;
+         if (!TextUtils.isEmpty(path)) {
+             File temp = new File(path);
 @@ -33541,6 +33551,10 @@ public class ChatActivity extends BaseFragment implements
                  }, getResourceProvider(), AlertsCreator.SUGGEST_DATE_PICKER_MODE_EDIT).show(), AmountUtils.Amount.of(suggestedPost != null ? suggestedPost.price : null), !ChatObject.canManageMonoForum(currentAccount, getDialogId()));
                  break;

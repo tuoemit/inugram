@@ -161,6 +161,7 @@
     <string name="InuTranslateInstantView">Translate page</string>
     <string name="InuInstantViewShowOriginal">Show original</string>
     <string name="InuTranslating">Translating…</string>
+    <string name="InuNothingToTranslate">No translatable messages selected.</string>
     <string name="InuTranslateInstantViewSkipped">Source language is in your Do Not Translate list.</string>
     <string name="InuTranslateInstantViewPartial">Some sections could not be translated.</string>
     <string name="InuTranslator">Translator</string>
