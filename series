@@ -146,3 +146,4 @@ feature/paranoia.patch
 feature/md3-switches.patch
 bugfix/universal-fragment-theme-change.patch
 bugfix/sdk33-callback-leak.patch
+bugfix/admin-logs-scroll.patch
