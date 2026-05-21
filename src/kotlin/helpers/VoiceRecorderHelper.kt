@@ -188,6 +188,7 @@ object VoiceRecorderHelper {
                 v.viewTreeObserver.addOnPreDrawListener(preDraw)
                 sync.run()
             }
+
             override fun onViewDetachedFromWindow(v: View) {
                 v.viewTreeObserver.removeOnPreDrawListener(preDraw)
             }
@@ -215,6 +216,7 @@ object VoiceRecorderHelper {
 
     private fun showCameraPicker(options: ItemOptions, onChoice: (front: Boolean) -> Unit) {
         options
+            .forceTop(true)
             .setMinWidth(160)
             .add(
                 scaleDrawable(options.context, R.drawable.menu_camera_retake, 24),
