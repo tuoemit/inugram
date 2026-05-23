@@ -137,6 +137,7 @@ class DrawerSwipeController(private val host: DrawerLayoutContainer) {
         if (host.parentActionBarLayout.fragmentStack.size != 1) return false
         val top = host.parentActionBarLayout.lastFragment
         if (top is org.telegram.ui.DialogsActivity) {
+            if (top.searchIsShowed) return false
             val tabs = top.filterTabsView
             return tabs == null || tabs.visibility != View.VISIBLE || tabs.isFirstTabSelected
         }

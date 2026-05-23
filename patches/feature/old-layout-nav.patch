@@ -8,12 +8,12 @@ Restore hamburger side drawer for old layout mode (DrawerLayoutContainer)
 Restore hamburger side drawer for old layout mode (DialogsActivity)
 ---
  .../ui/ActionBar/DrawerLayoutContainer.java   | 27 ++++++++++++++++---
- .../java/org/telegram/ui/DialogsActivity.java | 14 ++++++++--
+ .../java/org/telegram/ui/DialogsActivity.java | 16 ++++++++---
  .../java/org/telegram/ui/LaunchActivity.java  | 24 +++++------------
  .../java/org/telegram/ui/LoginActivity.java   |  9 +++----
  .../ui/TwoStepVerificationActivity.java       |  5 ++--
  .../ui/TwoStepVerificationSetupActivity.java  | 10 +++----
- 6 files changed, 51 insertions(+), 38 deletions(-)
+ 6 files changed, 52 insertions(+), 39 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/DrawerLayoutContainer.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/DrawerLayoutContainer.java
 index 0000000..0000000 100644
@@ -100,6 +100,15 @@ index 0000000..0000000 100644
      private boolean askingForPermissions;
      private int searchViewPagerIndex;
      @Nullable
+@@ -721,7 +721,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+     private Bulletin topBulletin;
+ 
+     private AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
+-    private boolean searchIsShowed;
++    public boolean searchIsShowed;
+     private boolean searchWasFullyShowed;
+     public boolean whiteActionBar;
+     private boolean searchFiltersWasShowed;
 @@ -3411,7 +3411,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          });
          fragmentSearchFieldWatcher.setDoNotCloseAfterFieldEmpty();
