@@ -159,3 +159,4 @@ bugfix/camera2-av-sync.patch
 feature/round-recorder.patch
 bugfix/cross-peer-reply-stale-quote.patch
 bugfix/phantom-photo-seekbar.patch
+bugfix/phantom-peek-dialogs.patch

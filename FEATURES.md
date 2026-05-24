@@ -207,3 +207,4 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - chat preview no longer marks visible reactions/poll votes as read
 - fix camera2api a/v sync issue in round messages
 - cross-peer reply: clear stale quote so a leftover quote-reply target doesn't override the new one at send
+- phantom empty dialog rows after peeking a non-joined channel / discuss group
