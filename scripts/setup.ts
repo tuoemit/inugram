@@ -223,6 +223,7 @@ if (noStgit) {
     await ensurePatches(expectedPatches, seriesEntries)
   }
   await ensureAdGuardFilter()
+  await ensureGitExclude(worktreeDir, '.kotlin')
   const linkedAny = await linkForkSource(worktreeDir)
   const generatedAny = await generateIconDrawables(worktreeDir)
   success(linkedAny || generatedAny ? 'Setup complete' : 'Up to date')
