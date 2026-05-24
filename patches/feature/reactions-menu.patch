@@ -257,7 +257,7 @@ index 0000000..0000000 100644
          this.type = type;
 +        if (type == TYPE_REACTIONS || type == TYPE_EXPANDABLE_REACTIONS || type == TYPE_TAGS) {
 +            SPAN_COUNT_FOR_EMOJI = desu.inugram.InuConfig.REACTIONS_IN_ROW.getValue();
-+            SPAN_COUNT = SPAN_COUNT_FOR_EMOJI;
++            SPAN_COUNT = SPAN_COUNT_FOR_EMOJI * 5;
 +        }
          this.includeEmpty = includeEmpty;
          this.baseFragment = baseFragment;
