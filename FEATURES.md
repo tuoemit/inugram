@@ -183,6 +183,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 ## 🐶 bugfixes (vs stock)
 
 - gboard image paste no longer skips PhotoViewer
+- sticker creator output sent as photo when high-quality default is on
 - recyclerlistview double-tap requires same view
 - dialogs list pull-to-reveal-archive glitches
 - shared media player visual glitches
