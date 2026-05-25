@@ -7,10 +7,11 @@ Subject: option to disable scrim blur throughout the app
  .../telegram/messenger/AndroidUtilities.java    |  7 +++++++
  .../ui/Components/BlurBehindDrawable.java       | 15 +++++++++++++++
  .../telegram/ui/Components/ScrimOptions.java    |  8 ++++++++
+ .../org/telegram/ui/ContentPreviewViewer.java   |  4 ++--
  .../java/org/telegram/ui/DialogsActivity.java   | 10 ++++++++++
  .../org/telegram/ui/MessageSendPreview.java     | 17 ++++++++++++++---
  .../java/org/telegram/ui/TopicsFragment.java    | 12 ++++++++++++
- 6 files changed, 66 insertions(+), 3 deletions(-)
+ 7 files changed, 68 insertions(+), 5 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/AndroidUtilities.java b/TMessagesProj/src/main/java/org/telegram/messenger/AndroidUtilities.java
 index 0000000..0000000 100644
@@ -75,6 +76,28 @@ index 0000000..0000000 100644
          AndroidUtilities.makeGlobalBlurBitmap(bitmap -> {
              final ColorMatrix colorMatrixBg = new ColorMatrix();
              AndroidUtilities.adjustSaturationColorMatrix(colorMatrixBg, Theme.isCurrentThemeDark() ? .04f : +.25f);
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ContentPreviewViewer.java b/TMessagesProj/src/main/java/org/telegram/ui/ContentPreviewViewer.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ContentPreviewViewer.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ContentPreviewViewer.java
+@@ -2090,7 +2090,7 @@ public class ContentPreviewViewer {
+                 containerView.invalidate();
+             }
+ 
+-            if (blurProgress != 0 && blurrBitmap != null) {
++            if (blurProgress != 0 && blurrBitmap != null && !desu.inugram.InuConfig.DISABLE_SCRIM_BLUR.getValue()) {
+                 paint.setAlpha((int) (blurProgress * 255));
+                 if (paint.getAlpha() != 255) {
+                     canvas.drawColor(Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider), blurProgress));
+@@ -2099,7 +2099,7 @@ public class ContentPreviewViewer {
+             }
+         }
+ 
+-        backgroundDrawable.setAlpha((int) (180 * showProgress));
++        backgroundDrawable.setAlpha((int) ((desu.inugram.InuConfig.DISABLE_SCRIM_BLUR.getValue() ? 255 : 180) * showProgress));
+         backgroundDrawable.setBounds(0, 0, containerView.getWidth(), containerView.getHeight());
+         backgroundDrawable.draw(canvas);
+ 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
