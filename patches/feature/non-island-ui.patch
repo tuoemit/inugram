@@ -324,7 +324,7 @@ index 0000000..0000000 100644
                      + chatInputViewsContainer.getInputBubbleHeight() + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM));
          }
          if (messagesSearchListContainer != null) {
-@@ -16777,6 +16788,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -16785,6 +16796,10 @@ public class ChatActivity extends BaseFragment implements
      private boolean shouldHaveLightNavigationBarIcons;
  
      public boolean isShouldHaveLightNavigationBarIcons() {
@@ -335,7 +335,7 @@ index 0000000..0000000 100644
          return shouldHaveLightNavigationBarIcons && (!windowInsetsStateHolder.inAppViewIsVisible() || themeDelegate != null && themeDelegate.isDark);
      }
  
-@@ -17378,7 +17393,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17386,7 +17401,7 @@ public class ChatActivity extends BaseFragment implements
                  }
              }
              if (child == actionBar && parentLayout != null) {
@@ -344,7 +344,7 @@ index 0000000..0000000 100644
              }
              return result;
          }
-@@ -17393,7 +17408,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17401,7 +17416,7 @@ public class ChatActivity extends BaseFragment implements
              float canvasOffsetX = chatListView.getLeft() + cell.getX();
              float canvasOffsetY = chatListView.getY() + cell.getY() + cell.getPaddingTop();
              float alpha = cell.shouldDrawAlphaLayer() ? cell.getAlpha() : 1f;
@@ -353,7 +353,7 @@ index 0000000..0000000 100644
              canvas.translate(canvasOffsetX, canvasOffsetY);
              cell.setInvalidatesParent(true);
              if (type == 0) {
-@@ -17612,7 +17627,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17620,7 +17635,7 @@ public class ChatActivity extends BaseFragment implements
                              float viewClipBottom2 = getMeasuredHeight()
                                      - windowInsetsStateHolder.getCurrentMaxBottomInset()
                                      - inputIslandHeightCurrent
@@ -362,7 +362,7 @@ index 0000000..0000000 100644
                                      - (mentionContainer != null ? mentionContainer.clipBottom() : 0);
  
                              canvas.clipRect(0, listTop + (mentionContainer != null ? mentionContainer.clipTop() : 0), getMeasuredWidth(), viewClipBottom2);
-@@ -17633,7 +17648,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17641,7 +17656,7 @@ public class ChatActivity extends BaseFragment implements
                              - windowInsetsStateHolder.getCurrentMaxBottomInset()
                              - inputIslandHeightCurrent
                              - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
@@ -371,7 +371,7 @@ index 0000000..0000000 100644
  
                          float clipTop = 0, clipBottom = 0;
                          if (mentionContainer != null) {
-@@ -18136,7 +18151,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -18144,7 +18159,7 @@ public class ChatActivity extends BaseFragment implements
                      int contentWidthSpec = View.MeasureSpec.makeMeasureSpec(widthSize, View.MeasureSpec.EXACTLY);
                      int contentHeightSpec = View.MeasureSpec.makeMeasureSpec(allHeight
                              - (isInsideContainer ? 0 : actionBarHeight)
@@ -380,7 +380,7 @@ index 0000000..0000000 100644
                              - windowInsetsStateHolder.getCurrentNavigationBarInset(),
                          View.MeasureSpec.EXACTLY);
                      child.measure(contentWidthSpec, contentHeightSpec);
-@@ -18305,12 +18320,12 @@ public class ChatActivity extends BaseFragment implements
+@@ -18313,12 +18328,12 @@ public class ChatActivity extends BaseFragment implements
                          childTop = chatActivityEnterView.getBottom();
                      }
                  } else if (chatActivityEnterView != null && chatActivityEnterView.isRecordCircleOrControlsView(child)) {
@@ -397,7 +397,7 @@ index 0000000..0000000 100644
                  } else if (child == gifHintTextView || child == voiceHintTextView || child == mediaBanTooltip || child == emojiHintTextView) {
                      childTop -= inputFieldHeight;
                  } else if (child == chatListView || child == chatListThanosEffect || child == floatingDateView || child == floatingTopicSeparator || child == infoTopView) {
-@@ -29189,7 +29204,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -29197,7 +29212,7 @@ public class ChatActivity extends BaseFragment implements
  
                  return Math.round(windowInsetsStateHolder.getAnimatedMaxBottomInset()
                      + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
@@ -406,7 +406,7 @@ index 0000000..0000000 100644
              }
  
              @Override
-@@ -45319,7 +45334,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45327,7 +45342,7 @@ public class ChatActivity extends BaseFragment implements
          }
  
          final float margin = windowInsetsStateHolder.getAnimatedMaxBottomInset() +
@@ -415,7 +415,7 @@ index 0000000..0000000 100644
  
          topicsTabs.setSideMenuBackgroundMarginBottom(margin);
      }
-@@ -45327,13 +45342,13 @@ public class ChatActivity extends BaseFragment implements
+@@ -45335,13 +45350,13 @@ public class ChatActivity extends BaseFragment implements
      private void checkUi_botMenuPosition() {
          final float margin = windowInsetsStateHolder.getAnimatedMaxBottomInset()
              + getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
@@ -431,7 +431,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -45387,10 +45402,15 @@ public class ChatActivity extends BaseFragment implements
+@@ -45395,10 +45410,15 @@ public class ChatActivity extends BaseFragment implements
              return;
          }
  
@@ -447,7 +447,7 @@ index 0000000..0000000 100644
          updatePagedownButtonsPosition();
          updateBotforumTabsBottomMargin();
          checkUi_botMenuPosition();
-@@ -45431,6 +45451,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -45439,6 +45459,10 @@ public class ChatActivity extends BaseFragment implements
          if (topPanelLayoutFade == null) {
              return;
          }
@@ -458,7 +458,7 @@ index 0000000..0000000 100644
  
          float fadeHeight = 0;
          float fadeAlphaInv = 1;
-@@ -45964,7 +45988,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45972,7 +45996,7 @@ public class ChatActivity extends BaseFragment implements
      }
  
      private float getTopicTabsSideSize(TopicsTabsView.Position position) {

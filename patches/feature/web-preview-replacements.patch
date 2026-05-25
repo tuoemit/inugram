@@ -4,14 +4,27 @@ Date: Sun, 12 Apr 2026 21:03:46 +0300
 Subject: replacements for web previews
 
 ---
- TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java | 1 +
- 1 file changed, 1 insertion(+)
+ .../src/main/java/org/telegram/ui/ChatActivity.java        | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -13962,6 +13962,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -13837,6 +13837,12 @@ public class ChatActivity extends BaseFragment implements
+             return;
+         }
+         checkEditLinkRemoved(charSequence);
++        if (force && foundWebPage != null && !(foundWebPage instanceof TLRPC.TL_webPagePending) && desu.inugram.helpers.WebPreviewHelper.allUrlsPresent(foundUrls, charSequence)) {
++            if (messagePreviewParams != null) {
++                messagePreviewParams.updateLink(currentAccount, foundWebPage, chatActivityEnterView.getFieldText(), replyingMessageObject == threadMessageObject ? null : replyingMessageObject, replyingQuote, editingMessageObject);
++            }
++            return;
++        }
+         if (force && foundWebPage != null && !(foundWebPage instanceof TLRPC.TL_webPagePending)) {
+             if (foundWebPage.url != null) {
+                 int index = TextUtils.indexOf(charSequence, foundWebPage.url);
+@@ -13964,6 +13970,7 @@ public class ChatActivity extends BaseFragment implements
              } else {
                  req.message = textToCheck.toString();
              }

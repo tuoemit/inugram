@@ -273,7 +273,7 @@ index 0000000..0000000 100644
      }
  
      private Animator infoTopViewAnimator;
-@@ -24233,6 +24233,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -24241,6 +24241,10 @@ public class ChatActivity extends BaseFragment implements
      }
  
      private void saveGeneralScroll() {
@@ -284,7 +284,7 @@ index 0000000..0000000 100644
          int scrollByCellHeight = 0;
          ChatMessageCell scrollByCell = null;
          for (int i = 0; i < chatListView.getChildCount(); ++i) {
-@@ -24287,16 +24291,19 @@ public class ChatActivity extends BaseFragment implements
+@@ -24295,16 +24299,19 @@ public class ChatActivity extends BaseFragment implements
                  boolean update = false;
                  if (cellMessageObject.getId() == messageObject.getId()) {
                      cellMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
@@ -310,7 +310,7 @@ index 0000000..0000000 100644
                      }
                  }
                  MessageObject.GroupedMessages group = groupedMessagesMap.get(messageObject.getGroupId());
-@@ -24325,6 +24332,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -24333,6 +24340,7 @@ public class ChatActivity extends BaseFragment implements
                          saveGeneralScroll();
                      }
                      cellMessageObject.forceUpdate = true;
@@ -318,7 +318,7 @@ index 0000000..0000000 100644
                      cell.setMessageObject(cellMessageObject, cell.getCurrentMessagesGroup(), cell.isPinnedBottom(), cell.isPinnedTop(), cell.isFirstInChat(), cell.isLastInChatList());
                      if (group != null) {
                          if (chatListItemAnimator != null) {
-@@ -31375,10 +31383,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -31383,10 +31391,9 @@ public class ChatActivity extends BaseFragment implements
                              waitForLangDetection.set(false);
                              String fromLang = selectedObject.messageOwner.originalLanguage;
                              cell.setVisibility(
@@ -332,7 +332,7 @@ index 0000000..0000000 100644
                              );
                              cell.setOnClickListener(e -> {
                                  if (selectedObject == null || i >= options.size() || getParentActivity() == null) {
-@@ -31387,8 +31394,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -31395,8 +31402,10 @@ public class ChatActivity extends BaseFragment implements
  
                                  String toLangValue = fromLang != null && fromLang.equals(toLang) ? toLangDefault : toLang;
                                  ArrayList<TLRPC.MessageEntity> entities = selectedObject != null && selectedObject.messageOwner != null ? selectedObject.messageOwner.entities : null;
@@ -343,7 +343,7 @@ index 0000000..0000000 100644
                                  closeMenu(false);
                                  
  //                                final TranslateAlert3 alert =
-@@ -31418,10 +31427,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -31426,10 +31435,9 @@ public class ChatActivity extends BaseFragment implements
                                  finalMessageText.toString(),
                                  (String lang) -> {
                                      fromLang[0] = lang;
@@ -357,7 +357,7 @@ index 0000000..0000000 100644
                                          cell.setVisibility(View.VISIBLE);
                                      }
                                      waitForLangDetection.set(false);
-@@ -31445,8 +31453,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -31453,8 +31461,10 @@ public class ChatActivity extends BaseFragment implements
                                  }
                                  String toLangValue = fromLang[0] != null && fromLang[0].equals(toLang) ? toLangDefault : toLang;
                                  ArrayList<TLRPC.MessageEntity> entities = selectedObject != null && selectedObject.messageOwner != null ? selectedObject.messageOwner.entities : null;
@@ -368,7 +368,7 @@ index 0000000..0000000 100644
                                  closeMenu(false);
  
  //                                final TranslateAlert3 alert =
-@@ -31479,8 +31489,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -31487,8 +31497,10 @@ public class ChatActivity extends BaseFragment implements
                                      return;
                                  }
  
@@ -379,7 +379,7 @@ index 0000000..0000000 100644
                                  closeMenu(false);
  
  //                                final TranslateAlert3 alert = new TranslateAlert3(getContext(), getResourceProvider())
-@@ -31503,6 +31515,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -31511,6 +31523,9 @@ public class ChatActivity extends BaseFragment implements
                          } else {
                              cell.setVisibility(View.GONE);
                          }

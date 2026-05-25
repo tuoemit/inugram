@@ -33,6 +33,7 @@ feature/mutual-contact-icon.patch
 hooks/chat-activity.patch
 debloat/disable-pull-to-next.patch
 debloat/always-show-go-to-down.patch
+bugfix/web-preview-refetch.patch
 feature/web-preview-replacements.patch
 feature/jump-to-discussion.patch
 debloat/intro-sticker.patch

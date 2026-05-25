@@ -25,7 +25,7 @@ index 0000000..0000000 100644
              return;
          }
          if (currentChat != null && !ChatObject.canSendEmbed(currentChat)) {
-@@ -14063,6 +14067,34 @@ public class ChatActivity extends BaseFragment implements
+@@ -14071,6 +14075,34 @@ public class ChatActivity extends BaseFragment implements
  
      private HashMap<String, TLRPC.WebPage> lastLinkPreviewResults;
  

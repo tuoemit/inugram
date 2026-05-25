@@ -20,7 +20,7 @@ index 0000000..0000000 100644
                  }
              }
              return false;
-@@ -15071,11 +15073,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -15079,11 +15081,9 @@ public class ChatActivity extends BaseFragment implements
                          text = LocaleController.formatPluralString("Stories", messageObjectsToForward.size());
                      }
                  }

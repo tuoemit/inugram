@@ -339,7 +339,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -15051,11 +15051,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -15059,11 +15059,11 @@ public class ChatActivity extends BaseFragment implements
                              }
                          }
                          if (userNamesCount == 1) {
@@ -353,7 +353,7 @@ index 0000000..0000000 100644
                      }
                  }
                  replyObjectHintTextView.setText(LocaleController.getString(R.string.TapForForwardingOptions));
-@@ -15087,20 +15087,20 @@ public class ChatActivity extends BaseFragment implements
+@@ -15095,20 +15095,20 @@ public class ChatActivity extends BaseFragment implements
                      replyObjectTextView.setText(pendingLinkSearchString);
                  } else {
                      if (webPage.site_name != null) {
@@ -380,7 +380,7 @@ index 0000000..0000000 100644
                      }
                      chatActivityEnterView.setWebPage(webPage, true);
                  }
-@@ -21440,6 +21440,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -21448,6 +21448,10 @@ public class ChatActivity extends BaseFragment implements
              if (chatListView != null) {
                  chatListView.invalidateViews();
              }
@@ -391,7 +391,7 @@ index 0000000..0000000 100644
              if (alertTextView != null) {
                  alertTextView.invalidate();
              }
-@@ -28054,6 +28058,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -28062,6 +28066,7 @@ public class ChatActivity extends BaseFragment implements
                  pinnedMessageObject.updateTranslation(false);
                  if (pinnedMessageObject.type == MessageObject.TYPE_MUSIC) {
                      pinnedText = String.format("%s - %s", pinnedMessageObject.getMusicAuthor(), pinnedMessageObject.getMusicTitle());
@@ -399,7 +399,7 @@ index 0000000..0000000 100644
                  } else if (pinnedMessageObject.type == MessageObject.TYPE_POLL) {
                      if (pinnedMessageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPoll) {
                          TLRPC.TL_messageMediaPoll poll = (TLRPC.TL_messageMediaPoll) pinnedMessageObject.messageOwner.media;
-@@ -39513,15 +39518,16 @@ public class ChatActivity extends BaseFragment implements
+@@ -39521,15 +39526,16 @@ public class ChatActivity extends BaseFragment implements
                  userButton.addView(imageView, LayoutHelper.createFrame(34, 34, Gravity.LEFT | Gravity.CENTER_VERTICAL, 13, 0, 0, 0));
  
                  final TextView titleText = new TextView(getContext());

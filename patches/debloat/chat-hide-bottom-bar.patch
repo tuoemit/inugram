@@ -57,7 +57,7 @@ index 0000000..0000000 100644
              if (bottomSuggestHintView == null && firstTime && HintsController.Hint.ChannelSuggestHint.show()) {
                  AndroidUtilities.runOnUIThread(() -> {
                      if (getContext() == null) return;
-@@ -17428,7 +17434,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17436,7 +17442,7 @@ public class ChatActivity extends BaseFragment implements
              float canvasOffsetX = chatListView.getLeft() + cell.getX();
              float canvasOffsetY = chatListView.getY() + cell.getY() + cell.getPaddingTop();
              float alpha = cell.shouldDrawAlphaLayer() ? cell.getAlpha() : 1f;
@@ -66,7 +66,7 @@ index 0000000..0000000 100644
              canvas.translate(canvasOffsetX, canvasOffsetY);
              cell.setInvalidatesParent(true);
              if (type == 0) {
-@@ -17649,6 +17655,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17657,6 +17663,7 @@ public class ChatActivity extends BaseFragment implements
                                      - inputIslandHeightCurrent
                                      - dp(NonIslandHelper.chatElements() ? 0 : 9)
                                      - (mentionContainer != null ? mentionContainer.clipBottom() : 0);
@@ -74,7 +74,7 @@ index 0000000..0000000 100644
  
                              canvas.clipRect(0, listTop + (mentionContainer != null ? mentionContainer.clipTop() : 0), getMeasuredWidth(), viewClipBottom2);
                              canvas.translate(0, chatListView.getY());
-@@ -17669,6 +17676,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17677,6 +17684,7 @@ public class ChatActivity extends BaseFragment implements
                              - inputIslandHeightCurrent
                              - getTopicTabsSideSize(TopicsTabsView.Position.BOTTOM)
                              - dp(NonIslandHelper.chatElements() ? 0 : 9);
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
  
                          float clipTop = 0, clipBottom = 0;
                          if (mentionContainer != null) {
-@@ -21550,7 +21558,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -21558,7 +21566,7 @@ public class ChatActivity extends BaseFragment implements
                  updateTopPanel(true);
              }
              if (headerItem != null) {
@@ -91,7 +91,7 @@ index 0000000..0000000 100644
              }
          } else if (id == NotificationCenter.didReceiveNewMessages) {
              FileLog.d("ChatActivity didReceiveNewMessages start");
-@@ -27127,7 +27135,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -27135,7 +27143,10 @@ public class ChatActivity extends BaseFragment implements
  
          boolean accentTextButton = false;
          boolean forceVisible = false;
@@ -103,7 +103,7 @@ index 0000000..0000000 100644
          boolean showGiftButton = false;
          boolean showSuggestButton = false;
          boolean showSearchButton = chatMode == MODE_DEFAULT && ChatObject.isChannelOrGiga(currentChat);
-@@ -27203,6 +27214,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -27211,6 +27222,11 @@ public class ChatActivity extends BaseFragment implements
                  bottomOverlayChatText.setTag(null);
                  bottomOverlayChatText.setText(LocaleController.getString(R.string.HidePinnedMessagesNoCaps));
              }
@@ -115,7 +115,7 @@ index 0000000..0000000 100644
              showBottomOverlayProgress(false, false);
          } else if (currentUser != null && currentUser.id == UserObject.VERIFY) {
              if (!getMessagesController().isDialogMuted(dialog_id, getTopicId())) {
-@@ -45475,7 +45491,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45483,7 +45499,7 @@ public class ChatActivity extends BaseFragment implements
              pollAddVisibility = animatorPollAddAnswerVisibility.getFloatValue();
          }
  

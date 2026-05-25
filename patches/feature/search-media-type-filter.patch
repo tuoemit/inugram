@@ -156,7 +156,7 @@ index 0000000..0000000 100644
      }
  
      private void showSearchShowOther(boolean show) {
-@@ -16759,7 +16766,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -16767,7 +16774,7 @@ public class ChatActivity extends BaseFragment implements
          if (sideControlsButtonsLayout == null) {
              return;
          }
@@ -165,7 +165,7 @@ index 0000000..0000000 100644
  
          sideControlsButtonsLayout.showButton(ChatActivitySideControlsButtonsLayout.BUTTON_SEARCH_UP, show, animated);
          sideControlsButtonsLayout.showButton(ChatActivitySideControlsButtonsLayout.BUTTON_SEARCH_DOWN, show, animated);
-@@ -23216,7 +23223,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -23224,7 +23231,7 @@ public class ChatActivity extends BaseFragment implements
                  if (jumpToMessage) {
                      int messageId = (Integer) args[1];
                      long did = (Long) args[3];
@@ -174,7 +174,7 @@ index 0000000..0000000 100644
                          if (chatAdapter.isFiltered) {
                              updateFilteredMessages(true);
                          } else {
-@@ -23235,7 +23242,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -23243,7 +23250,7 @@ public class ChatActivity extends BaseFragment implements
                          updateVisibleRows();
                      }
                      onSearchLoadingUpdate(false);
@@ -183,7 +183,7 @@ index 0000000..0000000 100644
                      if (chatAdapter.isFiltered) {
                          updateFilteredMessages(true);
                      } else {
-@@ -34649,6 +34656,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -34657,6 +34664,7 @@ public class ChatActivity extends BaseFragment implements
              if (searchUserButton != null) {
                  searchUserButton.setVisibility(View.GONE);
              }
@@ -191,7 +191,7 @@ index 0000000..0000000 100644
          }
          if (searchItem != null) {
              preventReopenSearchWithText = true;
-@@ -34708,6 +34716,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -34716,6 +34724,7 @@ public class ChatActivity extends BaseFragment implements
              if (searchUserButton != null) {
                  searchUserButton.setVisibility(View.GONE);
              }
@@ -199,7 +199,7 @@ index 0000000..0000000 100644
          }
          if (searchItem != null) {
              preventReopenSearchWithText = true;
-@@ -37803,6 +37812,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -37811,6 +37820,11 @@ public class ChatActivity extends BaseFragment implements
              if (searchUserButton != null) {
                  searchUserButton.setVisibility(View.VISIBLE);
              }
@@ -211,7 +211,7 @@ index 0000000..0000000 100644
              if (searchingForUser) {
                  mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
                  searchingForUser = false;
-@@ -38106,6 +38120,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -38114,6 +38128,7 @@ public class ChatActivity extends BaseFragment implements
                  if (searchUserButton != null) {
                      searchUserButton.setVisibility(View.VISIBLE);
                  }
@@ -219,7 +219,7 @@ index 0000000..0000000 100644
                  searchingUserMessages = null;
                  searchingChatMessages = null;
              }
-@@ -43452,7 +43467,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -43460,7 +43475,7 @@ public class ChatActivity extends BaseFragment implements
          int lastBottom;
      }
  
@@ -228,7 +228,7 @@ index 0000000..0000000 100644
          public RecyclerListViewInternal(Context context, ThemeDelegate themeDelegate) {
              super(context, themeDelegate);
          }
-@@ -46175,7 +46190,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -46183,7 +46198,7 @@ public class ChatActivity extends BaseFragment implements
          }
      }
  

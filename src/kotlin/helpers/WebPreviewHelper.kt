@@ -80,6 +80,12 @@ object WebPreviewHelper {
     }
 
     @JvmStatic
+    fun allUrlsPresent(urls: List<CharSequence>?, text: CharSequence): Boolean {
+        if (urls.isNullOrEmpty()) return false
+        return urls.all { android.text.TextUtils.indexOf(text, it) != -1 }
+    }
+
+    @JvmStatic
     fun applyReplacements(url: String): String {
         if (!InuConfig.WEB_PREVIEW_REPLACEMENTS_ENABLED.value) return url
         val replacements = load()
