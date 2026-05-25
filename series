@@ -156,3 +156,4 @@ bugfix/phantom-peek-dialogs.patch
 hooks/notifications-controller.patch
 feature/passcode.patch
 feature/paranoia.patch
+bugfix/expand-emoji-tabs.patch
