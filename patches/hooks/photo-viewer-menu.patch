@@ -63,7 +63,7 @@ index 0000000..0000000 100644
          menuItem.redrawPopup(0xf9222222);
          menuItem.hideSubItem(gallery_menu_translate);
          menuItem.hideSubItem(gallery_menu_hide_translation);
-@@ -14170,6 +14174,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -14185,6 +14189,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          menuItem.hideSubItem(gallery_menu_report);
          menuItem.hideSubItem(gallery_menu_share);
          menuItem.hideSubItem(gallery_menu_openin);
@@ -71,7 +71,7 @@ index 0000000..0000000 100644
          menuItem.hideSubItem(gallery_menu_savegif);
          menuItem.hideSubItem(gallery_menu_masks2);
          menuItem.hideSubItem(gallery_menu_edit_avatar);
-@@ -14707,6 +14712,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -14722,6 +14727,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  subtitle = LocaleController.formatDateAudio(newMessageObject.messageOwner.date, false);
              }
              actionBarContainer.setSubtitle(subtitle, animated);
@@ -79,7 +79,7 @@ index 0000000..0000000 100644
  
              boolean isInvoice = newMessageObject.isInvoice();
              boolean noforwards = MessagesController.getInstance(currentAccount).isPeerNoForwards(newMessageObject.getDialogId()) || (newMessageObject.messageOwner != null && newMessageObject.messageOwner.noforwards) || newMessageObject.hasRevealedExtendedMedia();
-@@ -14767,6 +14773,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -14782,6 +14788,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                      menuItem.hideSubItem(gallery_menu_hide_translation);
                  }
                  allowShare = !noforwards;
@@ -87,7 +87,7 @@ index 0000000..0000000 100644
                  if (newMessageObject.isNewGif() && allowShare && !DialogObject.isEncryptedDialog(newMessageObject.getDialogId())) {
                      menuItem.showSubItem(gallery_menu_savegif);
                  }
-@@ -15012,6 +15019,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -15027,6 +15034,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  } else {
                      actionBarContainer.setSubtitle("", animated);
                  }
@@ -95,7 +95,7 @@ index 0000000..0000000 100644
                  menuItem.showSubItem(gallery_menu_report);
              }
  
-@@ -15036,6 +15044,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -15051,6 +15059,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  galleryGap.setVisibility(View.VISIBLE);
              }
              allowShare = !noforwards;
@@ -103,7 +103,7 @@ index 0000000..0000000 100644
              menuItem.showSubItem(gallery_menu_share);
              menuItem.checkHideMenuItem();
              groupedPhotosListView.fillList();
-@@ -15322,6 +15331,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -15337,6 +15346,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
              TLRPC.PageBlock pageBlock = pageBlocksAdapter.get(switchingToIndex);
              caption = pageBlocksAdapter.getCaption(switchingToIndex);
              isVideo = pageBlocksAdapter.isVideo(switchingToIndex);
@@ -111,7 +111,7 @@ index 0000000..0000000 100644
              if (isVideo) {
                  if (allowShare) {
                      menuItem.showSubItem(gallery_menu_openin);
-@@ -23575,6 +23585,26 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -23593,6 +23603,26 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          return pipItem != null && pipItem.isEnabled() && isPlaying;
      }
  

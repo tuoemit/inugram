@@ -1,3 +1,4 @@
+bugfix/photo-viewer-crop.patch
 misc/build-support.patch
 misc/branding.patch
 misc/remove-play.patch
@@ -12,8 +13,7 @@ feature/all-recent-stickers.patch
 feature/bottom-tabs.patch
 feature/minimize-sticker-creator.patch
 debloat/hide-ai-features.patch
-feature/sticker-size.patch
-debloat/hide-sticker-time.patch
+feature/stickers.patch
 debloat/disable-sensitive.patch
 debloat/disable-swipe-to-unarchive.patch
 feature/multi-account.patch
@@ -34,7 +34,7 @@ hooks/chat-activity.patch
 debloat/disable-pull-to-next.patch
 debloat/always-show-go-to-down.patch
 bugfix/web-preview-refetch.patch
-feature/web-preview-replacements.patch
+feature/web-preview.patch
 feature/jump-to-discussion.patch
 debloat/intro-sticker.patch
 debloat/hide-fade-views.patch
@@ -71,8 +71,7 @@ feature/seen-view-below.patch
 bugfix/formatting-regular.patch
 feature/custom-formatting-ui.patch
 bugfix/photo-viewer-blur.patch
-bugfix/lazy-face-detect.patch
-bugfix/lazy-chromecast.patch
+bugfix/lazy-photoviewer-init.patch
 debloat/recyclerview-instant-tap.patch
 debloat/motion-photos.patch
 feature/long-press-reply-in-replies.patch
@@ -82,6 +81,7 @@ debloat/disable-bg-parallax.patch
 feature/no-join-discuss.patch
 feature/voice-recorder.patch
 hooks/admin-logs.patch
+bugfix/admin-logs-scroll.patch
 feature/hide-pinned-panel.patch
 bugfix/missing-replace-emoji.patch
 debloat/cloud-drafts.patch
@@ -93,12 +93,10 @@ bugfix/shared-media-spoiler.patch
 debloat/notification-bubbles.patch
 hooks/app-loader.patch
 bugfix/nav-stack-lockup.patch
-feature/no-sticker-extra-padding.patch
 feature/static-pinned-reactions.patch
 hooks/icon-replacement.patch
 debloat/chat-hide-bottom-bar.patch
 feature/jump-to-beginning.patch
-feature/refetch-web-preview.patch
 feature/chat-editor.patch
 bugfix/web-preview-all-lines.patch
 feature/chats-long-tap-folders.patch
@@ -111,7 +109,6 @@ feature/create-as-supergroup.patch
 bugfix/profile-scroll-jump.patch
 hooks/loginactivity.patch
 feature/login-options.patch
-bugfix/dialogs-list-offset-leak.patch
 feature/open-archive-on-pull.patch
 hooks/messagescontroller.patch
 feature/maps.patch
@@ -147,10 +144,7 @@ feature/paranoia.patch
 feature/md3-switches.patch
 bugfix/universal-fragment-theme-change.patch
 bugfix/sdk33-callback-leak.patch
-bugfix/admin-logs-scroll.patch
 feature/clickable-web-preview-photos.patch
-bugfix/photo-viewer-crop-dismiss.patch
-bugfix/photo-viewer-rotate-crop.patch
 debloat/volume-keys-videos.patch
 bugfix/chat-preview-reactions-read.patch
 feature/better-spoilers.patch

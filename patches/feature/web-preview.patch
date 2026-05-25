@@ -1,18 +1,18 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: alina sireneva <alina@tei.su>
-Date: Tue, 28 Apr 2026 23:48:18 +0300
-Subject: menu option to refetch web preview in message input
+Date: Sun, 12 Apr 2026 21:03:46 +0300
+Subject: replacements for web previews + menu option to refetch web preview in message input
 
 ---
- .../java/org/telegram/ui/ChatActivity.java    | 34 ++++++++++++++++++-
- .../ui/Components/ChatActivityEnterView.java  | 21 +++++++++++-
- 2 files changed, 53 insertions(+), 2 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 41 ++++++++++++++++++-
+ .../ui/Components/ChatActivityEnterView.java  | 21 +++++++++-
+ 2 files changed, 60 insertions(+), 2 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -13881,7 +13881,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -13822,7 +13822,11 @@ public class ChatActivity extends BaseFragment implements
      }
  
      public void searchLinks(final CharSequence charSequence, final boolean force) {
@@ -25,7 +25,28 @@ index 0000000..0000000 100644
              return;
          }
          if (currentChat != null && !ChatObject.canSendEmbed(currentChat)) {
-@@ -14071,6 +14075,34 @@ public class ChatActivity extends BaseFragment implements
+@@ -13837,6 +13841,12 @@ public class ChatActivity extends BaseFragment implements
+             return;
+         }
+         checkEditLinkRemoved(charSequence);
++        if (force && foundWebPage != null && !(foundWebPage instanceof TLRPC.TL_webPagePending) && desu.inugram.helpers.WebPreviewHelper.allUrlsPresent(foundUrls, charSequence)) {
++            if (messagePreviewParams != null) {
++                messagePreviewParams.updateLink(currentAccount, foundWebPage, chatActivityEnterView.getFieldText(), replyingMessageObject == threadMessageObject ? null : replyingMessageObject, replyingQuote, editingMessageObject);
++            }
++            return;
++        }
+         if (force && foundWebPage != null && !(foundWebPage instanceof TLRPC.TL_webPagePending)) {
+             if (foundWebPage.url != null) {
+                 int index = TextUtils.indexOf(charSequence, foundWebPage.url);
+@@ -13964,6 +13974,7 @@ public class ChatActivity extends BaseFragment implements
+             } else {
+                 req.message = textToCheck.toString();
+             }
++            req.message = desu.inugram.helpers.WebPreviewHelper.applyReplacements(req.message);
+             if (foundWebPage != null && req.message.equals(foundWebPage.displayedText)) {
+                 return;
+             }
+@@ -14005,6 +14016,34 @@ public class ChatActivity extends BaseFragment implements
  
      private HashMap<String, TLRPC.WebPage> lastLinkPreviewResults;
  
@@ -64,7 +85,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatActivity
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatActivityEnterView.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatActivityEnterView.java
-@@ -5022,6 +5022,24 @@ public class ChatActivityEnterView extends FrameLayout implements
+@@ -4989,6 +4989,24 @@ public class ChatActivityEnterView extends FrameLayout implements
                  }
              });
          }
@@ -89,7 +110,7 @@ index 0000000..0000000 100644
          options.setupSelectors();
          if (sendWhenOnlineButton != null) {
              TLRPC.User user = parentFragment == null ? null : parentFragment.getCurrentUser();
-@@ -9721,6 +9739,7 @@ public class ChatActivityEnterView extends FrameLayout implements
+@@ -9664,6 +9682,7 @@ public class ChatActivityEnterView extends FrameLayout implements
              }
  
              doneButton.setOnLongClickListener(v -> {
@@ -97,7 +118,7 @@ index 0000000..0000000 100644
                  if (messageObject.isMediaEmpty()) return false;
                  if (messageEditText == null || TextUtils.isEmpty(messageEditText.getTextToUse())) return false;
                  if (groupedMessages != null && (!groupedMessages.hasCaption || groupedMessages.isDocuments)) return false;
-@@ -9814,7 +9833,7 @@ public class ChatActivityEnterView extends FrameLayout implements
+@@ -9757,7 +9776,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                  draftMessage = messageEditText != null && messageEditText.length() > 0 ? messageEditText.getText() : null;
                  draftSearchWebpage = messageWebPageSearch;
              }

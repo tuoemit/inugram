@@ -1,19 +1,43 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: alina sireneva <alina@tei.su>
-Date: Thu, 21 May 2026 23:14:02 +0400
-Subject: persist crop when rotating the image in PhotoViewer
+Date: Thu, 21 May 2026 23:12:41 +0400
+Subject: fix glitch when quickly dismissing editor after cropping + persist crop when rotating the image in PhotoViewer
 
 ---
- .../telegram/ui/Components/Crop/CropView.java | 78 +++++++++++++++++++
+ .../telegram/ui/Components/Crop/CropView.java | 83 ++++++++++++++++++-
  .../telegram/ui/Components/PhotoCropView.java |  7 ++
- .../java/org/telegram/ui/PhotoViewer.java     | 28 +++++--
- 3 files changed, 106 insertions(+), 7 deletions(-)
+ .../java/org/telegram/ui/PhotoViewer.java     | 32 +++++--
+ 3 files changed, 114 insertions(+), 8 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/Crop/CropView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/Crop/CropView.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/Crop/CropView.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/Crop/CropView.java
-@@ -900,6 +900,84 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
+@@ -46,6 +46,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
+     private PaintingOverlay paintingOverlay;
+     private VideoEditTextureView videoEditTextureView;
+     private CropTransform cropTransform;
++    public boolean inu_dismissing;
+ 
+     private RectF previousAreaRect;
+     private RectF initialAreaRect;
+@@ -304,6 +305,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
+         paintingOverlay = null;
+         videoEditTextureView = null;
+         cropTransform = transform;
++        inu_dismissing = false;
+         bitmapRotation = rotation;
+         bitmap = null;
+         areaView.setIsVideo(videoEditTextureView != null);
+@@ -379,6 +381,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
+         paintingOverlay = overlay;
+         videoEditTextureView = videoView;
+         cropTransform = transform;
++        inu_dismissing = false;
+         bitmapRotation = rotation;
+         bitmap = b;
+         areaView.setIsVideo(videoEditTextureView != null);
+@@ -897,6 +900,84 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
          return state.getOrientationOnly() != 0;
      }
  
@@ -98,6 +122,15 @@ index 0000000..0000000 100644
      @Override
      public boolean onTouchEvent(MotionEvent event) {
          if (animating) {
+@@ -1111,7 +1192,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
+     RectF sizeRect = new RectF(0, 0, RESULT_SIDE, RESULT_SIDE);
+ 
+     private void updateCropTransform() {
+-        if (cropTransform == null || state == null) {
++        if (cropTransform == null || state == null || inu_dismissing) {
+             return;
+         }
+         areaView.getCropRect(cropRect);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/PhotoCropView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/PhotoCropView.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/PhotoCropView.java
@@ -120,7 +153,15 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -9455,7 +9455,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -7880,6 +7880,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+                 return;
+             }
+             Runnable onEnd = () -> {
++                photoCropView.cropView.inu_dismissing = true;
+                 cropTransform.setViewTransform(previousHasTransform, previousCropPx, previousCropPy, previousCropRotation, previousCropOrientation, previousCropScale, scale1(), scale1(), previousCropPw, previousCropPh, 0, 0, previousCropMirrored);
+ //                if (previousHasTransform) {
+ //                    editState.cropState = new MediaController.CropState();
+@@ -9426,7 +9427,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
      }
  
      private boolean cropRotate(float diff) {
@@ -129,7 +170,7 @@ index 0000000..0000000 100644
      }
  
      private float scale1() {
-@@ -9493,13 +9493,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -9464,13 +9465,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
      }
  
      private boolean cropRotate(final float diff, boolean restoreMirror, Runnable onEnd) {
@@ -150,7 +191,7 @@ index 0000000..0000000 100644
          rotate = 0;
          animateToRotate = rotate + diff;
          if (restoreMirror) {
-@@ -9517,9 +9523,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -9488,9 +9495,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  bitmapWidth = bitmapHeight;
                  bitmapHeight = temp;
              }
@@ -168,7 +209,7 @@ index 0000000..0000000 100644
              }
              float oldScale = Math.min(getContainerViewWidth(EDIT_MODE_CROP) / (float) bitmapWidth, getContainerViewHeight(EDIT_MODE_CROP) / (float) bitmapHeight);
              float newScale = oldScale;
-@@ -9555,13 +9566,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -9526,13 +9538,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  photoCropView.cropView.areaView.setRotationScaleTranslation(0, scale1(false), 0, 0);
                  photoCropView.wheelView.setRotated(false);
                  if (Math.abs(diff) > 0) {
@@ -187,3 +228,13 @@ index 0000000..0000000 100644
                      editState.cropState.cropPx = editState.cropState.cropPy = 0;
                      editState.cropState.cropPw = editState.cropState.cropPh = 1;
                  }
+@@ -18222,6 +18237,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+                 return;
+             }
+             if (currentEditMode == EDIT_MODE_CROP) {
++                if (photoCropView != null) {
++                    photoCropView.cropView.inu_dismissing = true;
++                }
+                 cropTransform.setViewTransform(previousHasTransform, previousCropPx, previousCropPy, previousCropRotation, previousCropOrientation, previousCropScale, 1.0f, 1.0f, previousCropPw, previousCropPh, 0, 0, previousCropMirrored);
+             }
+             if (currentEditMode == EDIT_MODE_STICKER_MASK) {
