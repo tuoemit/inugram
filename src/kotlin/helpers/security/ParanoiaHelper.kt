@@ -140,6 +140,18 @@ object ParanoiaHelper {
     }
 
     @JvmStatic
+    fun filterContacts(account: Int, list: MutableList<TLRPC.TL_contact>) {
+        if (!isParanoia()) return
+        list.removeAll { isHidden(account, it.user_id) }
+    }
+
+    @JvmStatic
+    fun anyHidden(account: Int, ids: Collection<Long>): Boolean {
+        if (!isParanoia()) return false
+        return ids.any { isHidden(account, it) }
+    }
+
+    @JvmStatic
     fun matchesExitCode(query: String?): Boolean {
         if (!isParanoia() || query.isNullOrBlank()) return false
         return SecretHash.verify(prefs, "exitHash", "exitSalt", query.trim())
