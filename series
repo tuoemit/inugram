@@ -157,7 +157,7 @@ hooks/notifications-controller.patch
 feature/passcode.patch
 feature/paranoia.patch
 bugfix/expand-emoji-tabs.patch
-bugfix/spoiler-reveal-reply-keep.patch
+bugfix/spoiler-reveal-keep.patch
 feature/reaction-confirm-non-member.patch
 feature/confirm-internal-links.patch
 bugfix/hq-stickers-editor.patch

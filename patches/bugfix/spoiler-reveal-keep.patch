@@ -5,9 +5,10 @@ Subject: keep spoiler reveal for new replies and message edits
 
 ---
  .../main/java/org/telegram/messenger/MediaDataController.java    | 1 +
+ .../src/main/java/org/telegram/messenger/MessageObject.java      | 1 +
  .../src/main/java/org/telegram/messenger/MessagesController.java | 1 +
  TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java    | 1 +
- 3 files changed, 3 insertions(+)
+ 4 files changed, 4 insertions(+)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
 index 0000000..0000000 100644
@@ -21,6 +22,18 @@ index 0000000..0000000 100644
                          m.replyMessageObject = messageObject;
                          m.applyTimestampsHighlightForReplyMsg();
                          if (m.messageOwner.action instanceof TLRPC.TL_messageActionPinMessage) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
+@@ -769,6 +769,7 @@ public class MessageObject {
+             }
+         }
+         isSpoilersRevealed = old.isSpoilersRevealed;
++        isMediaSpoilersRevealed = old.isMediaSpoilersRevealed;
+         messageOwner.replyStory = old.messageOwner.replyStory;
+         if (messageOwner.media != null && old.messageOwner.media != null) {
+             messageOwner.media.storyItem = old.messageOwner.media.storyItem;
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
