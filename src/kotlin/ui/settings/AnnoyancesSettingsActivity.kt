@@ -26,6 +26,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuHideMessageSummary, InuConfig.HIDE_MESSAGE_SUMMARY),
             ExpandableBoolGroup.Option(R.string.InuHideIvSummary, InuConfig.HIDE_IV_SUMMARY),
         ),
+        sectionId = SECTION_HIDE_AI_FEATURES,
     )
 
     private val hideSuggestionsGroup = ExpandableBoolGroup(
@@ -44,6 +45,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuHideSuggestionPremium, InuConfig.HIDE_SUGGESTION_PREMIUM),
             ExpandableBoolGroup.Option(R.string.InuHideSuggestionCustom, InuConfig.HIDE_SUGGESTION_CUSTOM),
         ),
+        sectionId = SECTION_HIDE_SUGGESTIONS,
     )
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuAnnoyances)
@@ -295,6 +297,8 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_DISABLE_INTRO_STICKER = InuUtils.generateId()
         private val TOGGLE_DISABLE_VOLUME_PLAY_VIDEO = InuUtils.generateId()
         private val BUTTON_CLEAR_HINTS = InuUtils.generateId()
+        private val SECTION_HIDE_AI_FEATURES = InuUtils.generateId()
+        private val SECTION_HIDE_SUGGESTIONS = InuUtils.generateId()
 
         @JvmField
         val PAGE = SearchRegistry.Page(
@@ -316,6 +320,8 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("disable-intro-sticker", R.string.InuDisableIntroSticker, TOGGLE_DISABLE_INTRO_STICKER),
                 SearchRegistry.Entry("disable-volume-play-video", R.string.InuDisableVolumePlayVideo, TOGGLE_DISABLE_VOLUME_PLAY_VIDEO),
                 SearchRegistry.Entry("clear-hints", R.string.InuClearHints, BUTTON_CLEAR_HINTS),
+                SearchRegistry.Entry("hide-ai-features", R.string.InuHideAiFeatures, SECTION_HIDE_AI_FEATURES),
+                SearchRegistry.Entry("hide-suggestions", R.string.InuHideSuggestions, SECTION_HIDE_SUGGESTIONS),
             ),
         )
     }

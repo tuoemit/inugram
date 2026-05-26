@@ -22,6 +22,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuDeleteForBothDms, InuConfig.DELETE_FOR_BOTH_DMS),
             ExpandableBoolGroup.Option(R.string.InuDeleteForBothGroups, InuConfig.DELETE_FOR_BOTH_GROUPS),
         ),
+        sectionId = SECTION_DELETE_FOR_BOTH,
     )
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuBehavior)
@@ -167,6 +168,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val BUTTON_WEB_PREVIEW_REPLACEMENTS = InuUtils.generateId()
         private val TOGGLE_FASTER_DOWNLOADS = InuUtils.generateId()
         private val TOGGLE_FASTER_UPLOADS = InuUtils.generateId()
+        private val SECTION_DELETE_FOR_BOTH = InuUtils.generateId()
 
         private fun textClassifierModeLabel(value: Int): String = when (value) {
             InuConfig.TextClassifierModeItem.NATIVE -> LocaleController.getString(R.string.InuTextClassifierModeNative)
@@ -187,6 +189,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("web-preview-replacements", R.string.InuWebPreviewReplacements, BUTTON_WEB_PREVIEW_REPLACEMENTS),
                 SearchRegistry.Entry("faster-downloads", R.string.InuFasterDownloads, TOGGLE_FASTER_DOWNLOADS),
                 SearchRegistry.Entry("faster-uploads", R.string.InuFasterUploads, TOGGLE_FASTER_UPLOADS),
+                SearchRegistry.Entry("delete-for-both", R.string.InuDeleteForBoth, SECTION_DELETE_FOR_BOTH),
             ),
         )
     }

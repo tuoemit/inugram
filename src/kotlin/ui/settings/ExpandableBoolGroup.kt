@@ -13,12 +13,14 @@ import org.telegram.ui.Components.UItem
 class ExpandableBoolGroup(
     val title: CharSequence,
     val options: List<Option>,
+    val sectionId: Int = InuUtils.generateId(),
 ) {
-    class Option(val labelRes: Int, val config: InuConfig.BoolItem) {
-        val id: Int = InuUtils.generateId()
-    }
+    class Option(
+        val labelRes: Int,
+        val config: InuConfig.BoolItem,
+        val id: Int = InuUtils.generateId(),
+    )
 
-    private val sectionId = InuUtils.generateId()
     var expanded = false
 
     fun addTo(items: ArrayList<UItem>, onChange: (options: List<Option>) -> Unit) {

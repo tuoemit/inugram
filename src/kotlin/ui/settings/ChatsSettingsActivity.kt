@@ -31,6 +31,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuHideBotSlashGroups, InuConfig.HIDE_BOT_SLASH_GROUPS),
             ExpandableBoolGroup.Option(R.string.InuHideBotSlashBots, InuConfig.HIDE_BOT_SLASH_BOTS),
         ),
+        sectionId = SECTION_HIDE_BOT_SLASH,
     )
 
     private val hideBottomBarGroup = ExpandableBoolGroup(
@@ -42,6 +43,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuHideBottomBarReplies, InuConfig.HIDE_BOTTOM_BAR_REPLIES),
             ExpandableBoolGroup.Option(R.string.InuHideBottomBarPinned, InuConfig.HIDE_BOTTOM_BAR_PINNED),
         ),
+        sectionId = SECTION_HIDE_BOTTOM_BAR,
     )
 
     override fun fillItems(items: ArrayList<UItem>, adapter: UniversalAdapter) {
@@ -332,6 +334,8 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_SEARCH_FROM_GLOBAL = InuUtils.generateId()
         private val TOGGLE_HIDE_CALL_ACTION_BUTTON = InuUtils.generateId()
         private val BUTTON_CHAT_MENU_ORDER = InuUtils.generateId()
+        private val SECTION_HIDE_BOTTOM_BAR = InuUtils.generateId()
+        private val SECTION_HIDE_BOT_SLASH = InuUtils.generateId()
 
         private fun roundCameraLabel(value: Int): String = when (value) {
             2 -> LocaleController.getString(R.string.InuRoundCameraRear)
@@ -376,6 +380,8 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("search-from-global", R.string.InuSearchFromGlobal, TOGGLE_SEARCH_FROM_GLOBAL),
                 SearchRegistry.Entry("hide-call-action-button", R.string.InuHideCallActionButton, TOGGLE_HIDE_CALL_ACTION_BUTTON),
                 SearchRegistry.Entry("chat-menu-order", R.string.InuChatMenuOrder, BUTTON_CHAT_MENU_ORDER),
+                SearchRegistry.Entry("hide-bottom-bar", R.string.InuHideBottomBar, SECTION_HIDE_BOTTOM_BAR),
+                SearchRegistry.Entry("hide-bot-slash", R.string.InuHideBotSlash, SECTION_HIDE_BOT_SLASH),
             ),
         )
     }
