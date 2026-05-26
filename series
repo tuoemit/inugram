@@ -162,3 +162,4 @@ feature/reaction-confirm-non-member.patch
 feature/confirm-internal-links.patch
 bugfix/hq-stickers-editor.patch
 feature/no-selection-cap.patch
+feature/seekable-gifs.patch

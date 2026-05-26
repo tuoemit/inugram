@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.FileProvider
+import desu.inugram.InuConfig
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.FileLoader
@@ -23,9 +24,9 @@ import org.telegram.ui.ActionBar.ActionBarMenuSubItem
 import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.PhotoViewer
 import java.io.File
-import java.util.concurrent.ConcurrentHashMap
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.concurrent.ConcurrentHashMap
 
 @SuppressLint("StaticFieldLeak")
 object PhotoViewerHelper {
@@ -35,6 +36,9 @@ object PhotoViewerHelper {
 
     private var footerGap: View? = null
     private var footerItem: ActionBarMenuSubItem? = null
+
+    @JvmStatic
+    fun gifAsVideo(msg: MessageObject?): Boolean = msg != null && msg.isNewGif && InuConfig.GIF_SEEKBAR.value
 
     @JvmStatic
     fun setFooter(msg: MessageObject?) {

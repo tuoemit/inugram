@@ -62,6 +62,14 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 InuConfig.CONFIRM_INTERNAL_LINKS.value,
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_GIF_SEEKBAR,
+                R.string.InuGifSeekbar,
+                R.string.InuGifSeekbarInfo,
+                InuConfig.GIF_SEEKBAR.value,
+            )
+        )
         deleteForBothGroup.addTo(items) { listView.adapter.update(true) }
         items.add(UItem.asShadow(null))
 
@@ -116,6 +124,11 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_GIF_SEEKBAR -> {
+                val new = InuConfig.GIF_SEEKBAR.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             TOGGLE_FASTER_DOWNLOADS -> {
                 val new = InuConfig.FASTER_DOWNLOADS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
@@ -165,6 +178,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val BUTTON_TEXT_CLASSIFIER_MODE = InuUtils.generateId()
         private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
         private val TOGGLE_CONFIRM_INTERNAL_LINKS = InuUtils.generateId()
+        private val TOGGLE_GIF_SEEKBAR = InuUtils.generateId()
         private val BUTTON_WEB_PREVIEW_REPLACEMENTS = InuUtils.generateId()
         private val TOGGLE_FASTER_DOWNLOADS = InuUtils.generateId()
         private val TOGGLE_FASTER_UPLOADS = InuUtils.generateId()
@@ -186,6 +200,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("text-classifier-mode", R.string.InuTextClassifierMode, BUTTON_TEXT_CLASSIFIER_MODE),
                 SearchRegistry.Entry("call-confirmation", R.string.InuCallConfirmation, TOGGLE_CALL_CONFIRMATION),
                 SearchRegistry.Entry("confirm-internal-links", R.string.InuConfirmInternalLinks, TOGGLE_CONFIRM_INTERNAL_LINKS),
+                SearchRegistry.Entry("gif-seekbar", R.string.InuGifSeekbar, TOGGLE_GIF_SEEKBAR),
                 SearchRegistry.Entry("web-preview-replacements", R.string.InuWebPreviewReplacements, BUTTON_WEB_PREVIEW_REPLACEMENTS),
                 SearchRegistry.Entry("faster-downloads", R.string.InuFasterDownloads, TOGGLE_FASTER_DOWNLOADS),
                 SearchRegistry.Entry("faster-uploads", R.string.InuFasterUploads, TOGGLE_FASTER_UPLOADS),

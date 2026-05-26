@@ -138,6 +138,9 @@ object InuConfig {
     val DISABLE_INSTANT_CAMERA = BoolItem("disable_instant_camera", true)
 
     @JvmField
+    val GIF_SEEKBAR = BoolItem("gif_seekbar", true)
+
+    @JvmField
     val SHOW_ALL_RECENT_STICKERS = BoolItem("show_all_recent_stickers", true)
 
     @JvmField

@@ -119,6 +119,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - "hide with spoiler" toggle
 - "copy photo" / "copy frame" menu actions
 - show dc + platform of the photo in menu
+- seek bar for mp4 gifs
 
 ## admin / event log
 
