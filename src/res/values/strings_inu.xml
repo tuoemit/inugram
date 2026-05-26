@@ -179,6 +179,7 @@
     <string name="InuCallConfirmationText">Call **%1$s**?</string>
     <string name="InuConfirmInternalLinks">Confirm opening internal links</string>
     <string name="InuConfirmInternalLinksInfo">tg:// and t.me/</string>
+    <string name="InuDisableBrowserSwipeCollapse">Disable swipe-down to minimize browser</string>
     <string name="InuGifSeekbar">Seek bar for GIFs</string>
     <string name="InuGifSeekbarInfo">Note: only works for \"new\" GIFs (i.e. silent MP4)</string>
     <string name="InuConfirmReactionNonMember">Confirm reactions in non-joined chats</string>

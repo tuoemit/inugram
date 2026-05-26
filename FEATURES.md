@@ -148,6 +148,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - call confirmation
 - 🐶 reaction confirmation in non-joined chats
 - 🐶 internal link confirmation (tg://, t.me/…)
+- 🐶 disable swipe-down to minimize the in-app browser (only the minimize button collapses it)
 - predictive back mode selector (off / stock / 🐶 Material 3)
 - disable pull-to-next-channel
 - disable swipe-to-unarchive

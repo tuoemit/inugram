@@ -56,14 +56,6 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         )
         items.add(
             mkTwoLineCheckItem(
-                TOGGLE_CONFIRM_INTERNAL_LINKS,
-                R.string.InuConfirmInternalLinks,
-                R.string.InuConfirmInternalLinksInfo,
-                InuConfig.CONFIRM_INTERNAL_LINKS.value,
-            )
-        )
-        items.add(
-            mkTwoLineCheckItem(
                 TOGGLE_GIF_SEEKBAR,
                 R.string.InuGifSeekbar,
                 R.string.InuGifSeekbarInfo,
@@ -73,6 +65,21 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         deleteForBothGroup.addTo(items) { listView.adapter.update(true) }
         items.add(UItem.asShadow(null))
 
+
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_CONFIRM_INTERNAL_LINKS,
+                R.string.InuConfirmInternalLinks,
+                R.string.InuConfirmInternalLinksInfo,
+                InuConfig.CONFIRM_INTERNAL_LINKS.value,
+            )
+        )
+        items.add(
+            UItem.asCheck(
+                TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE,
+                LocaleController.getString(R.string.InuDisableBrowserSwipeCollapse),
+            ).setChecked(InuConfig.DISABLE_BROWSER_SWIPE_COLLAPSE.value)
+        )
         items.add(
             UItem.asButton(
                 BUTTON_WEB_PREVIEW_REPLACEMENTS,
@@ -122,6 +129,11 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             TOGGLE_CONFIRM_INTERNAL_LINKS -> {
                 val new = InuConfig.CONFIRM_INTERNAL_LINKS.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE -> {
+                val new = InuConfig.DISABLE_BROWSER_SWIPE_COLLAPSE.toggle()
+                (view as? TextCheckCell)?.isChecked = new
             }
 
             TOGGLE_GIF_SEEKBAR -> {
@@ -178,6 +190,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val BUTTON_TEXT_CLASSIFIER_MODE = InuUtils.generateId()
         private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
         private val TOGGLE_CONFIRM_INTERNAL_LINKS = InuUtils.generateId()
+        private val TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE = InuUtils.generateId()
         private val TOGGLE_GIF_SEEKBAR = InuUtils.generateId()
         private val BUTTON_WEB_PREVIEW_REPLACEMENTS = InuUtils.generateId()
         private val TOGGLE_FASTER_DOWNLOADS = InuUtils.generateId()
@@ -200,6 +213,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("text-classifier-mode", R.string.InuTextClassifierMode, BUTTON_TEXT_CLASSIFIER_MODE),
                 SearchRegistry.Entry("call-confirmation", R.string.InuCallConfirmation, TOGGLE_CALL_CONFIRMATION),
                 SearchRegistry.Entry("confirm-internal-links", R.string.InuConfirmInternalLinks, TOGGLE_CONFIRM_INTERNAL_LINKS),
+                SearchRegistry.Entry("disable-browser-swipe-collapse", R.string.InuDisableBrowserSwipeCollapse, TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE),
                 SearchRegistry.Entry("gif-seekbar", R.string.InuGifSeekbar, TOGGLE_GIF_SEEKBAR),
                 SearchRegistry.Entry("web-preview-replacements", R.string.InuWebPreviewReplacements, BUTTON_WEB_PREVIEW_REPLACEMENTS),
                 SearchRegistry.Entry("faster-downloads", R.string.InuFasterDownloads, TOGGLE_FASTER_DOWNLOADS),

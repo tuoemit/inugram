@@ -366,6 +366,9 @@ object InuConfig {
     val CONFIRM_INTERNAL_LINKS = BoolItem("confirm_internal_links", false)
 
     @JvmField
+    val DISABLE_BROWSER_SWIPE_COLLAPSE = BoolItem("disable_browser_swipe_collapse", true)
+
+    @JvmField
     val CONFIRM_REACTION_NON_MEMBER = BoolItem("confirm_reaction_non_member", false)
 
     @JvmField
