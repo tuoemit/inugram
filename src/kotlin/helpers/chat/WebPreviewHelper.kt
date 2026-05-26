@@ -14,7 +14,7 @@ object WebPreviewHelper {
 
     val DEFAULT_REPLACEMENTS = listOf(
         Replacement("""(?:x|twitter)\.com/(.*)""", "fixupx.com/$1"),
-        Replacement("""(?:www)?\.instagram\.com/(.*)""", "kkinstagram.com/$1"),
+        Replacement("""(?:www)?\.instagram\.com/(.*)""", "kkclip.com/$1"),
         Replacement("""(vm|vt|www)\.tiktok\.com/(.*)""", "$1.kktiktok.com/$2"),
         Replacement("""(?:www)?\.reddit\.com/(.*)""", "www.rxddit.com/$1"),
         Replacement("""bsky\.app/(.*)""", "fxbsky.app/$1"),
