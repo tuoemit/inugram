@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.toColorInt
 import desu.inugram.InuConfig
 import google_material.Blend
 import org.telegram.messenger.ApplicationLoader
@@ -86,6 +87,101 @@ object MonetHelper {
             put("n2_1000", android.R.color.system_neutral2_1000)
         }
     }
+
+    // M3 semantic tokens (added in API 34, UPSIDE_DOWN_CAKE).
+    // Resource IDs resolve at runtime only on API 34+; older versions fall back to the
+    // closest palette tone / hardcoded M3 default. Each token name is the Android resource
+    // name verbatim (e.g. `surface_bright_light` -> `android.R.color.system_surface_bright_light`).
+    private data class SemanticToken(val resourceId: Int, val fallback: String)
+
+    private val semantic: HashMap<String, SemanticToken> = hashMapOf(
+        // primary
+        "monet_primary_light" to SemanticToken(android.R.color.system_primary_light, "a1_600"),
+        "monet_primary_dark" to SemanticToken(android.R.color.system_primary_dark, "a1_200"),
+        "monet_on_primary_light" to SemanticToken(android.R.color.system_on_primary_light, "a1_0"),
+        "monet_on_primary_dark" to SemanticToken(android.R.color.system_on_primary_dark, "a1_800"),
+        "monet_primary_container_light" to SemanticToken(android.R.color.system_primary_container_light, "a1_100"),
+        "monet_primary_container_dark" to SemanticToken(android.R.color.system_primary_container_dark, "a1_700"),
+        "monet_on_primary_container_light" to SemanticToken(android.R.color.system_on_primary_container_light, "a1_900"),
+        "monet_on_primary_container_dark" to SemanticToken(android.R.color.system_on_primary_container_dark, "a1_100"),
+//        "monet_inverse_primary_light" to SemanticToken(android.R.color.system_inverse_primary_light, "a1_200"),
+//        "monet_inverse_primary_dark" to SemanticToken(android.R.color.system_inverse_primary_dark, "a1_700"),
+
+        // secondary
+        "monet_secondary_light" to SemanticToken(android.R.color.system_secondary_light, "a2_600"),
+        "monet_secondary_dark" to SemanticToken(android.R.color.system_secondary_dark, "a2_200"),
+        "monet_on_secondary_light" to SemanticToken(android.R.color.system_on_secondary_light, "a2_0"),
+        "monet_on_secondary_dark" to SemanticToken(android.R.color.system_on_secondary_dark, "a2_800"),
+        "monet_secondary_container_light" to SemanticToken(android.R.color.system_secondary_container_light, "a2_100"),
+        "monet_secondary_container_dark" to SemanticToken(android.R.color.system_secondary_container_dark, "a2_700"),
+        "monet_on_secondary_container_light" to SemanticToken(android.R.color.system_on_secondary_container_light, "a2_900"),
+        "monet_on_secondary_container_dark" to SemanticToken(android.R.color.system_on_secondary_container_dark, "a2_100"),
+
+        // tertiary
+        "monet_tertiary_light" to SemanticToken(android.R.color.system_tertiary_light, "a3_600"),
+        "monet_tertiary_dark" to SemanticToken(android.R.color.system_tertiary_dark, "a3_200"),
+        "monet_on_tertiary_light" to SemanticToken(android.R.color.system_on_tertiary_light, "a3_0"),
+        "monet_on_tertiary_dark" to SemanticToken(android.R.color.system_on_tertiary_dark, "a3_800"),
+        "monet_tertiary_container_light" to SemanticToken(android.R.color.system_tertiary_container_light, "a3_100"),
+        "monet_tertiary_container_dark" to SemanticToken(android.R.color.system_tertiary_container_dark, "a3_700"),
+        "monet_on_tertiary_container_light" to SemanticToken(android.R.color.system_on_tertiary_container_light, "a3_900"),
+        "monet_on_tertiary_container_dark" to SemanticToken(android.R.color.system_on_tertiary_container_dark, "a3_100"),
+
+        // error (M3 default error palette; not derived from Monet)
+        "monet_error_light" to SemanticToken(android.R.color.system_error_light, "#B3261E"),
+        "monet_error_dark" to SemanticToken(android.R.color.system_error_dark, "#F2B8B5"),
+        "monet_on_error_light" to SemanticToken(android.R.color.system_on_error_light, "#FFFFFF"),
+        "monet_on_error_dark" to SemanticToken(android.R.color.system_on_error_dark, "#601410"),
+        "monet_error_container_light" to SemanticToken(android.R.color.system_error_container_light, "#F9DEDC"),
+        "monet_error_container_dark" to SemanticToken(android.R.color.system_error_container_dark, "#8C1D18"),
+        "monet_on_error_container_light" to SemanticToken(android.R.color.system_on_error_container_light, "#410E0B"),
+        "monet_on_error_container_dark" to SemanticToken(android.R.color.system_on_error_container_dark, "#F9DEDC"),
+
+        // background & surface base
+        "monet_background_light" to SemanticToken(android.R.color.system_background_light, "n1_10"),
+        "monet_background_dark" to SemanticToken(android.R.color.system_background_dark, "n1_900"),
+        "monet_on_background_light" to SemanticToken(android.R.color.system_on_background_light, "n1_900"),
+        "monet_on_background_dark" to SemanticToken(android.R.color.system_on_background_dark, "n1_100"),
+        "monet_surface_light" to SemanticToken(android.R.color.system_surface_light, "n1_10"),
+        "monet_surface_dark" to SemanticToken(android.R.color.system_surface_dark, "n1_900"),
+        "monet_on_surface_light" to SemanticToken(android.R.color.system_on_surface_light, "n1_900"),
+        "monet_on_surface_dark" to SemanticToken(android.R.color.system_on_surface_dark, "n1_100"),
+        "monet_surface_variant_light" to SemanticToken(android.R.color.system_surface_variant_light, "n2_100"),
+        "monet_surface_variant_dark" to SemanticToken(android.R.color.system_surface_variant_dark, "n2_700"),
+        "monet_on_surface_variant_light" to SemanticToken(android.R.color.system_on_surface_variant_light, "n2_700"),
+        "monet_on_surface_variant_dark" to SemanticToken(android.R.color.system_on_surface_variant_dark, "n2_200"),
+
+        // surface tonal variants
+        "monet_surface_bright_light" to SemanticToken(android.R.color.system_surface_bright_light, "n1_10"),
+        "monet_surface_bright_dark" to SemanticToken(android.R.color.system_surface_bright_dark, "n1_800"),
+        "monet_surface_dim_light" to SemanticToken(android.R.color.system_surface_dim_light, "n1_100"),
+        "monet_surface_dim_dark" to SemanticToken(android.R.color.system_surface_dim_dark, "n1_900"),
+
+        // surface containers
+        "monet_surface_container_lowest_light" to SemanticToken(android.R.color.system_surface_container_lowest_light, "n1_0"),
+        "monet_surface_container_lowest_dark" to SemanticToken(android.R.color.system_surface_container_lowest_dark, "n1_1000"),
+        "monet_surface_container_low_light" to SemanticToken(android.R.color.system_surface_container_low_light, "n1_10"),
+        "monet_surface_container_low_dark" to SemanticToken(android.R.color.system_surface_container_low_dark, "n1_900"),
+        "monet_surface_container_light" to SemanticToken(android.R.color.system_surface_container_light, "n1_50"),
+        "monet_surface_container_dark" to SemanticToken(android.R.color.system_surface_container_dark, "n1_900"),
+        "monet_surface_container_high_light" to SemanticToken(android.R.color.system_surface_container_high_light, "n1_100"),
+        "monet_surface_container_high_dark" to SemanticToken(android.R.color.system_surface_container_high_dark, "n1_800"),
+        "monet_surface_container_highest_light" to SemanticToken(android.R.color.system_surface_container_highest_light, "n1_200"),
+        "monet_surface_container_highest_dark" to SemanticToken(android.R.color.system_surface_container_highest_dark, "n1_800"),
+
+        // outline
+        "monet_outline_light" to SemanticToken(android.R.color.system_outline_light, "n2_500"),
+        "monet_outline_dark" to SemanticToken(android.R.color.system_outline_dark, "n2_400"),
+        "monet_outline_variant_light" to SemanticToken(android.R.color.system_outline_variant_light, "n2_200"),
+        "monet_outline_variant_dark" to SemanticToken(android.R.color.system_outline_variant_dark, "n2_700"),
+
+        // inverse
+//        "monet_inverse_surface_light" to SemanticToken(android.R.color.system_inverse_surface_light, "n1_800"),
+//        "monet_inverse_surface_dark" to SemanticToken(android.R.color.system_inverse_surface_dark, "n1_100"),
+//        "monet_inverse_on_surface_light" to SemanticToken(android.R.color.system_inverse_on_surface_light, "n1_50"),
+//        "monet_inverse_on_surface_dark" to SemanticToken(android.R.color.system_inverse_on_surface_dark, "n1_800"),
+    )
+
     private val customColors: HashMap<String?, Int?> = object : HashMap<String?, Int?>() {
         init {
             put("monetAvatarRed", -0x7ba2)
@@ -162,7 +258,7 @@ object MonetHelper {
     }
 
     private fun canResolveColor(color: String?): Boolean {
-        return ids.containsKey(color) || customColors.containsKey(color)
+        return ids.containsKey(color) || customColors.containsKey(color) || semantic.containsKey(color)
     }
 
     private fun resolveColor(color: String): Int {
@@ -178,6 +274,18 @@ object MonetHelper {
                 return softenColorForDarkText(harmonizedColor)
             }
             return harmonizedColor
+        }
+
+        val semanticToken = semantic[color]
+        if (semanticToken != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                return ApplicationLoader.applicationContext.getColor(semanticToken.resourceId)
+            }
+            return if (semanticToken.fallback.startsWith("#")) {
+                semanticToken.fallback.toColorInt()
+            } else {
+                resolveColor(semanticToken.fallback)
+            }
         }
 
         throw IllegalArgumentException("Unknown Monet color token: $color")

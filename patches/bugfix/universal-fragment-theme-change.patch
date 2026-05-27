@@ -41,7 +41,7 @@ index 0000000..0000000 100644
 +            public void onAnimationProgress(float progress) {
 +                if (rebuilt || progress < 1f) return;
 +                rebuilt = true;
-+                AndroidUtilities.runOnUIThread(UniversalFragment.this::rebuildSelfForTheme);
++                AndroidUtilities.runOnUIThread(UniversalFragment.this::inu_rebuildSelf);
 +            }
 +        };
 +        list.add(new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, delegate, Theme.key_windowBackgroundGray));
@@ -50,7 +50,7 @@ index 0000000..0000000 100644
 +
 +    // recreate only this (top) fragment's views, preserving scroll. mirrors rebuildAllFragmentViews
 +    // but scoped to self, since the delegate above only fires for the visible top fragment.
-+    private void rebuildSelfForTheme() {
++    public void inu_rebuildSelf() {
 +        INavigationLayout layout = getParentLayout();
 +        if (layout == null) {
 +            return;

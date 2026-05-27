@@ -7,8 +7,7 @@ Subject: monet theme, almost directly ported from NagramX
  .../java/org/telegram/ui/ActionBar/Theme.java | 61 ++++++++++++++++++-
  .../java/org/telegram/ui/DialogsActivity.java |  3 +
  .../java/org/telegram/ui/LaunchActivity.java  |  1 +
- .../org/telegram/ui/SettingsActivity.java     |  6 ++
- 4 files changed, 69 insertions(+), 2 deletions(-)
+ 3 files changed, 63 insertions(+), 2 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/Theme.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/Theme.java
 index 0000000..0000000 100644
@@ -141,20 +140,3 @@ index 0000000..0000000 100644
          checkWasMutedByAdmin(true);
          //FileLog.d("UI resume time = " + (SystemClock.elapsedRealtime() - ApplicationLoader.startTime));
          NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 4096);
-diff --git a/TMessagesProj/src/main/java/org/telegram/ui/SettingsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/SettingsActivity.java
-index 0000000..0000000 100644
---- a/TMessagesProj/src/main/java/org/telegram/ui/SettingsActivity.java
-+++ b/TMessagesProj/src/main/java/org/telegram/ui/SettingsActivity.java
-@@ -1159,6 +1159,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
-             titleView.setTranslationX(icon == 0 ? dp(2) : 0);
-             subtitleView.setTranslationX(icon == 0 ? dp(2) : 0);
- 
-+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && Theme.getActiveTheme().inu_isMonet()) {
-+                int flatHarmonizedColor = desu.inugram.helpers.theme.MonetHelper.harmonizeAvatarColor(androidx.core.graphics.ColorUtils.blendARGB(iconColorTop, iconColorBottom, 0.5f));
-+                iconColorTop = flatHarmonizedColor;
-+                iconColorBottom = flatHarmonizedColor;
-+            }
-+
-             iconBackground.setColor(iconColorTop, iconColorBottom);
-             iconView.setImageResource(icon);
-             titleView.setText(title);

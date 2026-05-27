@@ -90,7 +90,7 @@ index 0000000..0000000 100644
              return;
          }
  
-+        if (overrideColorProgress == 0 && desu.inugram.InuConfig.MATERIAL3_SWITCHES.getValue()) {
++        if (desu.inugram.InuConfig.MATERIAL3_SWITCHES.getValue()) {
 +            desu.inugram.helpers.theme.M3SwitchHelper.draw(getMeasuredWidth(), getMeasuredHeight(), progress, isChecked, drawIconType, iconProgress, iconDrawable, animatorIconVisibility.getFloatValue(), trackColorKey, trackCheckedColorKey, thumbCheckedColorKey, resourcesProvider, canvas);
 +            return;
 +        }
