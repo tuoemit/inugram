@@ -21,6 +21,7 @@ Subject: non-island ui in various parts of the app
  .../ui/Components/SharedMediaLayout.java      |  64 +++++----
  .../ui/Components/TopicsTabsView.java         |  28 ++--
  .../ui/Components/TranslateButton.java        |   4 +-
+ .../drawable/BlurredBackgroundDrawable.java   |   5 +-
  .../impl/BlurredBackgroundProviderImpl.java   |  15 +-
  .../chat/ChatInputViewsContainer.java         |  28 +++-
  .../ChatActivityBlurredRoundButton.java       |   6 +-
@@ -32,7 +33,7 @@ Subject: non-island ui in various parts of the app
  .../java/org/telegram/ui/bots/BotAdView.java  |   2 +-
  .../ui/bots/BotCommandsMenuContainer.java     |   4 +-
  .../bots/ChatAttachAlertBotWebViewLayout.java |   5 +-
- 28 files changed, 413 insertions(+), 188 deletions(-)
+ 29 files changed, 417 insertions(+), 189 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java
 index 0000000..0000000 100644
@@ -1283,6 +1284,43 @@ index 0000000..0000000 100644
          menuView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 0, 0));
          menuView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_topPanelClose, resourcesProvider), PorterDuff.Mode.MULTIPLY));
          translateDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_addContact, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/BlurredBackgroundDrawable.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/BlurredBackgroundDrawable.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/BlurredBackgroundDrawable.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/BlurredBackgroundDrawable.java
+@@ -393,6 +393,7 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
+         float[] radii, float strokeWidth, boolean isTop,
+         Paint paint
+     ) {
++        if (desu.inugram.InuConfig.DISABLE_GLASS_GLARE.getValue()) return;
+ 
+         final boolean radiiAreSame = isTop ?
+             radii[0] == radii[1] && radii[1] == radii[2] && radii[2] == radii[3]:
+@@ -440,6 +441,7 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
+ 
+     public static void drawStroke(Canvas canvas, float left, float top, float right, float bottom,
+                                      float radii, float strokeWidth, boolean isTop, Paint paint) {
++        if (desu.inugram.InuConfig.DISABLE_GLASS_GLARE.getValue()) return;
+         final float strokeHalf = strokeWidth / 2f;
+         canvas.save();
+         if (isTop) {
+@@ -593,7 +595,7 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
+             return;
+         }
+ 
+-        final NinePatchDrawable ninePatchDrawable = checkNinePatchDrawable(fillColor, true);
++        final NinePatchDrawable ninePatchDrawable = checkNinePatchDrawable(fillColor, !desu.inugram.InuConfig.DISABLE_GLASS_GLARE.getValue());
+         ninePatchDrawable.setBounds(
+             boundProps.boundsWithPadding.left - ninePatchDrawablePadding.left,
+             boundProps.boundsWithPadding.top - ninePatchDrawablePadding.top,
+@@ -648,6 +650,7 @@ public abstract class BlurredBackgroundDrawable extends Drawable {
+     }
+ 
+     private void drawStrokeInternalIfNeeded(Canvas canvas) {
++        if (desu.inugram.InuConfig.DISABLE_GLASS_GLARE.getValue()) return;
+         final int strokeColorTop = Theme.multAlpha(this.strokeColorTop, alpha / 255f);
+         final int strokeColorBottom = Theme.multAlpha(this.strokeColorBottom, alpha / 255f);
+ 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/blur3/drawable/color/impl/BlurredBackgroundProviderImpl.java

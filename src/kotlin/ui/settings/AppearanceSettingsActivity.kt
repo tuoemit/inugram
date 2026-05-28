@@ -132,6 +132,12 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             ).setChecked(InuConfig.HIDE_FADE_VIEW.value)
         )
         items.add(
+            UItem.asCheck(
+                TOGGLE_DISABLE_GLASS_GLARE,
+                LocaleController.getString(R.string.InuDisableGlassGlare),
+            ).setChecked(InuConfig.DISABLE_GLASS_GLARE.value)
+        )
+        items.add(
             mkTwoLineCheckItem(
                 TOGGLE_DISABLE_SCRIM_BLUR,
                 R.string.InuDisableScrimBlur,
@@ -232,6 +238,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             TOGGLE_DISABLE_SCRIM_BLUR -> {
                 val new = InuConfig.DISABLE_SCRIM_BLUR.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_DISABLE_GLASS_GLARE -> {
+                val new = InuConfig.DISABLE_GLASS_GLARE.toggle()
+                (view as? TextCheckCell)?.isChecked = new
             }
 
             TOGGLE_REDUCE_MENU_MOTION -> {
@@ -370,6 +381,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_FONT_MODE = InuUtils.generateId()
         private const val REQ_PICK_FONT = 31010
         private val TOGGLE_DISABLE_SCRIM_BLUR = InuUtils.generateId()
+        private val TOGGLE_DISABLE_GLASS_GLARE = InuUtils.generateId()
         private val TOGGLE_REDUCE_MENU_MOTION = InuUtils.generateId()
         private val TOGGLE_MATERIAL3_SWITCHES = InuUtils.generateId()
         private val TOGGLE_MATERIAL3_FABS = InuUtils.generateId()
@@ -403,6 +415,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             factory = ::AppearanceSettingsActivity,
             entries = listOf(
                 SearchRegistry.Entry("disable-scrim-blur", R.string.InuDisableScrimBlur, TOGGLE_DISABLE_SCRIM_BLUR),
+                SearchRegistry.Entry("disable-glass-glare", R.string.InuDisableGlassGlare, TOGGLE_DISABLE_GLASS_GLARE),
                 SearchRegistry.Entry("reduce-menu-motion", R.string.InuReduceMenuMotion, TOGGLE_REDUCE_MENU_MOTION),
                 SearchRegistry.Entry("material3-switches", R.string.InuMaterial3Switches, TOGGLE_MATERIAL3_SWITCHES),
                 SearchRegistry.Entry("material3-fabs", R.string.InuMaterial3Fabs, TOGGLE_MATERIAL3_FABS),

@@ -278,6 +278,8 @@
     <string name="InuDisableScrimBlur">Disable scrim blur</string>
     <string name="InuDisableScrimBlurInfo">Replaces the blurred backdrop behind context menus and previews with a flat dim. Enabling may reduce lag.</string>
 
+    <string name="InuDisableGlassGlare">Disable glass glare</string>
+
     <string name="InuReduceMenuMotion">Reduce menu motion</string>
     <string name="InuReduceMenuMotionInfo">Skip context menu stagger and simplify message menu animations</string>
 
@@ -298,7 +300,7 @@
     <string name="InuNonIslandTabBars">Tab bars</string>
     <string name="InuNonIslandGlobalSearch">Global search</string>
     <string name="InuNonIslandChatElements">Chat elements</string>
-    <string name="InuNonIslandHint">In non-island UI mode, we try to tweak the elements to more closely match old UI. For best experience, either enable or disable them all.\nThere are probably a bunch of visual bugs, so be advised.</string>
+    <string name="InuNonIslandHint">Island UI (also called "Liquid Glass") is the new (>12.6) UI design, obviously inspired by iOS. Here you can revert some of those changes (best-effort).\nThere are probably a bunch of visual bugs, so be advised.</string>
 
     <string name="InuHideFadeView">Hide fade views</string>
 
