@@ -166,3 +166,4 @@ feature/seekable-gifs.patch
 feature/disable-browser-collapse.patch
 bugfix/pause-on-media-transient.patch
 feature/md3-sections.patch
+debloat/quick-share.patch

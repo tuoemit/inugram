@@ -279,6 +279,9 @@ object InuConfig {
     val DISABLE_VOLUME_PLAY_VIDEO = BoolItem("disable_volume_play_video", true)
 
     @JvmField
+    val DISABLE_QUICK_SHARE = BoolItem("disable_quick_share", true)
+
+    @JvmField
     val HIDE_REACTIONS_ENTRY = BoolItem("hide_reactions_entry", false)
 
     @JvmField

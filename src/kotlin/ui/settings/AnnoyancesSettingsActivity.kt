@@ -133,6 +133,14 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 InuConfig.DISABLE_VOLUME_PLAY_VIDEO.value
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_DISABLE_QUICK_SHARE,
+                R.string.InuDisableQuickShare,
+                R.string.InuDisableQuickShareInfo,
+                InuConfig.DISABLE_QUICK_SHARE.value
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(
@@ -206,6 +214,11 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
 
             TOGGLE_DISABLE_VOLUME_PLAY_VIDEO -> {
                 val new = InuConfig.DISABLE_VOLUME_PLAY_VIDEO.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_DISABLE_QUICK_SHARE -> {
+                val new = InuConfig.DISABLE_QUICK_SHARE.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
@@ -296,6 +309,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_DISABLE_MOTION_PHOTOS = InuUtils.generateId()
         private val TOGGLE_DISABLE_INTRO_STICKER = InuUtils.generateId()
         private val TOGGLE_DISABLE_VOLUME_PLAY_VIDEO = InuUtils.generateId()
+        private val TOGGLE_DISABLE_QUICK_SHARE = InuUtils.generateId()
         private val BUTTON_CLEAR_HINTS = InuUtils.generateId()
         private val SECTION_HIDE_AI_FEATURES = InuUtils.generateId()
         private val SECTION_HIDE_SUGGESTIONS = InuUtils.generateId()
@@ -319,6 +333,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("disable-motion-photos", R.string.InuDisableMotionPhotos, TOGGLE_DISABLE_MOTION_PHOTOS),
                 SearchRegistry.Entry("disable-intro-sticker", R.string.InuDisableIntroSticker, TOGGLE_DISABLE_INTRO_STICKER),
                 SearchRegistry.Entry("disable-volume-play-video", R.string.InuDisableVolumePlayVideo, TOGGLE_DISABLE_VOLUME_PLAY_VIDEO),
+                SearchRegistry.Entry("disable-quick-share", R.string.InuDisableQuickShare, TOGGLE_DISABLE_QUICK_SHARE),
                 SearchRegistry.Entry("clear-hints", R.string.InuClearHints, BUTTON_CLEAR_HINTS),
                 SearchRegistry.Entry("hide-ai-features", R.string.InuHideAiFeatures, SECTION_HIDE_AI_FEATURES),
                 SearchRegistry.Entry("hide-suggestions", R.string.InuHideSuggestions, SECTION_HIDE_SUGGESTIONS),

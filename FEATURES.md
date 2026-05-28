@@ -191,6 +191,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 simple (non-bouncy) attach panel animation
 - disable notification bubbles
 - disable volume keys playing visible video with sound in chat
+- disable quick share (long-tap share button → send to frequent contact without confirmation)
 
 ## 🐶 bugfixes (vs stock)
 
