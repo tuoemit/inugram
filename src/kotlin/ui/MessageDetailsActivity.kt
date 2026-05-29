@@ -18,6 +18,7 @@ import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.ChatObject
 import org.telegram.messenger.ContactsController
+import org.telegram.messenger.Emoji
 import org.telegram.messenger.FileLoader
 import org.telegram.messenger.FileLog
 import org.telegram.messenger.LocaleController
@@ -630,7 +631,10 @@ class MessageDetailsActivity(
             adapter: UniversalAdapter,
             listView: UniversalRecyclerView?
         ) {
-            (view as TextDetailSettingsCell).setTextAndValue(item.text, item.subtext, divider)
+            val cell = view as TextDetailSettingsCell
+            val label = Emoji.replaceEmoji(item.text, cell.textView.paint.fontMetricsInt, false)
+            val value = Emoji.replaceEmoji(item.subtext, cell.valueTextView.paint.fontMetricsInt, false)
+            cell.setTextAndValue(label, value, divider)
         }
 
         override fun isClickable() = true
