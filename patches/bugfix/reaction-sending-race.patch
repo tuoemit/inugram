@@ -4,10 +4,30 @@ Date: Tue, 12 May 2026 11:05:37 +0200
 Subject: fix reactions silently disappearing right after being sent
 
 ---
- .../src/main/java/org/telegram/messenger/MessageObject.java      | 1 +
- .../src/main/java/org/telegram/messenger/SendMessagesHelper.java | 1 +
- 2 files changed, 2 insertions(+)
+ .../telegram/messenger/ChatMessagesMetadataController.java | 7 +++++++
+ .../main/java/org/telegram/messenger/MessageObject.java    | 1 +
+ .../java/org/telegram/messenger/SendMessagesHelper.java    | 1 +
+ .../src/main/java/org/telegram/ui/ChatActivity.java        | 1 +
+ 4 files changed, 10 insertions(+)
 
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/ChatMessagesMetadataController.java b/TMessagesProj/src/main/java/org/telegram/messenger/ChatMessagesMetadataController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/ChatMessagesMetadataController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/ChatMessagesMetadataController.java
+@@ -169,6 +169,13 @@ public class ChatMessagesMetadataController {
+         }
+     }
+ 
++    public void cancelReactionsRequests() {
++        for (int i = 0; i < reactionsRequests.size(); i++) {
++            chatActivity.getConnectionsManager().cancelRequest(reactionsRequests.get(i), true);
++        }
++        reactionsRequests.clear();
++    }
++
+     public void onFragmentDestroy() {
+         for (int i = 0; i < reactionsRequests.size(); i++) {
+             chatActivity.getConnectionsManager().cancelRequest(reactionsRequests.get(i), false);
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
@@ -32,3 +52,15 @@ index 0000000..0000000 100644
          TLRPC.TL_messages_sendReaction req = new TLRPC.TL_messages_sendReaction();
          if (messageObject.messageOwner.isThreadMessage && messageObject.messageOwner.fwd_from != null) {
              req.peer = getMessagesController().getInputPeer(messageObject.getFromChatId());
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+@@ -32396,6 +32396,7 @@ public class ChatActivity extends BaseFragment implements
+         }
+ 
+         ReactionsEffectOverlay.removeCurrent(false);
++        chatMessagesMetadataController.cancelReactionsRequests();
+         final int currentChosenReactions = primaryMessage.getChoosenReactions().size();
+         final boolean added = primaryMessage.selectReaction(visibleReaction, bigEmoji, fromDoubleTap);
+         int messageIdForCell = primaryMessage.getId();
