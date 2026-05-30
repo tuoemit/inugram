@@ -260,7 +260,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             TOGGLE_MATERIAL3_FABS -> {
                 val new = InuConfig.MATERIAL3_FABS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
-                showRestartBulletin()
+                softRebuild()
             }
 
             TOGGLE_M3_SECTIONS_STYLE -> {
