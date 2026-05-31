@@ -199,7 +199,6 @@ object DrawerHelper {
         sm: RecyclerListView,
     ) {
         if (activity == null) return
-        if (updateLayout != null) return
         // Stock UpdateLayoutWrapper: paints accent across the navbar inset, propagates
         // paddingBottom to the row so centered content stays in the visible 44dp.
         val wrapper = UpdateLayoutWrapper(activity)
@@ -221,47 +220,51 @@ object DrawerHelper {
         }
         wrapper.setPadding(0, 0, 0, AndroidUtilities.navigationBarHeight)
 
+        // Overwrites any prior UpdateLayout, releasing its Activity ref (Activity.recreate path).
         val ul = ApplicationLoader.applicationLoaderInstance
             ?.takeUpdateLayout(activity, wrapper) ?: return
         updateLayout = ul
         applySideMenuBottomPadding(sm)
         ul.updateAppUpdateViews(UserConfig.selectedAccount, false)
 
-        val obs = NotificationCenter.NotificationCenterDelegate { id, _, args ->
-            val current = updateLayout ?: return@NotificationCenterDelegate
-            when (id) {
-                NotificationCenter.appUpdateAvailable -> {
-                    val animated = args.getOrNull(0) as? Boolean ?: true
-                    current.updateAppUpdateViews(UserConfig.selectedAccount, animated)
-                    sideMenu?.let { applySideMenuBottomPadding(it) }
-                    refreshMenuButton(animated)
-                }
+        // Observer lambda closes only over singleton state — registered once per process.
+        if (updateObserver == null) {
+            val obs = NotificationCenter.NotificationCenterDelegate { id, _, args ->
+                val current = updateLayout ?: return@NotificationCenterDelegate
+                when (id) {
+                    NotificationCenter.appUpdateAvailable -> {
+                        val animated = args.getOrNull(0) as? Boolean ?: true
+                        current.updateAppUpdateViews(UserConfig.selectedAccount, animated)
+                        sideMenu?.let { applySideMenuBottomPadding(it) }
+                        refreshMenuButton(animated)
+                    }
 
-                NotificationCenter.appUpdateLoading -> {
-                    current.updateFileProgress(null)
-                    current.updateAppUpdateViews(UserConfig.selectedAccount, true)
-                    refreshMenuButton(true)
-                }
-
-                NotificationCenter.fileLoadProgressChanged -> {
-                    current.updateFileProgress(args)
-                    refreshMenuButton(true)
-                }
-
-                NotificationCenter.fileLoaded, NotificationCenter.fileLoadFailed -> {
-                    val name = args.getOrNull(0) as? String ?: return@NotificationCenterDelegate
-                    val doc = SharedConfig.pendingAppUpdate?.document ?: return@NotificationCenterDelegate
-                    if (name == FileLoader.getAttachFileName(doc)) {
+                    NotificationCenter.appUpdateLoading -> {
+                        current.updateFileProgress(null)
                         current.updateAppUpdateViews(UserConfig.selectedAccount, true)
                         refreshMenuButton(true)
                     }
+
+                    NotificationCenter.fileLoadProgressChanged -> {
+                        current.updateFileProgress(args)
+                        refreshMenuButton(true)
+                    }
+
+                    NotificationCenter.fileLoaded, NotificationCenter.fileLoadFailed -> {
+                        val name = args.getOrNull(0) as? String ?: return@NotificationCenterDelegate
+                        val doc = SharedConfig.pendingAppUpdate?.document ?: return@NotificationCenterDelegate
+                        if (name == FileLoader.getAttachFileName(doc)) {
+                            current.updateAppUpdateViews(UserConfig.selectedAccount, true)
+                            refreshMenuButton(true)
+                        }
+                    }
                 }
             }
+            updateObserver = obs
+            val global = NotificationCenter.getGlobalInstance()
+            global.addObserver(obs, NotificationCenter.appUpdateAvailable)
+            global.addObserver(obs, NotificationCenter.appUpdateLoading)
         }
-        updateObserver = obs
-        val global = NotificationCenter.getGlobalInstance()
-        global.addObserver(obs, NotificationCenter.appUpdateAvailable)
-        global.addObserver(obs, NotificationCenter.appUpdateLoading)
         rebindPerAccountObservers()
         refreshMenuButton(false)
     }

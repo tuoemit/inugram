@@ -29,6 +29,7 @@ class SearchFilterHelper(
     private val leftDp: Float,
 ) {
     init {
+        registry.values.removeAll { it.get() == null }
         registry[fragment.classGuid] = WeakReference(this)
     }
 
