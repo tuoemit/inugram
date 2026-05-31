@@ -11,11 +11,11 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
-@@ -378,6 +378,7 @@ public class MessagesStorage extends BaseController {
-                         throw new RuntimeException("malformed");
+@@ -379,6 +379,7 @@ public class MessagesStorage extends BaseController {
                      }
                  }
-+                desu.inugram.helpers.InuDatabaseHelper.migrate(MessagesStorage.this);
              }
++            desu.inugram.helpers.InuDatabaseHelper.migrate(MessagesStorage.this);
              databaseCreated = true;
          } catch (Exception e) {
+             FileLog.e(e);
