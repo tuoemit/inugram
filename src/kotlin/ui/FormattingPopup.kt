@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.text.Spanned
 import android.view.Gravity
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -33,6 +34,7 @@ import org.telegram.ui.Components.QuoteSpan
 import org.telegram.ui.Components.ScaleStateListAnimator
 import org.telegram.ui.Components.TextStyleSpan
 import org.telegram.ui.Components.URLSpanReplacement
+import org.telegram.messenger.R
 import kotlin.math.max
 import kotlin.math.min
 
@@ -548,9 +550,10 @@ class FormattingPopup private constructor(private val edit: EditTextCaption) {
         fun isEnabled(): Boolean = InuConfig.FORMATTING_POPUP.value
 
         @JvmStatic
-        fun tryHandle(edit: EditTextBoldCursor): Boolean {
+        fun tryHandle(edit: EditTextBoldCursor, menu: Menu?): Boolean {
             if (!isEnabled()) return false
             if (edit !is EditTextCaption) return false
+            if (menu == null || menu.findItem(R.id.menu_bold) == null) return false
             val s = edit.selectionStart
             val e = edit.selectionEnd
             if (s < 0 || e < 0 || s == e) return false
