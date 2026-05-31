@@ -175,3 +175,4 @@ feature/keep-search-peer-select.patch
 bugfix/theme-tint.patch
 bugfix/sheet-bg-bottom-gap.patch
 bugfix/message-persist-transient.patch
+bugfix/audio-alert-search.patch
