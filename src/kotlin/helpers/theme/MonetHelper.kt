@@ -9,6 +9,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.toColorInt
 import desu.inugram.InuConfig
 import google_material.Blend
+import google_material.Hct
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.FileLog
 import org.telegram.messenger.NotificationCenter
@@ -214,8 +215,24 @@ object MonetHelper {
     }
     private var lastMonetColor = 0
 
+    // Theme keys whose values represent link *text*. When the wallpaper-derived accent palette
+    // collapses to near-neutral (e.g. B&W wallpapers), these would render at the same hue as
+    // body text and become indistinguishable. We substitute a chromatic fallback in that case.
+    private val LINK_TEXT_KEYS = setOf(
+        "chat_messageLinkIn",
+        "chat_messageLinkOut",
+        "windowBackgroundWhiteLinkText",
+        "dialogTextLink",
+    )
+    private const val NEUTRAL_ACCENT_CHROMA_THRESHOLD = 8.0
+    private const val FALLBACK_LINK_HUE = 250.0
+    private const val FALLBACK_LINK_CHROMA = 70.0
+
     @JvmStatic
-    fun getColor(color: String?): Int {
+    fun getColor(color: String?): Int = getColor(color, null)
+
+    @JvmStatic
+    fun getColor(color: String?, key: String?): Int {
         try {
             val rawColor = color?.trim { it <= ' ' } ?: ""
             var working = rawColor
@@ -251,11 +268,28 @@ object MonetHelper {
                 val normalized = max(0, min(alphaPercent, 100))
                 resolvedColor = ColorUtils.setAlphaComponent(resolvedColor, normalized * 255 / 100)
             }
+            if (key != null && key in LINK_TEXT_KEYS && baseColor.startsWith("a") && isAccentPaletteNeutral()) {
+                return makeChromaticLink(resolvedColor)
+            }
             return resolvedColor
         } catch (e: Exception) {
             FileLog.e("Error loading color $color", e)
             return 0
         }
+    }
+
+    private fun isAccentPaletteNeutral(): Boolean {
+        return try {
+            Hct.fromInt(resolveColor("a1_500")).chroma < NEUTRAL_ACCENT_CHROMA_THRESHOLD
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    private fun makeChromaticLink(original: Int): Int {
+        val tone = Hct.fromInt(original).tone
+        val argb = Hct.from(FALLBACK_LINK_HUE, FALLBACK_LINK_CHROMA, tone).toInt()
+        return ColorUtils.setAlphaComponent(argb, Color.alpha(original))
     }
 
     private fun canResolveColor(color: String?): Boolean {

@@ -110,7 +110,7 @@ index 0000000..0000000 100644
                                          value = Utilities.parseInt(param);
                                      }
 +                                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && (param.startsWith("a") || param.startsWith("n") || param.startsWith("monet"))) {
-+                                    value = MonetHelper.getColor(param);
++                                    value = MonetHelper.getColor(param, key);
                                  } else {
                                      value = Utilities.parseInt(param);
                                  }
