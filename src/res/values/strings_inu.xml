@@ -117,6 +117,10 @@
     <string name="InuMediaSpoilerModeTelegram">Telegram</string>
     <string name="InuMediaSpoilerModePill">Pill</string>
     <string name="InuMediaSpoilerModeCircle">Circle</string>
+    <string name="InuBlockedMessagesMode">Messages from blocked users</string>
+    <string name="InuBlockedMessagesModeOff">Off</string>
+    <string name="InuBlockedMessagesModeSpoiler">Spoiler</string>
+    <string name="InuBlockedMessagesModeHide">Hide</string>
     <string name="InuSpoilers">Spoilers</string>
     <string name="InuHideAiFeatures">Hide AI features</string>
     <string name="InuHideAiEditor">AI editor button</string>
@@ -539,7 +543,7 @@
     <string name="InuCrashTitleError">Inugram crashed: %1$s</string>
     <string name="InuCrashTitleOom">Inugram ran out of memory</string>
     <string name="InuCrashDesc">Sorry about that. You can share the crash log with the developer to help fix it.</string>
-    <string name="InuCrashDescHeapDump">A heap dump was also saved. You can share it along with the crash log to help diagnose the issue. The heap dump may be large and contains private data!.</string>
+    <string name="InuCrashDescHeapDump">A heap dump was also saved. DO NOT SHARE IT! It contains private data! Take a look at it yourself, if you want, and share your findings — that would help a lot.</string>
     <string name="InuCrashShare">Share crash log</string>
     <string name="InuCrashShareHeapDump">Save heap dump</string>
     <string name="InuCrashDiscard">Discard</string>
