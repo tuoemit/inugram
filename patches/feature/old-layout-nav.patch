@@ -7,13 +7,13 @@ Restore hamburger side drawer for old layout mode (DrawerLayoutContainer)
 
 Restore hamburger side drawer for old layout mode (DialogsActivity)
 ---
- .../ui/ActionBar/DrawerLayoutContainer.java   | 27 ++++++++++++++++---
- .../java/org/telegram/ui/DialogsActivity.java | 22 ++++++++++++---
- .../java/org/telegram/ui/LaunchActivity.java  | 24 +++++------------
- .../java/org/telegram/ui/LoginActivity.java   |  9 +++----
- .../ui/TwoStepVerificationActivity.java       |  5 ++--
- .../ui/TwoStepVerificationSetupActivity.java  | 10 +++----
- 6 files changed, 57 insertions(+), 40 deletions(-)
+ .../ui/ActionBar/DrawerLayoutContainer.java   | 33 ++++++++++++++++---
+ .../java/org/telegram/ui/DialogsActivity.java | 22 ++++++++++---
+ .../java/org/telegram/ui/LaunchActivity.java  | 24 ++++----------
+ .../java/org/telegram/ui/LoginActivity.java   |  9 ++---
+ .../ui/TwoStepVerificationActivity.java       |  5 ++-
+ .../ui/TwoStepVerificationSetupActivity.java  | 10 +++---
+ 6 files changed, 63 insertions(+), 40 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/DrawerLayoutContainer.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/DrawerLayoutContainer.java
 index 0000000..0000000 100644
@@ -28,7 +28,7 @@ index 0000000..0000000 100644
  
      private final Paint backgroundPaint = new Paint();
  
-@@ -98,13 +98,20 @@ public class DrawerLayoutContainer extends FrameLayout {
+@@ -98,13 +98,26 @@ public class DrawerLayoutContainer extends FrameLayout {
          return false;
      }
  
@@ -47,10 +47,16 @@ index 0000000..0000000 100644
      public boolean onInterceptTouchEvent(MotionEvent ev) {
 -        return parentActionBarLayout.checkTransitionAnimation();
 +        return parentActionBarLayout.checkTransitionAnimation() || onTouchEvent(ev);
++    }
++
++    @Override
++    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
++        if (inu_drawer != null) inu_drawer.onParentDisallowIntercept();
++        super.requestDisallowInterceptTouchEvent(disallowIntercept);
      }
  
      @Override
-@@ -120,7 +127,11 @@ public class DrawerLayoutContainer extends FrameLayout {
+@@ -120,7 +133,11 @@ public class DrawerLayoutContainer extends FrameLayout {
  
              final LayoutParams lp = (LayoutParams) child.getLayoutParams();
              try {
@@ -63,7 +69,7 @@ index 0000000..0000000 100644
              } catch (Exception e) {
                  FileLog.e(e);
                  if (BuildVars.DEBUG_VERSION) {
-@@ -172,7 +183,12 @@ public class DrawerLayoutContainer extends FrameLayout {
+@@ -172,7 +189,12 @@ public class DrawerLayoutContainer extends FrameLayout {
  
              final LayoutParams lp = (LayoutParams) child.getLayoutParams();
  
@@ -77,7 +83,7 @@ index 0000000..0000000 100644
              final int contentHeightSpec;
              if (lp.height > 0) {
                  contentHeightSpec = MeasureSpec.makeMeasureSpec(lp.height, MeasureSpec.EXACTLY);
-@@ -200,6 +216,9 @@ public class DrawerLayoutContainer extends FrameLayout {
+@@ -200,6 +222,9 @@ public class DrawerLayoutContainer extends FrameLayout {
          if (!allowDrawContent) {
              return false;
          }

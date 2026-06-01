@@ -281,6 +281,20 @@ class DrawerSwipeController(private val host: DrawerLayoutContainer) {
         return startedTracking
     }
 
+    /**
+     * A descendant claimed the gesture via requestDisallowInterceptTouchEvent.
+     * If we weren't already tracking, run the settle path: a touch that lands
+     * mid-animation cancels currentAnimation via the ACTION_DOWN branch above,
+     * then the child eats every subsequent event — so without this, the drawer
+     * freezes at the in-between position because we never see ACTION_UP.
+     * Guarded so the controller's own self-disallow (after it wins the gesture)
+     * doesn't immediately settle out of a valid drag.
+     */
+    fun onParentDisallowIntercept() {
+        if (startedTracking) return
+        onTouchEvent(null)
+    }
+
     fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
         if (drawerLayout == null) {
             return host.inu_superDrawChild(canvas, child, drawingTime)
