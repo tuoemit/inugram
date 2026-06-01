@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
@@ -50,6 +51,7 @@ import org.telegram.ui.Components.ChatActivityEnterView
 import org.telegram.ui.Components.EditTextCaption
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.PopupSwipeBackLayout
+import org.telegram.ui.Components.ColoredImageSpan
 import org.telegram.ui.Components.RLottieDrawable
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble
 import org.telegram.ui.Components.ReactionsContainerLayout
@@ -73,6 +75,59 @@ object ChatHelper {
     const val OPTION_REPLY_IN_DMS = 510
     const val OPTION_SUMMARIZE = 511
     const val OPTION_REMOVE_FROM_CACHE = 512
+
+    @JvmStatic
+    fun timeAdditionsHash(msg: MessageObject?): Int {
+        if (msg == null) return 0
+        var hash = 0
+        if (TranslateHelper.hasTimeAddition(msg)) {
+            hash = hash * 31 + 1
+            hash = hash * 31 + TranslateHelper.timeAdditionsHash(msg)
+        }
+        if (BlockedMessagesHelper.shouldSpoil(msg)) {
+            hash = hash * 31 + 2
+        }
+        return hash
+    }
+
+    @JvmStatic
+    fun extraTimeWidth(msg: MessageObject?): Int {
+        var width = 0
+        if (msg != null && TranslateHelper.hasTimeAddition(msg)) {
+            width += TranslateHelper.extraTimeWidth(msg)
+        }
+        if (BlockedMessagesHelper.shouldSpoil(msg)) {
+            width += AndroidUtilities.dp(13f)
+        }
+        return width
+    }
+
+    @JvmStatic
+    fun timePrefix(msg: MessageObject?, time: CharSequence?): CharSequence? {
+        if (time == null || msg == null) return time
+        val sb = SpannableStringBuilder()
+        TranslateHelper.appendTimePrefix(sb, msg)
+        if (BlockedMessagesHelper.shouldSpoil(msg)) {
+            appendTimeIcon(sb, R.drawable.msg_block, sizeDp = 11f, translateYDp = 1f)
+            sb.append(" ")
+        }
+        return if (sb.isEmpty()) time else sb.append(time)
+    }
+
+    @JvmStatic
+    fun appendTimeIcon(
+        sb: SpannableStringBuilder,
+        icon: Int,
+        sizeDp: Float = -1f,
+        translateYDp: Float = 0f,
+        align: Int = ColoredImageSpan.ALIGN_DEFAULT,
+    ) {
+        sb.append("​")
+        sb.setSpan(ColoredImageSpan(icon, align).apply {
+            if (sizeDp > 0f) setSize(AndroidUtilities.dp(sizeDp))
+            if (translateYDp != 0f) setTranslateY(AndroidUtilities.dpf2(translateYDp))
+        }, sb.length - 1, sb.length, 0)
+    }
 
     @JvmStatic
     fun forwardToSavedMessages(activity: ChatActivity, messages: ArrayList<MessageObject>) {

@@ -4,8 +4,8 @@ Date: Mon, 25 May 2026 19:59:57 +0400
 Subject: hooks inside NotificationsController
 
 ---
- .../org/telegram/messenger/NotificationsController.java   | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../org/telegram/messenger/NotificationsController.java  | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/NotificationsController.java b/TMessagesProj/src/main/java/org/telegram/messenger/NotificationsController.java
 index 0000000..0000000 100644
@@ -20,7 +20,15 @@ index 0000000..0000000 100644
  
  public class NotificationsController extends BaseController {
  
-@@ -4049,7 +4049,7 @@ public class NotificationsController extends BaseController {
+@@ -1060,6 +1060,7 @@ public class NotificationsController extends BaseController {
+ 
+             for (int a = 0; a < messageObjects.size(); a++) {
+                 MessageObject messageObject = messageObjects.get(a);
++                if (desu.inugram.helpers.NotificationsHelper.shouldSuppressMessageNotification(messageObject)) continue;
+                 if (messageObject.messageOwner != null && (messageObject.isImportedForward() ||
+                         messageObject.messageOwner.action instanceof TLRPC.TL_messageActionSetMessagesTTL ||
+                         messageObject.messageOwner.silent && (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionContactSignUp || messageObject.messageOwner.action instanceof TLRPC.TL_messageActionUserJoined)) ||
+@@ -4049,7 +4050,7 @@ public class NotificationsController extends BaseController {
      }
  
      private void showOrUpdateNotification(boolean notifyAboutLast) {
@@ -29,7 +37,7 @@ index 0000000..0000000 100644
              dismissNotification();
              return;
          }
-@@ -4533,7 +4533,7 @@ public class NotificationsController extends BaseController {
+@@ -4533,7 +4534,7 @@ public class NotificationsController extends BaseController {
              PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
  
              mBuilder.setContentTitle(name)
@@ -38,7 +46,7 @@ index 0000000..0000000 100644
                      .setAutoCancel(true)
                      .setNumber(total_unread_count)
                      .setContentIntent(contentIntent)
-@@ -5511,7 +5511,7 @@ public class NotificationsController extends BaseController {
+@@ -5511,7 +5512,7 @@ public class NotificationsController extends BaseController {
  
              NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext)
                      .setContentTitle(name)

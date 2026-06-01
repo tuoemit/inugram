@@ -1,8 +1,10 @@
 package desu.inugram.helpers
 
 import desu.inugram.InuConfig
+import desu.inugram.helpers.chat.BlockedMessagesHelper
 import desu.inugram.helpers.security.ParanoiaHelper
 import desu.inugram.helpers.security.PasscodeHelper
+import org.telegram.messenger.MessageObject
 import org.telegram.messenger.R
 
 object NotificationsHelper {
@@ -15,4 +17,11 @@ object NotificationsHelper {
     @JvmStatic
     fun shouldSuppressNotifications(account: Int): Boolean =
         PasscodeHelper.isAccountHidden(account) || ParanoiaHelper.shouldSuppressNotifications()
+
+    @JvmStatic
+    fun shouldSuppressMessageNotification(messageObject: MessageObject?): Boolean {
+        if (messageObject == null) return false
+        return BlockedMessagesHelper.shouldHide(messageObject)
+            || ParanoiaHelper.isHidden(messageObject.currentAccount, messageObject.dialogId)
+    }
 }

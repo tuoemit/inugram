@@ -178,3 +178,4 @@ bugfix/message-persist-transient.patch
 bugfix/audio-alert-search.patch
 bugfix/music-bar-dismiss-scroll-jump.patch
 bugfix/photo-viewer-apply-caption.patch
+feature/hide-blocked-messages.patch

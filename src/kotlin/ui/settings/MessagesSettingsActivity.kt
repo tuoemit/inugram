@@ -166,6 +166,13 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 LocaleController.getString(R.string.InuShowForwardTime),
             ).setChecked(InuConfig.SHOW_FORWARD_TIME.value)
         )
+        items.add(
+            UItem.asButton(
+                BUTTON_BLOCKED_MESSAGES_MODE,
+                LocaleController.getString(R.string.InuBlockedMessagesMode),
+                blockedMessagesModeLabel(InuConfig.BLOCKED_MESSAGES_MODE.value),
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuDoubleTapActions)))
@@ -281,6 +288,19 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 InuConfig.TEXT_SPOILER_MODE.value = which
             }
 
+            BUTTON_BLOCKED_MESSAGES_MODE -> RadioItemOptions.show(
+                this, view,
+                listOf(
+                    LocaleController.getString(R.string.InuBlockedMessagesModeOff),
+                    LocaleController.getString(R.string.InuBlockedMessagesModeSpoiler),
+                    LocaleController.getString(R.string.InuBlockedMessagesModeHide),
+                ),
+                InuConfig.BLOCKED_MESSAGES_MODE.value,
+            ) { which ->
+                if (InuConfig.BLOCKED_MESSAGES_MODE.value == which) return@show
+                InuConfig.BLOCKED_MESSAGES_MODE.value = which
+            }
+
             BUTTON_PINNED_REACTIONS -> presentFragment(PinnedReactionsActivity())
 
             BUTTON_MESSAGE_MENU_ORDER -> presentFragment(MessageMenuOrderActivity())
@@ -319,6 +339,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
         private val BUTTON_TEXT_SPOILER_MODE = InuUtils.generateId()
         private val TOGGLE_SPOILER_EXTEND_TO_LINE_END = InuUtils.generateId()
         private val BUTTON_MEDIA_SPOILER_MODE = InuUtils.generateId()
+        private val BUTTON_BLOCKED_MESSAGES_MODE = InuUtils.generateId()
 
         private fun textSpoilerModeLabel(value: Int): String = when (value) {
             InuConfig.TextSpoilerModeItem.SIMPLE -> LocaleController.getString(R.string.InuTextSpoilerModeSimple)
@@ -330,6 +351,12 @@ class MessagesSettingsActivity : SettingsPageActivity() {
             InuConfig.MediaSpoilerModeItem.PILL -> LocaleController.getString(R.string.InuMediaSpoilerModePill)
             InuConfig.MediaSpoilerModeItem.CIRCLE -> LocaleController.getString(R.string.InuMediaSpoilerModeCircle)
             else -> LocaleController.getString(R.string.InuMediaSpoilerModeTelegram)
+        }
+
+        private fun blockedMessagesModeLabel(value: Int): String = when (value) {
+            InuConfig.BlockedMessagesModeItem.SPOILER -> LocaleController.getString(R.string.InuBlockedMessagesModeSpoiler)
+            InuConfig.BlockedMessagesModeItem.HIDE -> LocaleController.getString(R.string.InuBlockedMessagesModeHide)
+            else -> LocaleController.getString(R.string.InuBlockedMessagesModeOff)
         }
 
         @JvmField
@@ -354,6 +381,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("text-spoiler-mode", R.string.InuTextSpoilerMode, BUTTON_TEXT_SPOILER_MODE),
                 SearchRegistry.Entry("spoiler-extend-to-line-end", R.string.InuSpoilerExtendToLineEnd, TOGGLE_SPOILER_EXTEND_TO_LINE_END),
                 SearchRegistry.Entry("media-spoiler-mode", R.string.InuMediaSpoilerMode, BUTTON_MEDIA_SPOILER_MODE),
+                SearchRegistry.Entry("blocked-messages-mode", R.string.InuBlockedMessagesMode, BUTTON_BLOCKED_MESSAGES_MODE),
             ),
         )
     }

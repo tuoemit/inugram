@@ -160,6 +160,17 @@ object InuConfig {
     @JvmField
     val MEDIA_SPOILER_MODE = MediaSpoilerModeItem()
 
+    class BlockedMessagesModeItem : IntItem("blocked_messages_mode", OFF) {
+        companion object {
+            const val OFF = 0
+            const val SPOILER = 1
+            const val HIDE = 2
+        }
+    }
+
+    @JvmField
+    val BLOCKED_MESSAGES_MODE = BlockedMessagesModeItem()
+
     @JvmField
     val DISABLE_INSTANT_CAMERA = BoolItem("disable_instant_camera", true)
 

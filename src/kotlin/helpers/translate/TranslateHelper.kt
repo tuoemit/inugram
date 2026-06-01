@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
 import desu.inugram.InuConfig
 import desu.inugram.helpers.InuUtils
+import desu.inugram.helpers.chat.ChatHelper
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.LanguageDetector
@@ -305,13 +306,44 @@ object TranslateHelper {
     }
 
     @JvmStatic
+    fun hasTimeAddition(msg: MessageObject?): Boolean {
+        if (msg == null) return false
+        return bodyTranslated(msg) || hasTranslatedWebPage(msg)
+    }
+
+    @JvmStatic
+    fun timeAdditionsHash(msg: MessageObject?): Int {
+        if (!hasTimeAddition(msg)) return 0
+        return translatedPairs(msg!!).hashCode()
+    }
+
+    @JvmStatic
     fun extraTimeWidth(msg: MessageObject?): Int {
-        if (msg == null) return 0
-        if (!bodyTranslated(msg) && !hasTranslatedWebPage(msg)) return 0
-        val pairs = translatedPairs(msg)
+        if (!hasTimeAddition(msg)) return 0
+        val pairs = translatedPairs(msg!!)
         if (pairs.isEmpty()) return AndroidUtilities.dp(11f)
-        val arrows = pairs.distinctBy { it.second }.size
-        return arrows * (arrowDrawable?.intrinsicWidth ?: 0)
+        return pairs.distinctBy { it.second }.size * (arrowDrawable?.intrinsicWidth ?: 0)
+    }
+
+    @JvmStatic
+    fun appendTimePrefix(sb: SpannableStringBuilder, msg: MessageObject?) {
+        if (!hasTimeAddition(msg)) return
+        val pairs = translatedPairs(msg!!)
+        if (pairs.isEmpty()) {
+            ChatHelper.appendTimeIcon(sb, R.drawable.msg_translate, sizeDp = 11f, translateYDp = 1f)
+            sb.append(" ")
+            return
+        }
+        val grouped = linkedMapOf<String, MutableList<String>>()
+        for ((from, to) in pairs) grouped.getOrPut(to) { mutableListOf() } += from
+        var first = true
+        for ((to, froms) in grouped) {
+            if (!first) sb.append(", ")
+            first = false
+            sb.append(froms.joinToString(", ") { label(it) }).append(" ")
+            ChatHelper.appendTimeIcon(sb, R.drawable.search_arrow, align = ColoredImageSpan.ALIGN_CENTER)
+            sb.append(" ").append(label(to)).append(" ")
+        }
     }
 
     private val arrowDrawable: Drawable? by lazy {
@@ -319,35 +351,6 @@ object TranslateHelper {
             ApplicationLoader.applicationContext,
             R.drawable.search_arrow,
         )
-    }
-
-    @JvmStatic
-    fun translatedTimePrefix(msg: MessageObject?, time: CharSequence?): CharSequence? {
-        if (time == null || msg == null) return time
-        if (!bodyTranslated(msg) && !hasTranslatedWebPage(msg)) return time
-        val pairs = translatedPairs(msg)
-        val sb = SpannableStringBuilder()
-        if (pairs.isEmpty()) {
-            sb.append("​")
-            sb.setSpan(ColoredImageSpan(R.drawable.msg_translate).apply {
-                setSize(AndroidUtilities.dp(11f))
-                setTranslateY(AndroidUtilities.dpf2(1f))
-            }, sb.length - 1, sb.length, 0)
-            sb.append(" ")
-        } else {
-            val grouped = linkedMapOf<String, MutableList<String>>()
-            for ((from, to) in pairs) grouped.getOrPut(to) { mutableListOf() } += from
-            var first = true
-            for ((to, froms) in grouped) {
-                if (!first) sb.append(", ")
-                first = false
-                sb.append(froms.joinToString(", ") { label(it) }).append(" ")
-                sb.append("​")
-                sb.setSpan(ColoredImageSpan(R.drawable.search_arrow, ColoredImageSpan.ALIGN_CENTER), sb.length - 1, sb.length, 0)
-                sb.append(" ").append(label(to)).append(" ")
-            }
-        }
-        return sb.append(time)
     }
 
     private fun label(code: String): String {
