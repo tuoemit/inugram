@@ -2,6 +2,7 @@ package desu.inugram.helpers.update
 
 import android.os.Build
 import desu.inugram.InuConfig
+import desu.inugram.helpers.InuUtils
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.BetaUpdate
@@ -262,7 +263,7 @@ object UpdateHelper {
             id = msg.id
             version = info.verCode.toString()
             text = msg.message ?: ""
-            entities = msg.entities
+            entities = cloneEntities(msg.entities)
             document = info.document
         }
 
@@ -293,6 +294,14 @@ object UpdateHelper {
         pendingBetaUpdate = BetaUpdate(info.appVerName, info.verCode, updateObj.text)
         pendingSourceMessage = msg
         return updateObj
+    }
+
+    private fun cloneEntities(entities: ArrayList<TLRPC.MessageEntity>?): ArrayList<TLRPC.MessageEntity> {
+        val out = ArrayList<TLRPC.MessageEntity>(entities?.size ?: 0)
+        entities?.forEach { entity ->
+            InuUtils.cloneTLObject(entity, TLRPC.MessageEntity::TLdeserialize)?.let(out::add)
+        }
+        return out
     }
 
     private fun finish(callback: ((CheckResult) -> Unit)?, result: CheckResult) {
