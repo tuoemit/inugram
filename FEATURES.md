@@ -236,4 +236,5 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - phantom empty dialog rows after peeking a non-joined channel / discuss group
 - expand emoji tabs when there's enough space to fit without scrolling
 - "pause music on media" now lets external players auto-resume (transient focus instead of indefinite)
+- chat title avatar observer leak
 - reply box right padding when the sender-name line is wider than the message text line

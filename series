@@ -183,3 +183,4 @@ feature/show-deleted-replies.patch
 bugfix/reply-name-end-padding.patch
 bugfix/image-loader-leak.patch
 bugfix/video-ads-leak.patch
+bugfix/chat-avatar-leak.patch
