@@ -5,8 +5,8 @@ Subject: media type filter + "show only matches" in chat search
 
 ---
  .../messenger/MediaDataController.java        |  8 ++--
- .../java/org/telegram/ui/ChatActivity.java    | 43 +++++++++++++------
- 2 files changed, 33 insertions(+), 18 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 45 +++++++++++++------
+ 2 files changed, 35 insertions(+), 18 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
 index 0000000..0000000 100644
@@ -219,7 +219,16 @@ index 0000000..0000000 100644
                  searchingUserMessages = null;
                  searchingChatMessages = null;
              }
-@@ -43506,7 +43521,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -40240,6 +40255,8 @@ public class ChatActivity extends BaseFragment implements
+                 } else if (chatMode == MODE_PINNED || chatMode == MODE_SCHEDULED) {
+                     chatActivityDelegate.openReplyMessage(id);
+                     finishFragment();
++                } else if (inu_searchFilter != null && inu_searchFilter.getOnlyMatches()) {
++                    ChatHelper.openInNewChat(ChatActivity.this, dialog_id, id);
+                 } else {
+                     if (option_id != null) {
+                         highlightPollOptionId = option_id;
+@@ -43506,7 +43523,7 @@ public class ChatActivity extends BaseFragment implements
          int lastBottom;
      }
  
@@ -228,7 +237,7 @@ index 0000000..0000000 100644
          public RecyclerListViewInternal(Context context, ThemeDelegate themeDelegate) {
              super(context, themeDelegate);
          }
-@@ -46229,7 +46244,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -46229,7 +46246,7 @@ public class ChatActivity extends BaseFragment implements
          }
      }
  

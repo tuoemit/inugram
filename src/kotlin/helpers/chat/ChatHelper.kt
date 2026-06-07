@@ -376,22 +376,25 @@ object ChatHelper {
                 clearMessageCaches(activity, targets)
             }
 
-            OPTION_SHOW_IN_CHAT -> {
-                val args = Bundle()
-                val peerId = activity.dialogId
-                if (peerId > 0) {
-                    args.putLong("user_id", peerId)
-                } else {
-                    args.putLong("chat_id", -peerId)
-                }
-                args.putInt("message_id", selectedObject.id)
-                args.putBoolean("need_remove_previous_same_chat_activity", false)
-                activity.presentFragment(ChatActivity(args))
-            }
+            OPTION_SHOW_IN_CHAT -> openInNewChat(activity, activity.dialogId, selectedObject.id)
 
             else -> return false
         }
         return true
+    }
+
+    // opens dialogId scrolled to messageId in a fresh activity, keeping the current one on the backstack
+    @JvmStatic
+    fun openInNewChat(activity: ChatActivity, dialogId: Long, messageId: Int) {
+        val args = Bundle()
+        if (dialogId > 0) {
+            args.putLong("user_id", dialogId)
+        } else {
+            args.putLong("chat_id", -dialogId)
+        }
+        args.putInt("message_id", messageId)
+        args.putBoolean("need_remove_previous_same_chat_activity", false)
+        activity.presentFragment(ChatActivity(args))
     }
 
     @JvmStatic
