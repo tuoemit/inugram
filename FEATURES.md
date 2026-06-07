@@ -237,4 +237,5 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - "pause music on media" now lets external players auto-resume (transient focus instead of indefinite)
 - reply box right padding when the sender-name line is wider than the message text line
 - fix lingering webpage when quickly sending
+- fix sponsored message media not respecting data saver
 - a bunch of stock memory/resource leaks
