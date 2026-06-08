@@ -204,24 +204,26 @@ object SpoilerHelper {
         // getSelectionPath emits an extra trailing-whitespace rect per line
         // sometimes this overlaps the main rect (visible duplicate overdraw);
         // without it the two rects are adjacent and create a visible seam in SIMPLE
-        // mode. Merge any two rects on the same y-span that touch or overlap on x —
-        // drop the narrower one and extend the wider one to cover the union.
+        // mode. Merge same-line rects that touch or overlap into one continuous run.
         for (i in spoilers.indices) {
             val a = spoilers[i]
             if (!a.inu_isTextSpoiler || a.bounds.isEmpty) continue
-            val ab = a.bounds
-            for (j in spoilers.indices) {
-                if (i == j) continue
-                val b = spoilers[j]
-                if (!b.inu_isTextSpoiler || b.bounds.isEmpty) continue
-                val bb = b.bounds
-                if (ab.top != bb.top || ab.bottom != bb.bottom) continue
-                if (ab.right < bb.left || ab.left > bb.right) continue
-                if (ab.width() >= bb.width()) continue
-                b.setBounds(min(ab.left, bb.left), bb.top, max(ab.right, bb.right), bb.bottom)
-                a.setBounds(0, 0, 0, 0)
-                break
-            }
+            var merged: Boolean
+            do {
+                merged = false
+                val ab = a.bounds
+                for (j in spoilers.indices) {
+                    if (i == j) continue
+                    val b = spoilers[j]
+                    if (!b.inu_isTextSpoiler || b.bounds.isEmpty) continue
+                    val bb = b.bounds
+                    if (ab.top != bb.top || ab.bottom != bb.bottom) continue
+                    if (ab.right < bb.left || ab.left > bb.right) continue
+                    a.setBounds(min(ab.left, bb.left), ab.top, max(ab.right, bb.right), ab.bottom)
+                    b.setBounds(0, 0, 0, 0)
+                    merged = true
+                }
+            } while (merged)
         }
         // Snap sub-radius edge misalignments between vertically-adjacent line spoilers.
         // Otherwise one line rounds its corner while its neighbor draws a concave fillet
@@ -254,7 +256,7 @@ object SpoilerHelper {
             }
         }
         for (s in spoilers) {
-            if (!s.inu_isTextSpoiler) continue
+            if (!s.inu_isTextSpoiler || s.bounds.isEmpty) continue
             stateOf(s).apply {
                 prevLeft = Float.NaN; prevRight = Float.NaN
                 nextLeft = Float.NaN; nextRight = Float.NaN
@@ -262,13 +264,13 @@ object SpoilerHelper {
         }
         for (i in spoilers.indices) {
             val a = spoilers[i]
-            if (!a.inu_isTextSpoiler) continue
+            if (!a.inu_isTextSpoiler || a.bounds.isEmpty) continue
             val ast = stateOf(a)
             val ab = a.bounds
             for (j in spoilers.indices) {
                 if (i == j) continue
                 val b = spoilers[j]
-                if (!b.inu_isTextSpoiler) continue
+                if (!b.inu_isTextSpoiler || b.bounds.isEmpty) continue
                 val bb = b.bounds
                 if (ab.left >= bb.right || ab.right <= bb.left) continue
                 if (abs(ab.bottom - bb.top) <= 1) {
