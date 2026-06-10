@@ -188,3 +188,4 @@ bugfix/edittextemoji-observer-leak.patch
 bugfix/chat-attach-alert-adapter-leak.patch
 debloat/sponsored-data-saver.patch
 feature/original-video-quality.patch
+bugfix/correct-folder-pin-count.patch
