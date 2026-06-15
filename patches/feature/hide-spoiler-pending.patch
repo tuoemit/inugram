@@ -7,9 +7,9 @@ Subject: add "hide with spoiler" action to toggle spoiler inside photo viewer
  .../telegram/messenger/SendMessagesHelper.java    |  6 ++++--
  .../main/java/org/telegram/ui/ChatActivity.java   |  1 +
  .../ui/Components/ChatActivityEnterView.java      |  3 ++-
- .../ui/Components/ChatAttachAlertPhotoLayout.java | 12 +++++++++---
+ .../ui/Components/ChatAttachAlertPhotoLayout.java | 14 ++++++++++----
  .../main/java/org/telegram/ui/PhotoViewer.java    | 15 ++++++++++++++-
- 5 files changed, 30 insertions(+), 7 deletions(-)
+ 5 files changed, 31 insertions(+), 8 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/SendMessagesHelper.java b/TMessagesProj/src/main/java/org/telegram/messenger/SendMessagesHelper.java
 index 0000000..0000000 100644
@@ -128,6 +128,15 @@ index 0000000..0000000 100644
                      photoEntry.isChatPreviewSpoilerRevealed = false;
                      photoEntry.isAttachSpoilerRevealed = false;
                      selectedIds.add(photoEntry.imageId);
+@@ -3316,7 +3322,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
+             gridView.forAllChild(view -> {
+                 if (view instanceof PhotoAttachPhotoCell) {
+                     MediaController.PhotoEntry entry = ((PhotoAttachPhotoCell) view).getPhotoEntry();
+-                    ((PhotoAttachPhotoCell) view).setHasSpoiler(entry != null && selectedIds.contains(entry.imageId) && finalSpoilersEnabled);
++                    ((PhotoAttachPhotoCell) view).setHasSpoiler(entry != null && selectedIds.contains(entry.imageId) && entry.hasSpoiler);
+                 }
+             });
+             if (parentAlert.getCurrentAttachLayout() != this) {
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
