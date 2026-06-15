@@ -8,10 +8,10 @@ Subject: hiding messages from blocked users (with a spoiler or completely)
  .../org/telegram/messenger/MessageObject.java |  4 +-
  .../messenger/MessagesController.java         |  3 ++
  .../messenger/NotificationsController.java    |  9 ++--
- .../telegram/ui/Cells/ChatMessageCell.java    |  2 +-
+ .../telegram/ui/Cells/ChatMessageCell.java    |  4 +-
  .../org/telegram/ui/Cells/DialogCell.java     |  4 +-
  .../java/org/telegram/ui/ChatActivity.java    | 49 ++++++-------------
- 7 files changed, 31 insertions(+), 44 deletions(-)
+ 7 files changed, 32 insertions(+), 45 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
 index 0000000..0000000 100644
@@ -101,6 +101,15 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.j
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
+@@ -7275,7 +7275,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+                         hasInvoicePrice = false;
+                     }
+                 }
+-                hasLinkPreview = !messageObject.isRestrictedMessage && MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage && MessageObject.getMedia(messageObject.messageOwner).webpage instanceof TLRPC.TL_webPage;
++                hasLinkPreview = !messageObject.isRestrictedMessage && !desu.inugram.helpers.chat.BlockedMessagesHelper.shouldSpoil(messageObject) && MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage && MessageObject.getMedia(messageObject.messageOwner).webpage instanceof TLRPC.TL_webPage;
+                 TLRPC.WebPage webpage = hasLinkPreview ? MessageObject.getMedia(messageObject.messageOwner).webpage : null;
+                 if (messageObject.isStoryMention()) {
+                     hasLinkPreview = true;
 @@ -19343,7 +19343,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                          }
                          stringFinalText = TextUtils.ellipsize(stringFinalText, textPaint, maxWidth, TextUtils.TruncateAt.END);
