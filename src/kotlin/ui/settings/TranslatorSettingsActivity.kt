@@ -71,6 +71,13 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
                 LocaleController.getString(R.string.InuKeepOriginalAfterTranslation),
             ).setChecked(InuConfig.KEEP_ORIGINAL_AFTER_TRANSLATION.value)
         )
+        items.add(
+            UItem.asCheck(
+                TOGGLE_AUTO_DETECT_LANG,
+                LocaleController.getString(R.string.InuTranslateAutoDetectLang),
+            ).setChecked(InuConfig.TRANSLATE_AUTO_DETECT_LANG.value)
+        )
+        items.add(UItem.asShadow(LocaleController.getString(R.string.InuTranslateAutoDetectLangInfo)))
     }
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
@@ -90,6 +97,11 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
                 (view as? TextCheckCell)?.isChecked = new
                 NotificationCenter.getInstance(currentAccount)
                     .postNotificationName(NotificationCenter.updateInterfaces, 0)
+            }
+
+            TOGGLE_AUTO_DETECT_LANG -> {
+                val new = InuConfig.TRANSLATE_AUTO_DETECT_LANG.toggle()
+                (view as? TextCheckCell)?.isChecked = new
             }
 
             TOGGLE_SHOW_TRANSLATE_BUTTON -> {
@@ -135,6 +147,7 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_IN_PLACE_TRANSLATION = InuUtils.generateId()
         private val TOGGLE_TRANSLATE_WEB_PREVIEWS = InuUtils.generateId()
         private val TOGGLE_KEEP_ORIGINAL = InuUtils.generateId()
+        private val TOGGLE_AUTO_DETECT_LANG = InuUtils.generateId()
         private val TOGGLE_SHOW_TRANSLATE_BUTTON = InuUtils.generateId()
         private val TOGGLE_SHOW_TRANSLATE_CHAT_BUTTON = InuUtils.generateId()
         private val BUTTON_DO_NOT_TRANSLATE = InuUtils.generateId()
@@ -153,6 +166,7 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("in-place-translation", R.string.InuInPlaceTranslation, TOGGLE_IN_PLACE_TRANSLATION),
                 SearchRegistry.Entry("translate-web-previews", R.string.InuTranslateWebPreviews, TOGGLE_TRANSLATE_WEB_PREVIEWS),
                 SearchRegistry.Entry("keep-original-after-translation", R.string.InuKeepOriginalAfterTranslation, TOGGLE_KEEP_ORIGINAL),
+                SearchRegistry.Entry("translate-auto-detect-lang", R.string.InuTranslateAutoDetectLang, TOGGLE_AUTO_DETECT_LANG),
             ),
         )
     }

@@ -2,6 +2,7 @@ package desu.inugram.helpers.chat
 
 import android.view.View
 import desu.inugram.InuConfig
+import desu.inugram.helpers.translate.TranslateHelper
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessageObject
 import org.telegram.messenger.R
@@ -39,12 +40,12 @@ enum class DoubleTapAction(
 }
 
 object DoubleTapActionHelper {
-    private fun menuOptionForAction(action: DoubleTapAction): Int? {
+    private fun menuOptionForAction(action: DoubleTapAction, message: MessageObject): Int? {
         return when (action) {
             DoubleTapAction.REPLY -> ChatActivity.OPTION_REPLY
             DoubleTapAction.EDIT -> ChatActivity.OPTION_EDIT
             DoubleTapAction.DELETE -> ChatActivity.OPTION_DELETE
-            DoubleTapAction.TRANSLATE -> ChatActivity.OPTION_TRANSLATE
+            DoubleTapAction.TRANSLATE -> if (TranslateHelper.isManualTranslated(message)) ChatHelper.OPTION_TRANSLATE_REVERT else ChatActivity.OPTION_TRANSLATE
             DoubleTapAction.SAVE -> ChatHelper.OPTION_SAVE
             DoubleTapAction.DETAILS -> ChatHelper.OPTION_DETAILS
             else -> null
@@ -62,7 +63,7 @@ object DoubleTapActionHelper {
             DoubleTapAction.NONE -> false
             DoubleTapAction.SHOW_REACTIONS -> hasReactionMenu(activity, message)
             else -> {
-                val option = menuOptionForAction(action) ?: return false
+                val option = menuOptionForAction(action, message) ?: return false
                 setSelection(activity, message)
                 val options = ArrayList<Int>()
                 activity.fillMessageMenu(message, ArrayList<Int>(), ArrayList<CharSequence>(), options)
@@ -88,7 +89,7 @@ object DoubleTapActionHelper {
             }
 
             else -> {
-                val option = menuOptionForAction(action) ?: return true
+                val option = menuOptionForAction(action, message) ?: return true
 
                 setSelection(activity, message)
                 activity.processSelectedOption(option)

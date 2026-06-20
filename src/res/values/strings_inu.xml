@@ -205,10 +205,13 @@
     <string name="InuInPlaceTranslation">In-place translation</string>
     <string name="InuTranslateWebPreviews">Translate web previews</string>
     <string name="InuKeepOriginalAfterTranslation">Show original text</string>
+    <string name="InuTranslateAutoDetectLang">Respect DNT in message menu</string>
+    <string name="InuTranslateAutoDetectLangInfo">When the message language is in the DNT list, its language is automatically detected and the menu item is hidden.\nThis might cause the menu to open a bit slower.</string>
     <string name="InuTranslateInstantView">Translate page</string>
     <string name="InuInstantViewShowOriginal">Show original</string>
     <string name="InuTranslating">Translating…</string>
     <string name="InuNothingToTranslate">No translatable messages selected.</string>
+    <string name="InuAlreadyInTargetLanguage">This message is already in %1$s.</string>
     <string name="InuTranslateInstantViewSkipped">Source language is in your Do Not Translate list.</string>
     <string name="InuTranslateInstantViewPartial">Some sections could not be translated.</string>
     <string name="InuTranslator">Translator</string>

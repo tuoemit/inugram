@@ -482,6 +482,8 @@ object ChatHelper {
                 }
             }
 
+            ChatActivity.OPTION_TRANSLATE -> TranslateHelper.triggerTranslate(activity, selectedObject, selectedObjectGroup)
+
             OPTION_TRANSLATE_REVERT -> TranslateHelper.revert(activity, selectedObjectGroup?.captionMessage ?: selectedObject)
 
             OPTION_SUMMARIZE -> {

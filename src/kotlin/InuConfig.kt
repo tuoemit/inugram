@@ -688,6 +688,9 @@ object InuConfig {
     val KEEP_ORIGINAL_AFTER_TRANSLATION = BoolItem("keep_original_after_translation", false)
 
     @JvmField
+    val TRANSLATE_AUTO_DETECT_LANG = BoolItem("translate_auto_detect_lang", true)
+
+    @JvmField
     val ACCOUNT_ORDER = StringItem("account_order", "", exportable = false)
 
     @JvmField

@@ -105,7 +105,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - 🐶 lift 100-message selection cap (forwards/saves/deletes are auto-chunked)
 - 🐶 two-finger swipe over messages to select/deselect them
 - more bulk actions in message selection mode (save, translate, gallery, pin/unpin)
-- in-place message translation, with optional web preview translation and original-text appending
+- in-place message translation, with optional web preview translation, original-text appending and on-device source-language auto-detection (hides Translate when already in your language)
 - instant view pages translator
 - show original time/date in "forwarded from" header
 - long-tap forward bar (above input) to cycle between regular / without sender / without caption

@@ -2,7 +2,9 @@ package desu.inugram.helpers.translate
 
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
+import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import desu.inugram.InuConfig
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.chat.ChatHelper
@@ -15,6 +17,7 @@ import org.telegram.messenger.MessagesController
 import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
+import org.telegram.messenger.TranslateController
 import org.telegram.messenger.UserConfig
 import org.telegram.tgnet.ConnectionsManager
 import org.telegram.tgnet.TLRPC
@@ -26,6 +29,8 @@ import org.telegram.ui.Components.TranslateAlert2
 import org.telegram.ui.LaunchActivity
 import org.telegram.ui.RestrictedLanguagesSelectActivity
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 object TranslateHelper {
     private const val ORIGINAL_SEPARATOR = "\n\n--------\n\n"
@@ -134,6 +139,123 @@ object TranslateHelper {
         return true
     }
 
+    // entry point for OPTION_TRANSLATE, replicates the stock translate menu cell's trigger
+    fun triggerTranslate(
+        activity: ChatActivity,
+        selected: MessageObject?,
+        group: MessageObject.GroupedMessages?,
+    ) {
+        if (selected == null) return
+        val parent = activity.parentActivity ?: return
+        val account = activity.currentAccount
+
+        val toLang = TranslateAlert2.getToLanguage()
+        val toLangDefault = LocaleController.getInstance().currentLocale.language
+        val messageIdToTranslate = intArrayOf(selected.id)
+        val text = selected.getMessageTextToTranslate(group, messageIdToTranslate) ?: return
+
+        val inputPeer = if (selected.isPoll || selected.isVoiceTranscriptionOpen || selected.isSponsored ||
+            selected.scheduled || activity.chatMode == ChatActivity.MODE_QUICK_REPLIES
+        ) {
+            null
+        } else {
+            MessagesController.getInstance(account).getInputPeer(activity.dialogId)
+        }
+        val noforwards = activity.isPeerNoForwards ||
+            selected.messageOwner?.noforwards == true ||
+            selected.type == MessageObject.TYPE_PAID_MEDIA
+
+        fun perform(fromLang: String?) {
+            val toLangValue = if (fromLang != null && fromLang == toLang) toLangDefault else toLang
+            val srcLang = fromLang?.takeIf { it != "und" } ?: selected.messageOwner?.originalLanguage
+            if (srcLang != null && srcLang == toLangValue && !hasTranslatableWebPage(selected)) {
+                val langName = TranslateAlert2.languageName(srcLang)?.let(TranslateAlert2::capitalFirst) ?: srcLang.uppercase()
+                BulletinFactory.of(activity)
+                    .createErrorBulletin(LocaleController.formatString(R.string.InuAlreadyInTargetLanguage, langName))
+                    .show()
+                return
+            }
+            if (!startTranslate(activity, selected, group, fromLang ?: "und", toLangValue)) {
+                activity.dimBehindView(false)
+                val alert = TranslateAlert2.showAlert(
+                    parent, activity, account, inputPeer, messageIdToTranslate[0], selected.summarized,
+                    fromLang ?: "und", toLangValue, text, selected.messageOwner?.entities,
+                    noforwards, null,
+                ) { activity.dimBehindView(false) }
+                alert.setDimBehind(false)
+            }
+            val prefs = MessagesController.getNotificationsSettings(account)
+            val key = "dialog_show_translate_count" + activity.dialogId
+            val hintCount = prefs.getInt(key, 5)
+            if (hintCount > 0) {
+                prefs.edit { putInt(key, hintCount - 1) }
+                activity.updateTopPanel(true)
+            }
+        }
+
+        val originalLanguage = selected.messageOwner?.originalLanguage
+        when {
+            originalLanguage != null -> perform(originalLanguage)
+            InuConfig.TRANSLATE_AUTO_DETECT_LANG.value && LanguageDetector.hasSupport() -> LanguageDetector.detectLanguage(
+                text.toString(),
+                { perform(it) },
+                { perform(null) },
+            )
+
+            else -> perform(null)
+        }
+    }
+
+    @JvmStatic
+    fun setupTranslateMenuCell(
+        activity: ChatActivity,
+        cell: View,
+        selected: MessageObject?,
+        group: MessageObject.GroupedMessages?,
+        waitForLangDetection: AtomicBoolean,
+        onLangDetectionDone: AtomicReference<Runnable>,
+    ) {
+        if (selected == null) return
+
+        val toLang = TranslateAlert2.getToLanguage()
+        val toLangDefault = LocaleController.getInstance().currentLocale.language
+        val respectDnt = InuConfig.TRANSLATE_AUTO_DETECT_LANG.value
+
+        fun shouldShowTranslateRow(fromLang: String): Boolean {
+            if (respectDnt && RestrictedLanguagesSelectActivity.getRestrictedLanguages().contains(fromLang)) return false
+            return fromLang != toLang || fromLang != toLangDefault || fromLang == TranslateController.UNKNOWN_LANGUAGE
+        }
+
+        val originalLanguage = selected.messageOwner?.originalLanguage
+        if (originalLanguage != null) {
+            cell.visibility = if (shouldShowTranslateRow(originalLanguage)) View.VISIBLE else View.GONE
+        } else if (respectDnt) {
+            val text = selected.getMessageTextToTranslate(group, intArrayOf(selected.id))
+            if (text != null) {
+                cell.visibility = View.GONE
+                waitForLangDetection.set(true)
+                LanguageDetector.detectLanguage(
+                    text.toString(),
+                    { lang ->
+                        if (lang == null || shouldShowTranslateRow(lang)) cell.visibility = View.VISIBLE
+                        if (lang != null && selected.messageOwner != null) {
+                            selected.messageOwner.originalLanguage = lang // avoid doing that trice
+                        }
+                        waitForLangDetection.set(false)
+                        onLangDetectionDone.getAndSet(null)?.run()
+                    },
+                    {
+                        waitForLangDetection.set(false)
+                        onLangDetectionDone.getAndSet(null)?.run()
+                    },
+                )
+                cell.postDelayed({ onLangDetectionDone.getAndSet(null)?.run() }, 250)
+            }
+        }
+
+        if (hasTranslatableWebPage(selected)) cell.visibility = View.VISIBLE
+    }
+
     private fun startBodyTranslate(
         activity: ChatActivity,
         target: MessageObject,
@@ -142,10 +264,7 @@ object TranslateHelper {
         toLang: String,
     ) {
         val srcLang = fromLang?.takeIf { it != "und" } ?: owner.originalLanguage
-        if (srcLang != null) {
-            val dnt = RestrictedLanguagesSelectActivity.getRestrictedLanguages()
-            if (dnt.contains(srcLang) || srcLang == toLang) return
-        }
+        if (srcLang != null && srcLang == toLang) return
         val account = activity.currentAccount
         val controller = MessagesController.getInstance(account).translateController
         val dialogId = target.dialogId

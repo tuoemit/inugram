@@ -83,9 +83,7 @@ class MessageMenuOrderActivity : MenuOrderActivity<MessageMenuConfig.Item>() {
         // bottom items have a dedicated "move back" button (customs) or are pinned (slots) — no long-tap menu
         if (entry.bottom) return false
 
-        // translate's behavior is wired through the vertical cell's click listener (lang detection),
-        // so it can't run as a plain bottom-row button (todo maybe some crutch)
-        if (!bottomEnabled() || key == MessageMenuConfig.Item.TRANSLATE) return false
+        if (!bottomEnabled()) return false
         if (entries.count { it.bottom && it.enabled } >= MAX_BOTTOM) {
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.InuMenuBottomRowFull)).show()
             return true
