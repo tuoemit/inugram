@@ -247,4 +247,5 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - fix non-joined channels history getting stuck in the past
 - fix stuck red snapshot box when the frame capture fails/times out on enter in pip
 - fix npe checking admin/owner when channel admins not yet loaded
+- comments/topic thread restored as plain group chat after activity recreation
 - a bunch of stock memory/resource leaks

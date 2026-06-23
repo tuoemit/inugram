@@ -5,8 +5,8 @@ Subject: hooks into various places inside ChatActivity
 
 ---
  .../ui/ActionBar/ActionBarMenuItem.java       |  4 +
- .../java/org/telegram/ui/ChatActivity.java    | 80 ++++++++++++-------
- 2 files changed, 54 insertions(+), 30 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 84 ++++++++++++-------
+ 2 files changed, 56 insertions(+), 32 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarMenuItem.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarMenuItem.java
 index 0000000..0000000 100644
@@ -80,6 +80,17 @@ index 0000000..0000000 100644
      private UndoView topUndoView;
      private Bulletin pinBulletin;
      private boolean showPinBulletin;
+@@ -688,8 +691,8 @@ public class ChatActivity extends BaseFragment implements
+     private ArrayList<MessageObject> threadMessageObjects;
+     private MessageObject replyMessageHeaderObject;
+     private TLRPC.TL_forumTopic forumTopic;
+-    private long threadMessageId;
+-    private int replyOriginalMessageId;
++    public long threadMessageId;
++    public int replyOriginalMessageId;
+     public TLRPC.Chat replyOriginalChat;
+     public boolean isComments;
+     public boolean isTopic;
 @@ -781,7 +784,7 @@ public class ChatActivity extends BaseFragment implements
      public MessageObject replyingTopMessage;
      private ReplyQuote replyingQuote;

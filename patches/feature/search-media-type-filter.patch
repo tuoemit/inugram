@@ -5,8 +5,8 @@ Subject: media type filter + "show only matches" in chat search
 
 ---
  .../messenger/MediaDataController.java        |  8 ++--
- .../java/org/telegram/ui/ChatActivity.java    | 45 +++++++++++++------
- 2 files changed, 35 insertions(+), 18 deletions(-)
+ .../java/org/telegram/ui/ChatActivity.java    | 43 +++++++++++++------
+ 2 files changed, 34 insertions(+), 17 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
 index 0000000..0000000 100644
@@ -89,15 +89,6 @@ index 0000000..0000000 100644
      private String searchingHashtag;
      private int hashtagSearchSelectedIndex;
      private int searchLastCount;
-@@ -693,7 +694,7 @@ public class ChatActivity extends BaseFragment implements
-     private ArrayList<MessageObject> threadMessageObjects;
-     private MessageObject replyMessageHeaderObject;
-     private TLRPC.TL_forumTopic forumTopic;
--    private long threadMessageId;
-+    public long threadMessageId;
-     private int replyOriginalMessageId;
-     public TLRPC.Chat replyOriginalChat;
-     public boolean isComments;
 @@ -9101,10 +9102,10 @@ public class ChatActivity extends BaseFragment implements
  
      }
