@@ -219,6 +219,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - lazy chromecast init in photo viewer
 - stale video seekbar leaking onto photos in photo viewer
 - fix photo zoom/video progress resetting on message edit
+- photo viewer no longer dismissing the keyboard / jumping at end of close animation (12.8 regression)
 - round video recorder cancel crash when leaving chat
 - missing `Emoji.replaceEmoji` calls
 - background media loading cpu usage (experimental)

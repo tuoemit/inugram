@@ -57,6 +57,7 @@ public void doSomething() {
 - Guard goes **before** stock, early-returns when fork takes over.
 - For mode-dependent behavior, prefer an `if`/`else` wrapper with **no re-indentation** of the stock branch — keeps rebases trivial.
 - When extending behavior rather than replacing it, **run fork logic after** the stock block. Don't rewrite stock.
+- When figuring out stock code history/regressions, make sure to run git **inside** the `worktree/` dir. Root dir is just the fork code, it DOES NOT track stock code.
 
 ### Exposing stock internals
 
