@@ -203,7 +203,7 @@ class MessageMenuConfig(key: String) : MenuOrderConfig<MessageMenuConfig.Item>(k
             R.drawable.msg_download
         ),
         FORWARD("forward", listOf(ChatActivity.OPTION_FORWARD), R.string.Forward, R.drawable.msg_forward),
-        FORWARD_NO_QUOTE("forward_no_quote", listOf(ChatHelper.OPTION_FORWARD_NO_QUOTE), R.string.InuForwardNoQuote, R.drawable.msg_forward),
+        FORWARD_NO_QUOTE("forward_no_quote", listOf(ChatHelper.OPTION_FORWARD_NO_QUOTE), R.string.InuForwardNoQuote, R.drawable.msg_forward_noquote),
         SAVE("save", listOf(ChatHelper.OPTION_SAVE), R.string.InuSaveToSavedMessages, R.drawable.msg_saved),
         PIN("pin", listOf(ChatActivity.OPTION_PIN, ChatActivity.OPTION_UNPIN), R.string.PinMessage, R.drawable.msg_pin),
         TRANSLATE(

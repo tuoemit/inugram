@@ -236,7 +236,7 @@ object ChatHelper {
         if (options.contains(ChatActivity.OPTION_FORWARD)) {
             items.add(LocaleController.getString(R.string.InuForwardNoQuote))
             options.add(OPTION_FORWARD_NO_QUOTE)
-            icons.add(R.drawable.msg_forward)
+            icons.add(R.drawable.msg_forward_noquote)
         }
 
         val chatInfo = activity.currentChatInfo
