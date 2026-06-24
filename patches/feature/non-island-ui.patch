@@ -4,10 +4,10 @@ Date: Thu, 16 Apr 2026 08:47:27 +0300
 Subject: non-island ui in various parts of the app
 
 ---
- .../org/telegram/ui/ActionBar/ActionBar.java  |  26 ++--
+ .../org/telegram/ui/ActionBar/ActionBar.java  |  38 +++--
  .../ui/Cells/SharedPhotoVideoCell2.java       |   4 +-
  .../telegram/ui/ChannelAdminLogActivity.java  |  21 ++-
- .../java/org/telegram/ui/ChatActivity.java    |  86 ++++++++----
+ .../java/org/telegram/ui/ChatActivity.java    |  92 ++++++++-----
  .../ui/Components/ChatActivityEnterView.java  |  27 ++--
  ...ChatActivityEnterViewAnimatedIconView.java |  17 ++-
  .../ChatActivityTopPanelLayout.java           |  16 ++-
@@ -34,7 +34,7 @@ Subject: non-island ui in various parts of the app
  .../java/org/telegram/ui/bots/BotAdView.java  |   2 +-
  .../ui/bots/BotCommandsMenuContainer.java     |   4 +-
  .../bots/ChatAttachAlertBotWebViewLayout.java |   5 +-
- 30 files changed, 439 insertions(+), 202 deletions(-)
+ 30 files changed, 448 insertions(+), 211 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBar.java
 index 0000000..0000000 100644
@@ -48,7 +48,7 @@ index 0000000..0000000 100644
      private INavigationLayout.BackButtonState backButtonState = INavigationLayout.BackButtonState.BACK;
      public ImageView backButtonImageView;
      private BackupImageView avatarSearchImageView;
-@@ -202,20 +203,23 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
+@@ -202,28 +203,31 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
          setClipChildren(false);
          glassMode = true;
  
@@ -77,7 +77,30 @@ index 0000000..0000000 100644
 +            .setPadding(dp(glassPadding));
  
          if (menu != null) {
-             menu.setTranslationX(-dp(10));
+-            menu.setTranslationX(-dp(10));
+-            menu.setGlassMode(true);
++            menu.setTranslationX(inu_nonIsland ? 0 : -dp(10));
++            menu.setGlassMode(!inu_nonIsland);
+         }
+         if (actionMode != null) {
+-            actionMode.setTranslationX(-dp(10));
+-            actionMode.setGlassMode(true);
++            actionMode.setTranslationX(inu_nonIsland ? 0 : -dp(10));
++            actionMode.setGlassMode(!inu_nonIsland);
+         }
+         if (backButtonImageView != null) {
+             backButtonImageView.setTranslationX(dp(2));
+@@ -738,8 +742,8 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
+                 }
+             }
+         };
+-        actionMode.setTranslationX(glassMode ? -dp(10) : 0);
+-        actionMode.setGlassMode(glassMode);
++        actionMode.setTranslationX(glassMode && !inu_nonIsland ? -dp(10) : 0);
++        actionMode.setGlassMode(glassMode && !inu_nonIsland);
+         actionMode.isActionMode = true;
+         actionMode.setClickable(true);
+         if (!glassMode) {
 @@ -2147,14 +2151,18 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                  right = rightDefault;
              }
@@ -320,6 +343,15 @@ index 0000000..0000000 100644
          topicsTabs.updateSidemenuPosition();
          if (mentionContainer != null) {
              mentionContainer.bringToFront();
+@@ -10210,7 +10216,7 @@ public class ChatActivity extends BaseFragment implements
+         selectedMessagesCountTextView.setEllipsizeByGradient(true);
+         selectedMessagesCountTextView.setRightPadding(dp(8));
+         selectedMessagesCountTextView.getDrawable().setOverrideFullWidth(dp(300));
+-        actionMode.addView(selectedMessagesCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 85, 0, 5, 0));
++        actionMode.addView(selectedMessagesCountTextView, NonIslandHelper.chatElements() ? LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 65, 0, 0, 0) : LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 85, 0, 5, 0));
+         actionMode.setOnLayoutListener(actionBar::invalidate);
+ 
+         final View widthAnchorView = new View(actionMode.getContext());
 @@ -10446,7 +10452,7 @@ public class ChatActivity extends BaseFragment implements
          searchCountText.setTextColor(getThemedColor(Theme.key_chat_searchPanelText));
          searchCountText.setGravity(Gravity.LEFT);
@@ -430,6 +462,15 @@ index 0000000..0000000 100644
                  } else if (child == gifHintTextView || child == voiceHintTextView || child == mediaBanTooltip || child == emojiHintTextView) {
                      childTop -= inputFieldHeight;
                  } else if (child == chatListView || child == chatListThanosEffect || child == floatingDateView || child == floatingTopicSeparator || child == infoTopView) {
+@@ -19362,7 +19375,7 @@ public class ChatActivity extends BaseFragment implements
+                 return;
+             }
+             if (selectedMessagesCountTextView != null && (selectedMessagesIds[0].size() != 0 || selectedMessagesIds[1].size() != 0)) {
+-                selectedMessagesCountTextView.setText(LocaleController.formatPluralString("MessagesSelected", selectedMessagesIds[0].size() + selectedMessagesIds[1].size()), true);
++                selectedMessagesCountTextView.setText(NonIslandHelper.chatElements() ? String.valueOf(selectedMessagesIds[0].size() + selectedMessagesIds[1].size()) : LocaleController.formatPluralString("MessagesSelected", selectedMessagesIds[0].size() + selectedMessagesIds[1].size()), true);
+             }
+         } else {
+             int size = selectedMessagesIds[0].size() + selectedMessagesIds[1].size();
 @@ -29652,7 +29665,7 @@ public class ChatActivity extends BaseFragment implements
  
                  return Math.round(windowInsetsStateHolder.getAnimatedMaxBottomInset()
@@ -439,6 +480,15 @@ index 0000000..0000000 100644
              }
  
              @Override
+@@ -32367,7 +32380,7 @@ public class ChatActivity extends BaseFragment implements
+         }
+ 
+         if (selectedMessagesCountTextView != null) {
+-            selectedMessagesCountTextView.setText(LocaleController.formatPluralString("MessagesSelected", selectedMessagesIds[0].size() + selectedMessagesIds[1].size()), false);
++            selectedMessagesCountTextView.setText(NonIslandHelper.chatElements() ? String.valueOf(selectedMessagesIds[0].size() + selectedMessagesIds[1].size()) : LocaleController.formatPluralString("MessagesSelected", selectedMessagesIds[0].size() + selectedMessagesIds[1].size()), false);
+         }
+         updateVisibleRows();
+         if (chatActivityEnterView != null) {
 @@ -45965,7 +45978,7 @@ public class ChatActivity extends BaseFragment implements
          }
  
