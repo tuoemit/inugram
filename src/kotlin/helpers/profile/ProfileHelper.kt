@@ -74,16 +74,18 @@ object ProfileHelper {
     }
 
     @JvmStatic
-    fun effectiveChipExpand(playProfileAnimation: Int, avatarAnimationProgress: Float, currentExpandAnimatorValue: Float): Float = when {
+    fun effectiveChipExpand(playProfileAnimation: Int, avatarAnimationProgress: Float, currentExpandAnimatorValue: Float, openAnimationInProgress: Boolean): Float = when {
         playProfileAnimation == 2 -> 1f
+        // during the normal open animation stock reuses currentExpandAnimatorValue as the open progress (= avatarAnimationProgress), not the real pull-down expand — trusting it makes the chips jump by 8dp on the last frame before it resets
+        openAnimationInProgress -> 0f
         avatarAnimationProgress >= 1f || playProfileAnimation == 0 -> currentExpandAnimatorValue.coerceIn(0f, 1f)
         else -> 0f
     }
 
     @JvmStatic
-    fun expandedActionsOffset(playProfileAnimation: Int, avatarAnimationProgress: Float, currentExpandAnimatorValue: Float): Float {
+    fun expandedActionsOffset(playProfileAnimation: Int, avatarAnimationProgress: Float, currentExpandAnimatorValue: Float, openAnimationInProgress: Boolean): Float {
         if (!useProfilePhotoGradientFade()) return 0f
-        return AndroidUtilities.dpf2(8f) * effectiveChipExpand(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue)
+        return AndroidUtilities.dpf2(8f) * effectiveChipExpand(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue, openAnimationInProgress)
     }
 
     @JvmStatic
