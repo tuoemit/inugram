@@ -110,22 +110,36 @@ object CrashReporter {
     fun saveHeapDump(activity: LaunchActivity) {
         val src = getHeapDumpFile()
         if (!src.exists()) return
+        saveHprofFile(activity, src) { saved -> if (saved) deleteCrashLog() }
+    }
 
+    fun dumpAndSaveHeap(activity: LaunchActivity) {
+        val tmp = File(AndroidUtilities.getCacheDir().apply { mkdirs() }, "inugram-heap-dump.hprof")
+        Debug.dumpHprofData(tmp.absolutePath)
+        saveHprofFile(activity, tmp) { tmp.delete() }
+    }
+
+    private fun saveHprofFile(activity: LaunchActivity, src: File, onDone: (saved: Boolean) -> Unit) {
         val observer = object : NotificationCenter.NotificationCenterDelegate {
             override fun didReceivedNotification(id: Int, account: Int, vararg args: Any?) {
                 val reqCode = args[0] as Int
                 if (reqCode != SAVE_HEAP_DUMP_REQUEST) return
                 NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.onActivityResultReceived)
                 val resultCode = args[1] as Int
-                if (resultCode != Activity.RESULT_OK) return
-                val uri = (args[2] as? Intent)?.data ?: return
+                val uri = (args[2] as? Intent)?.data
+                if (resultCode != Activity.RESULT_OK || uri == null) {
+                    onDone(false)
+                    return
+                }
                 Thread {
+                    var ok = false
                     try {
                         activity.contentResolver.openOutputStream(uri)?.use { out ->
                             src.inputStream().use { inp -> inp.copyTo(out) }
                         }
-                        AndroidUtilities.runOnUIThread { deleteCrashLog() }
+                        ok = true
                     } catch (_: Throwable) {}
+                    AndroidUtilities.runOnUIThread { onDone(ok) }
                 }.start()
             }
         }

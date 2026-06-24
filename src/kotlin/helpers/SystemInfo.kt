@@ -51,7 +51,7 @@ object SystemInfo {
 
     private fun permissionsInfo(): String = buildString {
         val ctx = ApplicationLoader.applicationContext
-        append("Permissions\n")
+        append("Permissions")
         val requested = runCatching {
             ctx.packageManager.getPackageInfo(ctx.packageName, PackageManager.GET_PERMISSIONS).requestedPermissions
         }.getOrNull()
@@ -74,7 +74,8 @@ object SystemInfo {
         }
         relevant.forEach { permission ->
             val granted = ctx.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-            append(shortPermission(permission)).append('=').append(if (granted) "granted" else "denied").append("\n")
+            append("\n")
+            append(shortPermission(permission)).append('=').append(if (granted) "granted" else "denied")
         }
     }
 
@@ -82,8 +83,7 @@ object SystemInfo {
         val ctx = ApplicationLoader.applicationContext
 
         val appInfo = ctx.applicationInfo
-        append("Install external=").append((appInfo.flags and ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0)
-        append("\n")
+        append("Install external=").append((appInfo.flags and ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0).append("\n")
         append("External storage ").append(runCatching { Environment.getExternalStorageState() }.getOrDefault("<err>"))
         append(" emulated=").append(runCatching { Environment.isExternalStorageEmulated() }.getOrNull() ?: "<unk>")
         append(" removable=").append(runCatching { Environment.isExternalStorageRemovable() }.getOrNull() ?: "<unk>")

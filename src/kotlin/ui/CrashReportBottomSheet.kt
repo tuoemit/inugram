@@ -48,11 +48,7 @@ class CrashReportBottomSheet(context: Context) : BottomSheet(context, false) {
             setTextColor(Theme.getColor(Theme.key_dialogTextBlack))
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20f)
             typeface = AndroidUtilities.bold()
-            text = when {
-                isOom -> LocaleController.getString(R.string.InuCrashTitleOom)
-                errorName != null -> LocaleController.formatString(R.string.InuCrashTitleError, errorName)
-                else -> LocaleController.getString(R.string.InuCrashTitle)
-            }
+            text = LocaleController.getString(if (isOom) R.string.InuCrashTitleOom else R.string.InuCrashTitle)
         }
         container.addView(title, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 20, 21, 0))
 
@@ -74,66 +70,93 @@ class CrashReportBottomSheet(context: Context) : BottomSheet(context, false) {
                 )
                 descText.append("\n\n")
             }
-            descText.append(LocaleController.getString(R.string.InuCrashDesc))
+            descText.append(LocaleController.getString(if (isOom) R.string.InuCrashDescOom else R.string.InuCrashDesc))
             if (hasHeapDump) {
                 descText.append("\n\n")
                 descText.append(LocaleController.getString(R.string.InuCrashDescHeapDump))
+            } else if (isOom) {
+                descText.append("\n\n")
+                descText.append(LocaleController.getString(R.string.InuCrashOomEnableLogs))
             }
             text = descText
         }
         container.addView(description, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 28, 7, 28, 16))
 
-        val discardBtn = makeButton(
-            context, R.string.InuCrashDiscard,
+        fun secondaryButton(textRes: Int, onClick: () -> Unit) = makeButton(
+            context, textRes,
             background = Theme.createSimpleSelectorRoundRectDrawable(
                 AndroidUtilities.dp(21f), 0, Theme.getColor(Theme.key_dialogButtonSelector),
             ),
             textColor = Theme.getColor(Theme.key_dialogTextBlack),
             bold = false,
-        ) {
-            CrashReporter.deleteCrashLog()
-            dismiss()
-        }
-        val shareBtn = makeButton(
-            context, R.string.InuCrashShare,
+            onClick = onClick,
+        )
+
+        fun primaryButton(textRes: Int, onClick: () -> Unit) = makeButton(
+            context, textRes,
             background = Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 21f),
             textColor = Theme.getColor(Theme.key_featuredStickers_buttonText),
             bold = true,
-        ) {
-            val activity = (context as? LaunchActivity) ?: return@makeButton
-            dismiss()
-            CrashReporter.shareCrashLog(activity)
-        }
-        val buttonRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            addView(discardBtn, LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f).apply {
-                marginEnd = AndroidUtilities.dp(8f)
-            })
-            addView(shareBtn, LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f))
-        }
-        container.addView(
-            buttonRow, LayoutHelper.createLinear(
-                LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 16, if (hasHeapDump) 8 else 16,
-            )
+            onClick = onClick,
         )
 
-        if (hasHeapDump) {
-            val heapDumpBtn = makeButton(
-                context, R.string.InuCrashShareHeapDump,
-                background = Theme.createSimpleSelectorRoundRectDrawable(
-                    AndroidUtilities.dp(21f), 0, Theme.getColor(Theme.key_dialogButtonSelector),
-                ),
-                textColor = Theme.getColor(Theme.key_dialogTextBlack),
-                bold = false,
-            ) {
-                val activity = (context as? LaunchActivity) ?: return@makeButton
+        val closeBtn = secondaryButton(if (isOom) R.string.Close else R.string.InuCrashDiscard) {
+            CrashReporter.deleteCrashLog()
+            dismiss()
+        }
+
+        val onSaveHeapDump = {
+            (context as? LaunchActivity)?.let { activity ->
+                dismiss()
                 CrashReporter.saveHeapDump(activity)
             }
+            Unit
+        }
+
+        fun saveHeapDumpButton(primary: Boolean) =
+            if (primary) primaryButton(R.string.InuCrashShareHeapDump, onSaveHeapDump)
+            else secondaryButton(R.string.InuCrashShareHeapDump, onSaveHeapDump)
+
+        // OOM crash logs are near-useless, so don't prompt to share them; offer the heap dump
+        // (or just a way out) instead.
+        if (isOom) {
+            if (hasHeapDump) {
+                val row = LinearLayout(context).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    addView(closeBtn, LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f).apply {
+                        marginEnd = AndroidUtilities.dp(8f)
+                    })
+                    addView(saveHeapDumpButton(primary = true), LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f))
+                }
+                container.addView(row, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 16, 16))
+            } else {
+                container.addView(closeBtn, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 42, 0, 16, 0, 16, 16))
+            }
+        } else {
+            val shareBtn = primaryButton(R.string.InuCrashShare) {
+                val activity = (context as? LaunchActivity) ?: return@primaryButton
+                dismiss()
+                CrashReporter.shareCrashLog(activity)
+            }
+            val buttonRow = LinearLayout(context).apply {
+                orientation = LinearLayout.HORIZONTAL
+                addView(closeBtn, LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f).apply {
+                    marginEnd = AndroidUtilities.dp(8f)
+                })
+                addView(shareBtn, LinearLayout.LayoutParams(0, AndroidUtilities.dp(42f), 1f))
+            }
             container.addView(
-                heapDumpBtn, LayoutHelper.createLinear(
-                    LayoutHelper.MATCH_PARENT, 42, 0, 16, 0, 16, 16,
+                buttonRow, LayoutHelper.createLinear(
+                    LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 16, if (hasHeapDump) 8 else 16,
                 )
             )
+            if (hasHeapDump) {
+                container.addView(
+                    saveHeapDumpButton(primary = false), LayoutHelper.createLinear(
+                        LayoutHelper.MATCH_PARENT, 42, 0, 16, 0, 16, 16,
+                    )
+                )
+            }
         }
 
         setCustomView(NestedScrollView(context).apply { addView(container) })

@@ -588,10 +588,11 @@
 
     <string name="InuSimulateOom">Simulate OOM crash</string>
     <string name="InuCrashTitle">Inugram crashed last time</string>
-    <string name="InuCrashTitleError">Inugram crashed: %1$s</string>
     <string name="InuCrashTitleOom">Inugram ran out of memory</string>
     <string name="InuCrashDesc">Sorry about that. You can share the crash log with the developer to help fix it.</string>
+    <string name="InuCrashDescOom">Sorry about that. Crash logs aren\'t very useful for out-of-memory issues — a heap dump is what helps.</string>
     <string name="InuCrashDescHeapDump">A heap dump was also saved. DO NOT SHARE IT! It contains private data! Take a look at it yourself, if you want, and share your findings — that would help a lot.</string>
+    <string name="InuCrashOomEnableLogs">Enable debug mode in Inugram Settings > About to create a heap dump on every future OOM.</string>
     <string name="InuCrashShare">Share crash log</string>
     <string name="InuCrashShareHeapDump">Save heap dump</string>
     <string name="InuCrashDiscard">Discard</string>
@@ -599,9 +600,9 @@
     <string name="InuCrashNotifTitle">Inugram crashed</string>
     <string name="InuCrashNotifText">Tap to restart</string>
 
-    <string name="InuLogs">Logs</string>
-    <string name="InuLogsEnabled">Enable logs</string>
-    <string name="InuLogsSize">Size: %1$s</string>
+    <string name="InuLogs">Debug</string>
+    <string name="InuLogsEnabled">Debug mode</string>
+    <string name="InuLogsSize">Logs size: %1$s</string>
     <string name="InuLogsShare">Share logs</string>
     <string name="InuLogsShareZip">All logs (.zip)</string>
     <string name="InuLogsShareCurrent">Current log (.txt)</string>
@@ -610,6 +611,10 @@
     <string name="InuLogsShareError">Failed to package logs</string>
     <string name="InuLogsCopySystemInfo">Copy system info</string>
     <string name="InuLogsSystemInfoCopied">System info copied to clipboard</string>
+    <string name="InuLogsHeapUsage">Heap: %1$s / %2$s</string>
+    <string name="InuLogsMakeHeapDump">Make heap dump</string>
+    <string name="InuLogsMakingHeapDump">Making a heap dump…</string>
+    <string name="InuLogsHeapDumpWarning">**NEVER** share the resulting .hprof file with anyone — it is a snapshot of the app\'s memory and **contains sensitive information** (messages, tokens, etc.).\n\nInspect it **ONLY** by yourself.\n\nThe app will freeze for a while.</string>
 
     <string name="InuDeleteOwnMessages">Delete my messages</string>
     <string name="InuDeleteOwnMessagesSearching">Looking for your messages…</string>
