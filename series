@@ -199,3 +199,4 @@ bugfix/photo-viewer-keyboard-dismiss.patch
 bugfix/owner-admin-check-npe.patch
 bugfix/restore-comments-thread.patch
 bugfix/spoiler-tile-blink.patch
+bugfix/deeplink-album-member-anchor.patch

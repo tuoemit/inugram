@@ -251,4 +251,5 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - fix stuck red snapshot box when the frame capture fails/times out on enter in pip
 - fix npe checking admin/owner when channel admins not yet loaded
 - comments/topic thread restored as plain group chat after activity recreation
+- fix deeplinking to a non-primary album member sometimes mis-anchoring
 - a bunch of stock memory/resource leaks
