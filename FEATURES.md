@@ -90,12 +90,13 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - message details from menu (+ show json)
 - per-message statistics from message menu
 - remove single message's file from cache from the message menu
-- customizable message context menu - reorder and hide items + long-tap forward/reply items + bottom bar (*ported from [NagramX](https://github.com/risin42/NagramX)*)
+- customizable message context menu - reorder and hide items + long-tap forward/reply items + quick actions row (*ported from [NagramX](https://github.com/risin42/NagramX)*)
 - customizable chat menu + extra actions:
   - Recent actions
   - Go to beginning
   - Go to message by ID
   - Delete my messages
+  - Statistics / Administrators / Permissions / Invite links (admin shortcuts)
 - 🐶 disable custom wallpaper and theme per chat
 - read-only chat "admin" page for non-admins
 - split media restriction toggles for stickers / gifs / games / inline
@@ -110,6 +111,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - show original time/date in "forwarded from" header
 - long-tap forward bar (above input) to cycle between regular / without sender / without caption
 - long-tap a mention in a message to insert a name-mention into the input with custom text
+- 🐶 restrict/ban menu items the avatar long-tap menu
 - hide messages from blocked users: with a spoiler or completely - *partially ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 
 ## message input / formatting
@@ -219,6 +221,8 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - lazy chromecast init in photo viewer
 - stale video seekbar leaking onto photos in photo viewer
 - fix photo zoom/video progress resetting on message edit
+- photo viewer no longer dismissing the keyboard / jumping at end of close animation (12.8 regression)
+- text spoilers jittering/blinking while scrolling on high-refresh displays (12.8 regression)
 - round video recorder cancel crash when leaving chat
 - missing `Emoji.replaceEmoji` calls
 - background media loading cpu usage (experimental)
@@ -245,4 +249,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - fix sponsored message media not respecting data saver
 - fix non-joined channels history getting stuck in the past
 - fix stuck red snapshot box when the frame capture fails/times out on enter in pip
+- fix npe checking admin/owner when channel admins not yet loaded
+- comments/topic thread restored as plain group chat after activity recreation
+- fix deeplinking to a non-primary album member sometimes mis-anchoring
 - a bunch of stock memory/resource leaks

@@ -236,7 +236,7 @@ object ChatHelper {
         if (options.contains(ChatActivity.OPTION_FORWARD)) {
             items.add(LocaleController.getString(R.string.InuForwardNoQuote))
             options.add(OPTION_FORWARD_NO_QUOTE)
-            icons.add(R.drawable.msg_forward)
+            icons.add(R.drawable.msg_forward_noquote)
         }
 
         val chatInfo = activity.currentChatInfo
@@ -365,45 +365,85 @@ object ChatHelper {
         selectedObject: MessageObject?,
         selectedObjectGroup: MessageObject.GroupedMessages?,
     ): Boolean {
-        if (bottom.isEmpty() && viewsAdder == null) return false
+        val rowAtTop = bottom.isNotEmpty() && InuConfig.MESSAGE_MENU_QUICK_ACTIONS_TOP.value
+        if ((bottom.isEmpty() || rowAtTop) && viewsAdder == null) return false
 
         popupLayout.addView(
             ActionBarPopupWindow.GapView(context, resourcesProvider),
             LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8)
         )
-        if (bottom.isNotEmpty()) {
-            val row = LinearLayout(context).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER
-            }
-            val pad = AndroidUtilities.dp(8f)
-            val options = bottom.map { it[0] }
-            bottom.forEachIndexed { index, entry ->
-                val (option, icon, enabled) = entry
-                val button = ImageView(context).apply {
-                    setPadding(pad, pad, pad, pad)
-                    scaleType = ImageView.ScaleType.CENTER
-                    setImageResource(icon)
-                    colorFilter = PorterDuffColorFilter(
-                        Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider),
-                        PorterDuff.Mode.MULTIPLY
-                    )
-                    if (enabled == 0) {
-                        alpha = 0.4f
-                    } else {
-                        ScaleStateListAnimator.apply(this, .1f, 1.5f)
-                        setOnClickListener { activity.processSelectedOption(option) }
-                        setOnLongClickListener {
-                            onMenuOptionLongClick(activity, popupLayout, it, options, index, selectedObject, selectedObjectGroup)
-                        }
-                    }
-                }
-                row.addView(button, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER, 6, 6, 6, 6))
-            }
-            popupLayout.addView(row, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT))
+        if (bottom.isNotEmpty() && !rowAtTop) {
+            popupLayout.addView(
+                buildQuickRow(activity, popupLayout, context, resourcesProvider, bottom, selectedObject, selectedObjectGroup),
+                LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT)
+            )
         }
         viewsAdder?.run()
         return true
+    }
+
+    @JvmStatic
+    fun addTopRow(
+        activity: ChatActivity,
+        popupLayout: ActionBarPopupWindow.ActionBarPopupWindowLayout,
+        context: Context,
+        resourcesProvider: Theme.ResourcesProvider?,
+        bottom: List<IntArray>,
+        selectedObject: MessageObject?,
+        selectedObjectGroup: MessageObject.GroupedMessages?,
+    ) {
+        if (bottom.isEmpty() || !InuConfig.MESSAGE_MENU_QUICK_ACTIONS_TOP.value) return
+        val hasFollowingGap = popupLayout.itemsCount > 1 && popupLayout.getItemAt(1) is ActionBarPopupWindow.GapView
+        if (!hasFollowingGap) {
+            popupLayout.inu_addViewToTop(
+                ActionBarPopupWindow.GapView(context, resourcesProvider),
+                LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8)
+            )
+        }
+        popupLayout.inu_addViewToTop(
+            buildQuickRow(activity, popupLayout, context, resourcesProvider, bottom, selectedObject, selectedObjectGroup),
+            LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT)
+        )
+    }
+
+    private fun buildQuickRow(
+        activity: ChatActivity,
+        popupLayout: ActionBarPopupWindow.ActionBarPopupWindowLayout,
+        context: Context,
+        resourcesProvider: Theme.ResourcesProvider?,
+        bottom: List<IntArray>,
+        selectedObject: MessageObject?,
+        selectedObjectGroup: MessageObject.GroupedMessages?,
+    ): LinearLayout {
+        val row = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+        }
+        val pad = AndroidUtilities.dp(8f)
+        val options = bottom.map { it[0] }
+        bottom.forEachIndexed { index, entry ->
+            val (option, icon, enabled) = entry
+            val button = ImageView(context).apply {
+                setPadding(pad, pad, pad, pad)
+                scaleType = ImageView.ScaleType.CENTER
+                setImageResource(icon)
+                colorFilter = PorterDuffColorFilter(
+                    Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider),
+                    PorterDuff.Mode.MULTIPLY
+                )
+                if (enabled == 0) {
+                    alpha = 0.4f
+                } else {
+                    ScaleStateListAnimator.apply(this, .1f, 1.5f)
+                    setOnClickListener { activity.processSelectedOption(option) }
+                    setOnLongClickListener {
+                        onMenuOptionLongClick(activity, popupLayout, it, options, index, selectedObject, selectedObjectGroup)
+                    }
+                }
+            }
+            row.addView(button, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER, 6, 6, 6, 6))
+        }
+        return row
     }
 
     /** @return true if the option was handled */

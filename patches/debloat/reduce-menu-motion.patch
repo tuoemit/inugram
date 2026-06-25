@@ -24,7 +24,7 @@ index 0000000..0000000 100644
                  AnimatorSet animatorSet = new AnimatorSet();
                  animatorSet.playTogether(
                          ObjectAnimator.ofFloat(child, View.ALPHA, 0f, child.isEnabled() ? 1f : 0.5f),
-@@ -678,6 +682,7 @@ public class ActionBarPopupWindow extends PopupWindow {
+@@ -682,6 +686,7 @@ public class ActionBarPopupWindow extends PopupWindow {
          }
  
          public void setReactionsTransitionProgress(float transitionEnterProgress) {
@@ -32,7 +32,7 @@ index 0000000..0000000 100644
              this.reactionsEnterProgress = transitionEnterProgress;
              invalidate();
          }
-@@ -891,12 +896,16 @@ public class ActionBarPopupWindow extends PopupWindow {
+@@ -895,12 +900,16 @@ public class ActionBarPopupWindow extends PopupWindow {
          });
          content.updateAnimation = false;
          content.clipChildren = true;
@@ -49,7 +49,7 @@ index 0000000..0000000 100644
          windowAnimatorSet.addListener(new AnimatorListenerAdapter() {
              @Override
              public void onAnimationEnd(Animator animation) {
-@@ -962,10 +971,14 @@ public class ActionBarPopupWindow extends PopupWindow {
+@@ -966,10 +975,14 @@ public class ActionBarPopupWindow extends PopupWindow {
                  finalScaleY = content.backScaleY;
              }
              windowAnimatorSet = new AnimatorSet();
@@ -68,7 +68,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -32156,7 +32156,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -32157,7 +32157,7 @@ public class ChatActivity extends BaseFragment implements
              scrimPopupWindow.setDismissAnimationDuration(220);
              scrimPopupWindow.setOutsideTouchable(true);
              scrimPopupWindow.setClippingEnabled(true);

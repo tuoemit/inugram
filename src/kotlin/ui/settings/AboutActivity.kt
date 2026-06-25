@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import desu.inugram.InuConfig
+import desu.inugram.helpers.CrashReporter
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.LogsHelper
 import desu.inugram.helpers.SystemInfo
@@ -30,6 +31,7 @@ import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.Utilities
 import org.telegram.messenger.browser.Browser
+import org.telegram.ui.ActionBar.AlertDialog
 import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.BulletinFactory
@@ -90,6 +92,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
         )
         if (LogsHelper.isEnabled()) {
             items.add(UItem.asCustom(getOrCreateLogsRow()))
+            items.add(UItem.asCustom(getOrCreateHeapRow()))
         }
         items.add(UItem.asButton(BUTTON_COPY_SYSINFO, LocaleController.getString(R.string.InuLogsCopySystemInfo)))
         items.add(UItem.asShadow(null))
@@ -329,6 +332,94 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
         if (!ok) BulletinFactory.of(this).createErrorBulletin(
             LocaleController.getString(R.string.InuLogsShareError)
         ).show()
+    }
+
+    private var heapRow: View? = null
+    private var heapUsageText: TextView? = null
+
+    private fun getOrCreateHeapRow(): View {
+        heapRow?.let { refreshHeapUsage(); return it }
+        val ctx = context!!
+        val row = object : LinearLayout(ctx) {
+            override fun dispatchDraw(canvas: Canvas) {
+                super.dispatchDraw(canvas)
+                canvas.drawLine(
+                    dp(20f).toFloat(),
+                    height - 1f,
+                    width.toFloat(),
+                    height.toFloat(),
+                    Theme.dividerPaint,
+                )
+            }
+        }.apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            minimumHeight = dp(50f)
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite))
+            setPadding(dp(21f), 0, dp(8f), 0)
+        }
+        val usage = TextView(ctx).apply {
+            setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText))
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+        }
+        heapUsageText = usage
+        row.addView(usage, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        row.addView(buildLogsIconButton(ctx, R.drawable.msg_calls_minimize, R.string.InuLogsMakeHeapDump) {
+            val rt = Runtime.getRuntime()
+            rt.gc()
+            BulletinFactory.of(this).createErrorBulletin("Runtime GC finished").show()
+            refreshHeapUsage()
+        })
+        row.addView(buildLogsIconButton(ctx, R.drawable.msg_download, R.string.InuLogsMakeHeapDump) {
+            confirmAndMakeHeapDump()
+        })
+        heapRow = row
+        refreshHeapUsage()
+        return row
+    }
+
+    private fun confirmAndMakeHeapDump() {
+        val activity = parentActivity as? LaunchActivity ?: return
+        AlertDialog.Builder(activity)
+            .setTitle(LocaleController.getString(R.string.InuLogsMakeHeapDump))
+            .setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.InuLogsHeapDumpWarning)))
+            .setPositiveButton(LocaleController.getString(R.string.Continue)) { _, _ -> makeHeapDump(activity) }
+            .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
+            .show()
+    }
+
+    private fun makeHeapDump(activity: LaunchActivity) {
+        val progress = AlertDialog(activity, AlertDialog.ALERT_TYPE_MESSAGE).apply {
+            setMessage(LocaleController.getString(R.string.InuLogsMakingHeapDump))
+            setCanCancel(false)
+        }
+        progress.show()
+        // let the dialog draw a frame before the (blocking) dump freezes the UI thread
+        AndroidUtilities.runOnUIThread({
+            var ok = true
+            try {
+                CrashReporter.dumpAndSaveHeap(activity)
+            } catch (e: Throwable) {
+                ok = false
+                FileLog.e(e)
+            } finally {
+                progress.dismiss()
+                refreshHeapUsage()
+            }
+            if (!ok) BulletinFactory.of(this).createErrorBulletin(
+                LocaleController.getString(R.string.InuLogsShareError)
+            ).show()
+        }, 150)
+    }
+
+    private fun refreshHeapUsage() {
+        val rt = Runtime.getRuntime()
+        val used = rt.totalMemory() - rt.freeMemory()
+        heapUsageText?.text = LocaleController.formatString(
+            R.string.InuLogsHeapUsage,
+            AndroidUtilities.formatFileSize(used),
+            AndroidUtilities.formatFileSize(rt.maxMemory()),
+        )
     }
 
     private fun logsSizeLabel(size: Long): String = LocaleController.formatString(

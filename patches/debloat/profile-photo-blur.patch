@@ -135,7 +135,7 @@ index 0000000..0000000 100644
              final int color2 = color2Animated.set(this.color2);
              if (actionsView != null) {
 -                actionsView.setActionsColor(btnColor, hasColorById);
-+                actionsView.setActionsColor(ProfileHelper.adjustChipColor(btnColor, getThemedColor(Theme.key_windowBackgroundWhite), ProfileHelper.effectiveChipExpand(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue)), hasColorById);
++                actionsView.setActionsColor(ProfileHelper.adjustChipColor(btnColor, getThemedColor(Theme.key_windowBackgroundWhite), ProfileHelper.effectiveChipExpand(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue, openAnimationInProgress)), hasColorById);
              }
  
              int gradientX = getWidth() / 2;
@@ -164,7 +164,7 @@ index 0000000..0000000 100644
              float bottom = extraHeight + newTop - dp(hasMusic ? 25 : 0);
              float height = Math.min(dp(74), bottom - newTop);
 -            actionsView.updatePosition(bottom - height, height);
-+            actionsView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue), height);
++            actionsView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue, openAnimationInProgress), height);
          }
  
          if (callToActionItem != null && callToActionItem.getTag() != null) {
@@ -173,7 +173,7 @@ index 0000000..0000000 100644
              float bottom = extraHeight + newTop + dp(74);
              float height = Math.min(getActionsExtraHeight(), bottom - newTop);
 -            musicView.updatePosition(bottom - height, height - dp(74));
-+            musicView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue), height - dp(74));
++            musicView.updatePosition(bottom - height + ProfileHelper.expandedActionsOffset(playProfileAnimation, avatarAnimationProgress, currentExpandAnimatorValue, openAnimationInProgress), height - dp(74));
          }
      }
  

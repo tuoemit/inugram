@@ -40,6 +40,13 @@ class MessageMenuOrderActivity : MenuOrderActivity<MessageMenuConfig.Item>() {
             )
         )
         if (bottomEnabled()) {
+            items.add(
+                UItem.asButton(
+                    PLACEMENT_ID,
+                    LocaleController.getString(R.string.InuMessageMenuQuickActionsPlacement),
+                    placementLabel(),
+                )
+            )
             openReorderSection(adapter, toBottom = true)
             for (entry in entries.filter { it.bottom }) {
                 items.add(buildRow(entry) { row ->
@@ -59,8 +66,31 @@ class MessageMenuOrderActivity : MenuOrderActivity<MessageMenuConfig.Item>() {
             setBottomRowEnabled(!bottomEnabled())
             return
         }
+        if (item.id == PLACEMENT_ID) {
+            showPlacementPicker(view)
+            return
+        }
         super.onClick(item, view, position, x, y)
     }
+
+    private fun showPlacementPicker(anchor: View) {
+        val top = InuConfig.MESSAGE_MENU_QUICK_ACTIONS_TOP.value
+        RadioItemOptions.show(
+            this, anchor,
+            listOf(
+                LocaleController.getString(R.string.InuPlacementBottom),
+                LocaleController.getString(R.string.InuPlacementTop),
+            ),
+            if (top) 1 else 0,
+        ) { which ->
+            InuConfig.MESSAGE_MENU_QUICK_ACTIONS_TOP.value = which == 1
+            listView.adapter.update(true)
+        }
+    }
+
+    private fun placementLabel(): CharSequence = LocaleController.getString(
+        if (InuConfig.MESSAGE_MENU_QUICK_ACTIONS_TOP.value) R.string.InuPlacementTop else R.string.InuPlacementBottom
+    )
 
     override fun onRowToggle(entry: MenuOrderEntry<MessageMenuConfig.Item>, row: MenuOrderRow?) {
         if (!canToggle(entry)) return
@@ -156,6 +186,7 @@ class MessageMenuOrderActivity : MenuOrderActivity<MessageMenuConfig.Item>() {
 
     companion object {
         private val MASTER_TOGGLE_ID = InuUtils.generateId()
+        private val PLACEMENT_ID = InuUtils.generateId()
         // distinct from base's SHADOW_END so DiffUtil doesn't alias them on structural change
         private val SHADOW_MID = InuUtils.generateId()
         private val HEADER_BOTTOM = InuUtils.generateId()

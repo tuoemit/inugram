@@ -568,6 +568,10 @@ object InuConfig {
     @JvmField
     val MESSAGE_MENU_BOTTOM_ROW = BoolItem("message_menu_bottom_row", false)
 
+    // false = bottom (default), true = top
+    @JvmField
+    val MESSAGE_MENU_QUICK_ACTIONS_TOP = BoolItem("message_menu_quick_actions_top", false)
+
     @JvmField
     val CHAT_MENU_ITEMS = ChatMenuConfig("chat_menu_items")
 

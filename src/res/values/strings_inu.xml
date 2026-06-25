@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="InuOpenInDiscussion">Open in discussion</string>
+    <string name="InuBanUserConfirm">Ban %1$s from this group?</string>
     <string name="InuSendToDiscussWithoutJoin">Write to discuss groups without joining</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Skip the client-only membership check for discussion groups</string>
     <string name="InuNavigationDrawer">Navigation drawer</string>
@@ -538,17 +539,20 @@
     <string name="InuPasscodePanicInfo">When typed at the lock screen, the panic code logs out all opted-in accounts and leaves the app locked.</string>
     <string name="InuMessageMenuOrder">Message menu</string>
     <string name="InuMessageMenuItems">Items</string>
-    <string name="InuMessageMenuBottomGroup">Bottom row</string>
-    <string name="InuMessageMenuBottomRow">Show bottom row</string>
+    <string name="InuMessageMenuBottomGroup">Quick actions row</string>
+    <string name="InuMessageMenuBottomRow">Show quick actions row</string>
     <string name="InuMessageMenuBottomRowInfo">A reachable row of quick actions in the message menu.</string>
+    <string name="InuMessageMenuQuickActionsPlacement">Placement</string>
+    <string name="InuPlacementTop">Top</string>
+    <string name="InuPlacementBottom">Bottom</string>
     <string name="InuMessageMenuOrderInfo">Reorder or hide items in the message context menu. Drag the handle to rearrange, tap to show/hide</string>
-    <string name="InuMessageMenuOrderInfoBottom">Long-tap an item to move it to the bottom row</string>
+    <string name="InuMessageMenuOrderInfoBottom">Long-tap an item to move it to the quick actions row</string>
     <string name="InuMessageMenuReset">Reset to default</string>
     <string name="InuMenuSlotDelete">Delete / Copy link</string>
     <string name="InuMenuSlotEditForward">Edit / Forward</string>
-    <string name="InuMenuMoveToBottomRow">Move to bottom row</string>
+    <string name="InuMenuMoveToBottomRow">Move to quick actions row</string>
     <string name="InuMenuMoveFromBottomRow">Move back to menu</string>
-    <string name="InuMenuBottomRowFull">Bottom row is full (max 4)</string>
+    <string name="InuMenuBottomRowFull">Quick actions row is full (max 4)</string>
     <string name="InuChatMenuOrder">Chat menu</string>
     <string name="InuChatMenuItems">Items</string>
     <string name="InuChatMenuOrderInfo">Reorder or hide items in the three-dots menu in chats. Drag the handle to rearrange, toggle the switch to hide.</string>
@@ -588,10 +592,11 @@
 
     <string name="InuSimulateOom">Simulate OOM crash</string>
     <string name="InuCrashTitle">Inugram crashed last time</string>
-    <string name="InuCrashTitleError">Inugram crashed: %1$s</string>
     <string name="InuCrashTitleOom">Inugram ran out of memory</string>
     <string name="InuCrashDesc">Sorry about that. You can share the crash log with the developer to help fix it.</string>
+    <string name="InuCrashDescOom">Sorry about that. Crash logs aren\'t very useful for out-of-memory issues — a heap dump is what helps.</string>
     <string name="InuCrashDescHeapDump">A heap dump was also saved. DO NOT SHARE IT! It contains private data! Take a look at it yourself, if you want, and share your findings — that would help a lot.</string>
+    <string name="InuCrashOomEnableLogs">Enable debug mode in Inugram Settings > About to create a heap dump on every future OOM.</string>
     <string name="InuCrashShare">Share crash log</string>
     <string name="InuCrashShareHeapDump">Save heap dump</string>
     <string name="InuCrashDiscard">Discard</string>
@@ -599,9 +604,9 @@
     <string name="InuCrashNotifTitle">Inugram crashed</string>
     <string name="InuCrashNotifText">Tap to restart</string>
 
-    <string name="InuLogs">Logs</string>
-    <string name="InuLogsEnabled">Enable logs</string>
-    <string name="InuLogsSize">Size: %1$s</string>
+    <string name="InuLogs">Debug</string>
+    <string name="InuLogsEnabled">Debug mode</string>
+    <string name="InuLogsSize">Logs size: %1$s</string>
     <string name="InuLogsShare">Share logs</string>
     <string name="InuLogsShareZip">All logs (.zip)</string>
     <string name="InuLogsShareCurrent">Current log (.txt)</string>
@@ -610,6 +615,10 @@
     <string name="InuLogsShareError">Failed to package logs</string>
     <string name="InuLogsCopySystemInfo">Copy system info</string>
     <string name="InuLogsSystemInfoCopied">System info copied to clipboard</string>
+    <string name="InuLogsHeapUsage">Heap: %1$s / %2$s</string>
+    <string name="InuLogsMakeHeapDump">Make heap dump</string>
+    <string name="InuLogsMakingHeapDump">Making a heap dump…</string>
+    <string name="InuLogsHeapDumpWarning">**NEVER** share the resulting .hprof file with anyone — it is a snapshot of the app\'s memory and **contains sensitive information** (messages, tokens, etc.).\n\nInspect it **ONLY** by yourself.\n\nThe app will freeze for a while.</string>
 
     <string name="InuDeleteOwnMessages">Delete my messages</string>
     <string name="InuDeleteOwnMessagesSearching">Looking for your messages…</string>

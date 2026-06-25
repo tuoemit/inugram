@@ -4,9 +4,9 @@ Date: Wed, 22 Apr 2026 08:10:29 +0300
 Subject: disable "motion photos" throughout the app, both sending and rendering
 
 ---
- .../src/main/java/org/telegram/messenger/MediaController.java | 1 +
- .../src/main/java/org/telegram/messenger/MessageObject.java   | 4 ++++
- 2 files changed, 5 insertions(+)
+ .../main/java/org/telegram/messenger/MediaController.java  | 1 +
+ .../main/java/org/telegram/messenger/MessageObject.java    | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
 index 0000000..0000000 100644
@@ -34,7 +34,17 @@ index 0000000..0000000 100644
          return getMedia(message) != null && isVideoDocument(getMedia(message).document);
      }
  
-@@ -11084,6 +11087,7 @@ public class MessageObject {
+@@ -11064,7 +11067,8 @@ public class MessageObject {
+     }
+ 
+     public boolean isDocument() {
+-        return getDocument() != null && !isVideo() && !isMusic() && !isVoice() && !isAnyKindOfSticker();
++        return getDocument() != null && !isVideo() && !isMusic() && !isVoice() && !isAnyKindOfSticker()
++            && !(desu.inugram.InuConfig.DISABLE_MOTION_PHOTOS.getValue() && getMedia(this).live_photo);
+     }
+ 
+     public boolean isVoice() {
+@@ -11084,6 +11088,7 @@ public class MessageObject {
      }
  
      public boolean isLivePhoto() {

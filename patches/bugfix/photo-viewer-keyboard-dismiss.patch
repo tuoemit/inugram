@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: alina sireneva <alina@tei.su>
+Date: Tue, 23 Jun 2026 17:19:08 +0400
+Subject: fix photo viewer dismissing keyboard (and also breaking close animation target), by essentially reverting to its pre-12.8 behavior
+
+---
+ .../src/main/java/org/telegram/ui/LaunchActivity.java | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
+@@ -465,6 +465,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+         frameLayout = new FrameLayout(this) {
+             @Override
+             protected void dispatchDraw(@NonNull Canvas canvas) {
++                if (inu_mainContentHidden) {
++                    return;
++                }
+                 super.dispatchDraw(canvas);
+                 drawRippleAbove(canvas, this);
+             }
+@@ -9217,6 +9220,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+ 
+     private int reasonsToHideMainContent = 0;
+     private int reasonsToHideDecorView = 0;
++    // inugram: suppress drawing instead of setting GONE — GONE freezes the view tree's layout,
++    // which dismisses the keyboard and breaks PhotoViewer close-animation target positions
++    // rebase note: this is more of a workaround (revert to old behavior) than an actual bugfix.
++    // if future upstream updates fixes those, our workaround should be removed.
++    private boolean inu_mainContentHidden = false;
+ 
+     private void updateReasonsToHideMainContent(boolean increment, boolean withDecorView) {
+         reasonsToHideMainContent += (increment ? 1 : -1);
+@@ -9224,7 +9232,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+             reasonsToHideDecorView += (increment ? 1 : -1);
+         }
+         if (frameLayout != null) {
+-            frameLayout.setVisibility(reasonsToHideMainContent > 0 ? View.GONE : View.VISIBLE);
++            inu_mainContentHidden = reasonsToHideMainContent > 0;
++            frameLayout.invalidate();
+         }
+         checkDecorViewVisibility();
+     }
